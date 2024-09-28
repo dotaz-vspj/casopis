@@ -8,7 +8,7 @@
 
         <section class="articles">
         <?php for($i = 0; $i < 5; $i++) { ?>
-            <a class="row mb-5 link-secondary" href="/article.php?id=<?php echo $i ?>">
+            <a class="row mb-5 link-secondary" href="article.php?id=<?php echo $i ?>">
                 <div class="col-sm-3">
                     <div class="placeholder ph-250x250"></div>
                 </div>
