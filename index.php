@@ -1,68 +1,32 @@
 <?php session_start(); ?>
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>D.O.T.A.Z - rozcestník</title>
-</head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">D.O.T.A.Z</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Všechny články</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Věda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Technika</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Článek, autor, téma, ..." aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Vyhledat</button>
-                </form>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="loginpage.php">Přihlásit se</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="registerpage.php">Registrovat se</a>
-                    </li>
-                </ul>
-            </div>
+<?php include 'include/header.php'; ?>
+    <main class="container pb-5">
+        <div class="jumbotron text-center mt-5 mb-5">
+            <h1 class="display-4">D.O.T.A.Z</h1>
+            <p class="lead">Vítejte na stránkách časopisu o vědě a technice</p>
         </div>
-    </nav>
-</header>
 
-<main>
-    <section class="hero">
-        <h1>Vitejte</h1>
-    </section>
+        <section class="articles">
+        <?php for($i = 0; $i < 5; $i++) { ?>
+            <a class="row mb-5 link-secondary" href="/article.php?id=<?php echo $i ?>">
+                <div class="col-sm-3">
+                    <div class="placeholder ph-250x250"></div>
+                </div>
+                <div class="col-sm-9">
+                    <h3 class="title">Název</h3>
+                    <h5>
+                        <span class="author">Autor</span> | <span class="published">Vydáno dne ...</span>
+                    </h5>
+                    <div class="abstract">
+                        <p>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse cupiditate architecto ducimus doloremque repudiandae tenetur consequatur. A suscipit quo voluptatum laudantium et quia placeat, est quasi delectus corporis, laboriosam modi molestias ipsa aliquam molestiae voluptatem esse voluptates earum dolores dolore.
+                        </p>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci tenetur nesciunt odio praesentium exercitationem ea harum sed, porro ex voluptate velit fuga quos atque tempora. Fugit voluptate rerum cumque necessitatibus?</p>
 
-    <section class="articles">
-        <article>
-            <img src="placeholder-article.png" alt="article">
-            <h2>Nazev clanku</h2>
-            <span>Autor:</span><span>Datum publikace</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia excepturi ullam itaque sit! Itaque eaque repudiandae voluptatum maiores modi aperiam voluptatem, eveniet, atque voluptates deleniti laudantium obcaecati molestias suscipit error.</p>
-        </article>
-    </section>
-</main>
-
-<footer>
-
-</footer>
-    
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</html>
+                    </div>
+                </div>
+            </a>
+            <?php } ?>
+        </section>
+    </main>
+<?php include 'include/footer.php'; ?>

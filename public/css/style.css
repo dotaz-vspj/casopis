@@ -1,0 +1,39 @@
+/* Placeholder pictures */
+.placeholder {
+    display: block;
+    background-color: #777;
+}
+
+.ph-300x300 {
+    width: 300px;
+    height: 300px;
+}
+
+.ph-150x150 {
+    width: 150px;
+    height: 150px;
+}
+
+.ph-250x250 {
+    width: 250px;
+    height: 250px;
+}
+
+/* Custom links */
+.articles a {
+    text-decoration: none;
+}
+
+/* Custom positioning */
+header {
+    margin-bottom: 10rem !important;
+}
+
+footer p {
+    margin-bottom: 0;
+}
+
+/* color */
+.text-grey {
+    color: #777;
+}
