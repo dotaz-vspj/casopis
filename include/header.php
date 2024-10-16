@@ -9,27 +9,26 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-blue fixed-top">
+        <nav class="navbar navbar-expand-lg bg-blue fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">D.O.T.A.Z</a>
+                <a class="navbar-brand" href="index.php">
+                    <img src="public/img/logo-dotaz.svg" height="30px" alt="Logo casopisu DOTAZ">
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.php?tag=all">Všechny články</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.php?tag=sci">Věda</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.php?tag=tech">Technika</a>
+                        <li class="nav-item <?php if(htmlentities($_GET["tag"]) == 'sci') echo "active" ?>">
+                            <a class="nav-link" href="index.php?tag=sci">VĚDA</a>
+                        </li> 
+                        <li class="nav-item <?php if(htmlentities($_GET["tag"]) == 'tech') echo "active" ?>">
+                            <a class="nav-link" href="index.php?tag=tech">TECHNIKA</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search" method="get" action="include/search.php">
                         <input class="form-control me-2" type="search" placeholder="Článek, autor, téma, ..." aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Vyhledat</button>
+                        <button class="btn btn-basic" type="submit">Vyhledat</button>
                     </form>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">

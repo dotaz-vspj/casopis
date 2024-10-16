@@ -41,8 +41,21 @@
 }
 
 /* Custom positioning */
-header {
-    margin-bottom: 10rem !important;
+header { margin-bottom: 10rem !important; }
+header .navbar { padding: 1.5em; }
+header .navbar-brand img { height: 2em; }
+header .navbar .nav-item:nth-child(1) { border-right: solid 1px white; }
+header .navbar .nav-item {
+    min-width: 80px;
+    text-align: center;
+}
+
+header .navbar .nav-item a {
+    color: white;
+}
+
+header .navbar .nav-item.active {
+    border: solid 1px white;
 }
 
 footer p {
@@ -62,12 +75,33 @@ footer p {
     background-color: #f2f9ff;
 }
 
+input[type="search"] {
+    border-color: white;
+    border-radius: 0;
+    transition: background-color 0.25s linear;
+    background-color: #12146a;
+}
+
+input[type="search"]:focus {
+    background-color: white;
+}
+
 /* buttons */
 .box-btn {
     border-width: 1px;
     border-style: solid;
     padding: 1em;
     text-decoration: none;
+}
+
+.btn-basic {
+    border: solid 1px white;
+    border-radius: 0;
+    color: white;
+}
+
+.btn-basic:hover {
+    background-color: white;
 }
 
 .btn-size-mid {
@@ -84,5 +118,5 @@ footer p {
 }
 
 .border-white { border-color: white; }
-.border-blue { border-color: #121146; }
+.border-blue { border-color: #12146a; }
 
