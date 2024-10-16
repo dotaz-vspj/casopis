@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="lead-article col-sm-8 mb-5">
-                    <a href="article.php?id=1" class="row link-secondary">
+                    <a href="article.php?id=sci-1" class="row link-secondary">
                         <div class="col-sm-7 placeholder"></div>
                         <div class="col-sm-5">
                             <h1>Název článku</h1>
@@ -18,14 +18,21 @@
         </div>
 
         <section class="articles">
-            <h3 class="text-center">Věda</h3>
-            <?php for($i = 0; $i < 3; $i++) { ?>
+            <?php $category = 'sci-'; ?>
+            <?php for($i = 0; $i < 4; $i++) { ?>
+                <?php if($i == 0) { ?>
+                    <h3 class="text-center">Věda</h3>
+                <?php } elseif ($i == 2) { ?>
+                    <?php $category = 'tech-'; ?>
+                    <h3 class="text-center">Technika</h3>
+                <?php } ?>
+
                 <div class="container-fluid">
                     <div class="row justify-content-center">
                         <div class="col-sm-8">
                             <div class="row pt-5">
                             <?php for ($j = 2; $j < 5; $j++) {; ?>
-                                <a class="mb-5 col-sm-4 link-secondary" href="article.php?id=<?php echo 3 * $i + $j; ?>">
+                                <a class="mb-5 col-sm-4 link-secondary" href="article.php?id=<?php echo $category . 3 * $i + $j; ?>">
                                     <div>
                                         <div class="placeholder ph-full"></div>
                                         <h3 class="title">Název</h3>

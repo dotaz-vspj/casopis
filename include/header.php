@@ -20,15 +20,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item <?php if(htmlentities($_GET["tag"]) == 'sci') echo "active" ?>">
-                            <a class="nav-link" href="index.php?tag=sci">VĚDA</a>
+                            <a class="nav-link" href="category.php?tag=sci">VĚDA</a>
                         </li> 
                         <li class="nav-item <?php if(htmlentities($_GET["tag"]) == 'tech') echo "active" ?>">
-                            <a class="nav-link" href="index.php?tag=tech">TECHNIKA</a>
+                            <a class="nav-link" href="category.php?tag=tech">TECHNIKA</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search" method="get" action="include/search.php">
                         <input class="form-control me-2" type="search" placeholder="Článek, autor, téma, ..." aria-label="Search">
-                        <button class="btn btn-basic" type="submit">Vyhledat</button>
+                        <button class="btn btn-light-border" type="submit">Vyhledat</button>
                     </form>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
