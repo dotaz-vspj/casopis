@@ -1,3 +1,4 @@
+-- Active: 1729363936287@@127.0.0.1@3306@rsp
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- Vytvořeno: Pát 25. říj 2024, 05:19
@@ -12,7 +13,7 @@ START TRANSACTION;
 CREATE TABLE `RSP_ARTICLE` (
   `ID` int(11) NOT NULL,
   `Edition` int(11) DEFAULT NULL,
-  `Tittle` varchar(64) NOT NULL,
+  `Title` varchar(64) NOT NULL,
   `Abstract` text DEFAULT NULL,
   `Status` int(11) NOT NULL,
   `ActiveVersion` int(11) DEFAULT NULL
@@ -129,7 +130,7 @@ CREATE TABLE `RSP_COMMENT` (
 
 CREATE TABLE `RSP_EDITION` (
   `ID` int(11) NOT NULL,
-  `Tittle` varchar(32) NOT NULL,
+  `Title` varchar(32) NOT NULL,
   `Thema` varchar(256) DEFAULT NULL,
   `Published` date DEFAULT NULL,
   `Redactor` int(11) NOT NULL
@@ -163,7 +164,7 @@ CREATE TABLE `RSP_SESSION` (
   `ID` int(11) NOT NULL,
   `Login` int(11) NOT NULL,
   `TS` timestamp NOT NULL,
-  `SessionTag` char(12) NOT NULL
+  `SessionTag` char(24) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -177,12 +178,12 @@ CREATE TABLE `RSP_USER` (
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(64) NOT NULL,
   `TitleF` varchar(16) DEFAULT NULL,
-  `TittleP` varchar(16) DEFAULT NULL,
+  `TitleP` varchar(16) DEFAULT NULL,
   `Func` int(11) NOT NULL,
   `Phone` varchar(16) DEFAULT NULL,
   `Mail` varchar(64) NOT NULL,
   `Login` varchar(16) DEFAULT NULL,
-  `Password` char(32) DEFAULT NULL,
+  `Password` char(64) DEFAULT NULL,
   `Active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -190,7 +191,7 @@ CREATE TABLE `RSP_USER` (
 -- Vypisuji data pro tabulku `RSP_USER`
 --
 
-INSERT INTO `RSP_USER` (`ID`, `FirstName`, `LastName`, `TitleF`, `TittleP`, `Func`, `Phone`, `Mail`, `Login`, `Password`, `Active`) VALUES
+INSERT INTO `RSP_USER` (`ID`, `FirstName`, `LastName`, `TitleF`, `TitleP`, `Func`, `Phone`, `Mail`, `Login`, `Password`, `Active`) VALUES
 (1, 'Admin', '-', NULL, NULL, 1, NULL, 'tregl@student.vspj.cz', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);
 
 -- --------------------------------------------------------

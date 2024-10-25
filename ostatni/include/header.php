@@ -31,12 +31,18 @@
                         <button class="btn btn-light-border" type="submit">Vyhledat</button>
                     </form>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="loginpage.php">Přihlásit se</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="registerpage.php">Registrovat se</a>
-                        </li>
+                        <?php if (isset($_SESSION['user'])): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="include/logout.php">Odhlásit se</a>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="loginpage.php">Přihlásit se</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="registerpage.php">Registrovat se</a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
