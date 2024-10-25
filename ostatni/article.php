@@ -1,4 +1,5 @@
 <?php session_start(); ?>
+<?php include 'include/functions.php'; ?>
 <?php include 'include/header.php'; ?>
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
@@ -20,15 +21,19 @@
                     Autor: <span class="author">Jmeno autora</span>
                 </div>
             </div>
-            <div class="row justify-content-between">
+            <div class="row justify-content-between mb-5">
                 <div class="col-sm-2">
-                    <a href="article.php?id=<?php echo htmlentities($_GET['id'])-1 ?>" class="prev text-center box-btn btn-size-mid">Předchozí</a>
+                    <a href="article.php?id=<?php
+                        echo htmlentities(extractNumber($_GET['id'])[0]) . '-' . htmlentities(extractNumber($_GET['id'])[1] - 1)
+                    ?>" class="prev text-center box-btn btn-size-mid">Předchozí</a>
                 </div>
                 <div class="col-sm-2">
                     <a href="discusion.php?id=<?php echo htmlentities($_GET['id']) ?>" class="text-center box-btn btn-size-mid">Diskuze</a>
                 </div>
                 <div class="col-sm-2">
-                    <a href="article.php?id=<?php echo htmlentities($_GET['id']) +1 ?>" class="next text-center box-btn btn-size-mid">Následující</a>
+                    <a href="article.php?id=<?php
+                        echo htmlentities(extractNumber($_GET['id'])[0]) . '-' . htmlentities(extractNumber($_GET['id'])[1] + 1)    
+                    ?>" class="next text-center box-btn btn-size-mid">Následující</a>
                 </div>
             </div>
         </div>
