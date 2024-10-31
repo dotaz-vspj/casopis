@@ -1,7 +1,5 @@
--- Active: 1729363936287@@127.0.0.1@3306@rsp
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- Vytvořeno: Pát 25. říj 2024, 05:19
+-- Active: 1728646102576@@127.0.0.1@53306@rsp
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -187,12 +185,6 @@ CREATE TABLE `RSP_USER` (
   `Active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Vypisuji data pro tabulku `RSP_USER`
---
-
-INSERT INTO `RSP_USER` (`ID`, `FirstName`, `LastName`, `TitleF`, `TitleP`, `Func`, `Phone`, `Mail`, `Login`, `Password`, `Active`) VALUES
-(1, 'Admin', '-', NULL, NULL, 1, NULL, 'tregl@student.vspj.cz', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);
 
 -- --------------------------------------------------------
 
