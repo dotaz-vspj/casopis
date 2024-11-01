@@ -1,7 +1,7 @@
 <footer class="container-fluid bg-blue text-center p-3 text-grey fixed-bottom">
     <div class="row">
         <div class="column">
-            <p class="align-items-center">Časopis D.O.T.A.Z je školní projekt studentů 2. ročníku všpj &copy; <?php echo date('Y'); ?></p>
+            <p class="align-items-center">Tato aplikace je výsledkem školního projektu v kurzu Řízení SW projektu na Vysoké škole polytechnické Jihlava. Nejedná se o stránky skutečného časopisu!</p>
         </div>
     </div>
 </footer>
