@@ -11,17 +11,20 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-blue fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">
-                    <img src="../grafika/logo-dotaz.svg" height="30px" alt="Logo casopisu DOTAZ">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="col-sm-4">
+
+                    <a class="navbar-brand" href="index.php">
+                        <img src="../grafika/logo-dotaz.svg" height="30px" alt="Logo casopisu DOTAZ">
+                    </a>
+                </div>
+                <div class="col-sm-4">
                     <form class="d-flex" role="search" method="get" action="include/search.php">
                         <input class="form-control me-2" type="search" placeholder="Článek, autor, téma, ..." aria-label="Search">
                         <button class="btn btn-light-border" type="submit">Vyhledat</button>
                     </form>
+                </div>
+
+                <div class="col-sm-4 d-flex justify-content-end">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <?php if (isset($_SESSION['user'])): ?>
                             <li class="nav-item">

@@ -163,3 +163,7 @@ input[type="search"]:focus {
     flex-direction: column;
     justify-content: center;
 }
+
+.card-title {
+    min-height: 7em;
+}
