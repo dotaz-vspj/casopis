@@ -33,14 +33,23 @@ $result = $conn->query($sql);
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="lead-article col-sm-8 mb-5">
-                    <div class="row">
-                        <div class="col-sm-7 "><img height="400px" src="../grafika/picture<?php echo $EditionID;?>.png" alt="<?php echo $E->Title;?>"></div>
-                        <div class="col-sm-5">
-                            <h1><?php echo $E->Title;?></h1>
-                            <h3>Redaktor: <span class="author"><?php echo $E->LastName.", ".$E->TitleF." ".$E->FirstName." ".$E->TitleP." ";?></span><br/> Vydáno dne: <span class="published"><?php echo $E->Published;?></span></h3>
-                            <p class="text-justify"><?php echo $E->Thema;?></p>
-                        </div>
-                    </div>
+                    <h1><?php echo $E->Title;?></h1>
+                    <h3>Redaktor:
+                        <span class="author">
+                            <?php echo $E->LastName.", ".$E->TitleF." ".$E->FirstName." ".$E->TitleP." ";?>
+                        </span><br/>
+                        Vydáno dne:
+                        <span class="published">
+                            <?php 
+                                if (strtotime($E->Published) === false) {
+                                    echo '"' . $E->Published . '"';
+                                } else {
+                                    echo $E->Published;
+                                }
+                            ?>
+                        </span>
+                    </h3>
+                    <p class="text-justify"><?php echo $E->Thema;?></p>
                 </div>
             </div>
         </div>
@@ -56,7 +65,7 @@ $result = $conn->query($sql);
 
                                 <div class="mb-5 col-sm-6">
                                     <div class="card">
-                                        <img class="card-image" src="../grafika/picture<?php echo $A->ID;?>.png"/>
+                                        <img class="card-image" onclick="gotoarticle(<?php echo $A->ID?>)" src="../grafika/picture<?php echo $A->ID;?>.png"/>
                                         <div class="card-body">
                                             <h5 class="card-title">
                                                 <div class="article-title">
@@ -69,7 +78,15 @@ $result = $conn->query($sql);
                                                         echo $result2->fetch()[0];
                                                     ?>
                                                 </div>
-                                                <div class="article-published">Vydáno dne <?php echo $A->Published;?></div>
+                                                <div class="article-published">Vydáno dne
+                                                    <?php 
+                                                        if (strtotime($A->Published) === false) {
+                                                            echo '"' . $A->Published . '"';
+                                                        } else {
+                                                            echo $A->Published;
+                                                        }
+                                                    ?>
+                                                </div>
                                             </h5>
 
                                             <div class="card-text">
