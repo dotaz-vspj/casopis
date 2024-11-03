@@ -50,6 +50,10 @@ header .navbar .nav-item {
     text-align: center;
 }
 
+header .navbar-brand {
+    padding: 0;
+}
+
 header .navbar .nav-item a {
     color: white;
 }

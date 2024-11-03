@@ -11,11 +11,18 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-blue fixed-top">
             <div class="container-fluid">
-                <div class="col-sm-4">
-
+                <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
-                        <img src="../grafika/logo-dotaz.svg" height="30px" alt="Logo casopisu DOTAZ">
+                        <img src="../grafika/logo-dotaz.svg" alt="Logo casopisu DOTAZ">
                     </a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.php">O nás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="edition.php">Další edice</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="col-sm-4">
                     <form class="d-flex" role="search" method="get" action="include/search.php">
