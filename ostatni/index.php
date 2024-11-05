@@ -1,7 +1,7 @@
 <?php 
 //ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 session_start();
-$myID=0; ?>
+$myID=$_SESSION['user']['id']; ?>
 <?php
 $EditionID=htmlentities($_GET['id']);
 
