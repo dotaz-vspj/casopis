@@ -1,7 +1,9 @@
-<?php 
-// ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
-session_start();
-$myID=0; ?>
+<!-- UPDATE TT 2024-11-06 -->
+<!-- UPDATE used session_open: <php include 'include/session_open.php'; ?> - defines $myID#$img_dir-->
+<!-- UPDATE used img-dir: <php echo "{$img_dir}picture{$A->ID}";?>.png -->
+<!-- UPDATE removed gotoarticle: window.location.href = 'article.php?id=<php echo $A->ID?> -->
+<!-- UPDATE activated "hasAccess" SQL: ." and hasAccess(".$myID.",".$ArticleID.")"; -->
+<?php include 'include/session_open.php'; ?>
 <?php
 $ArticleID=htmlentities($_GET['id']);
 $category=htmlentities($_GET['cat']);
@@ -10,7 +12,7 @@ include 'include/db.php';
 $sql = "SELECT A.*, case when A.Status=5 then E.Published else C.descr end Published FROM `RSP_ARTICLE` A ".
        "left join `RSP_EDITION` E on A.Edition=E.ID ".
        "left join `RSP_CC_ARTICLE_Stat` C on A.Status=C.ID ".
-       "where A.ID=".$ArticleID; //" and hasAccess(".$myID.",".$ArticleID.")"
+       "where A.ID=".$ArticleID." and hasAccess(".$myID.",".$ArticleID.")";
 $result = $conn->query($sql);
 if ($result->rowCount() == 0) {Header("location:index.php");die;}
 $A=$result->fetchObject();
@@ -20,12 +22,18 @@ $A=$result->fetchObject();
     <div class="row justify-content-center">
         <div class="col-sm-8">
             <div class="jumbotron mb-5">
-                <div class="placeholder ph-article"><img height="400px" src="public/img/picture<?php echo $ArticleID;?>.png" alt="<?php echo $A->Title;?>"></div>
+                <div class="ph-article"><img class="d-block a mx-auto" height=400 src="<?php echo "{$img_dir}picture{$A->ID}";?>.png" alt="<?php echo $A->Title;?>"></div>
             </div>
 <?php // var_dump($A);?>
             <h1 class="text-center title">Název: <?php echo $A->Title;?></h1>
             <div class="row justify-content-end">
-                <div class="col-sm-3">Vydáno dne: <span class="date-published"><?php echo $A->Published;?></span></div>
+                <div class="col-sm-3">Vydáno dne: <span class="date-published"><?php 
+                        if (strtotime($A->Published) === false) {
+                            echo '"' . $A->Published . '"';
+                        } else {
+                            echo $A->Published;
+                        }
+                    ?></span></div>
             </div>
             <div class="row mb-2 mt-2">
                 <p class="text-justify"><?php echo $A->Abstract;?></p>
@@ -44,7 +52,7 @@ echo $result->fetch()[0];
             <div class="row justify-content-between mb-5">
                 <div class="col-sm-2">
                     <a href="<?php 
-$sql = 'SELECT MAX(ID) FROM `RSP_ARTICLE` where ID<'.$ArticleID; //" and hasAccess(".$myID.",ID)"
+$sql = 'SELECT MAX(ID) FROM `RSP_ARTICLE` where ID<'.$ArticleID." and hasAccess(".$myID.",ID)";
 $result = $conn->query($sql);$nID=$result->fetch()[0];
 echo (($nID == "")?'javascript:void(0)" style="color:gray; ':'article.php?id='.$nID.'&cat=' . htmlentities($category));
 ?>" class="prev text-center box-btn btn-size-mid">Předchozí</a>
@@ -54,7 +62,7 @@ echo (($nID == "")?'javascript:void(0)" style="color:gray; ':'article.php?id='.$
                 </div>
                 <div class="col-sm-2">
                     <a href="<?php 
-$sql = 'SELECT MIN(ID) FROM `RSP_ARTICLE` where ID>'.$ArticleID; //" and hasAccess(".$myID.",ID)"
+$sql = 'SELECT MIN(ID) FROM `RSP_ARTICLE` where ID>'.$ArticleID." and hasAccess(".$myID.",ID)";
 $result = $conn->query($sql);$nID=$result->fetch()[0];
 echo (($nID == "")?'javascript:void(0)" style="color:gray; ':'article.php?id='.$nID.'&cat=' . htmlentities($category));
 ?>" class="next text-center box-btn btn-size-mid">Následující</a>

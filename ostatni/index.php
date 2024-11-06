@@ -1,7 +1,10 @@
-<?php 
-//ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
-session_start();
-$myID=$_SESSION['user']['id']; ?>
+<!-- UPDATE TT 2024-11-06 -->
+<!-- UPDATE used session_open: <php include 'include/session_open.php'; ?> - defines $myID#$img_dir-->
+<!-- UPDATE used img-dir: <php echo "{$img_dir}picture{$A->ID}";?>.png -->
+<!-- UPDATE removed/updated gotoarticle: can be, not here: window.location.href = 'article.php?id=<php echo $A->ID?> -->
+<!-- BUG!!! iupper picture is not on left side!!! -->
+
+<?php include 'include/session_open.php'; ?>
 <?php
 $EditionID=htmlentities($_GET['id']);
 
@@ -23,16 +26,20 @@ $sql = "SELECT A.*, case when A.Status=5 then E.Published else C.descr end Publi
     "SUBSTRING(A.Abstract, 1, 300) as Abstract FROM `RSP_ARTICLE` A ".
     "left join `RSP_EDITION` E on A.Edition=E.ID ".
     "left join `RSP_CC_ARTICLE_Stat` C on A.Status=C.ID ".
-    "where A.Edition=".$EditionID; //" and hasAccess(".$myID.",A.ID)"
+    "where A.Edition=".$EditionID." and hasAccess(".$myID.",A.ID)";
 $result = $conn->query($sql);
 
 
 ?>
 <?php include 'include/header.php'; ?>
-    <main>
+<main>
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="lead-article col-sm-8 mb-5">
+                <div class="lead-article col-sm-8 mb-5 d-flex align-items-start">
+                    <div class="col-auto me-3">
+                        <img class="card-image" width=200 src="<?php echo "{$img_dir}picture{$E->ID}";?>.png"/>
+                    </div>   
+                    <div class="col">
                     <h1><?php echo $E->Title;?></h1>
                     <h3>Redaktor:
                         <span class="author">
@@ -50,6 +57,7 @@ $result = $conn->query($sql);
                         </span>
                     </h3>
                     <p class="text-justify"><?php echo $E->Thema;?></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,9 +73,8 @@ $result = $conn->query($sql);
 
                                 <div class="mb-5 col-sm-6">
                                     <div class="card">
-                                        <img class="card-image" onclick="gotoarticle(<?php echo $A->ID?>)" src="../grafika/picture<?php echo $A->ID;?>.png"/>
+                                        <img class="card-image" onclick="{window.location.href = 'article.php?id=<?php echo $A->ID?>';return true;}" src="<?php echo "{$img_dir}picture{$A->ID}";?>.png"/>
                                         <div class="card-body">
-                                            <h5 class="card-title">
                                                 <div class="article-title">
                                                     <?php echo $A->Title;?>
                                                 </div>
@@ -87,8 +94,6 @@ $result = $conn->query($sql);
                                                         }
                                                     ?>
                                                 </div>
-                                            </h5>
-
                                             <div class="card-text">
                                                 <p><?php echo $A->Abstract;?>... <a href="article.php?id=<?php echo $A->ID;?>">více</a> </p>
                                             </div>
