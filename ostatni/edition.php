@@ -19,8 +19,8 @@ $result = $conn->query($sql);
 <div class="container">
             <?php while ($E=$result->fetchObject()) {?>
             <div class="row mb-2 justify-content-center">
-                <div class="col-sm-2 d-flex">
-                    <img class="card-image" width=200 height=150 onclick="{window.location.href = 'index.php?id=<?php echo $E->EID?>';return true;}" src="<?php echo "{$img_dir}picture{$E->ID}";?>.png"/>
+                <div class="col-sm-2">
+                    <img class="img-thumbnail" onclick="{window.location.href = 'index.php?id=<?php echo $E->EID?>';return true;}" src="<?php echo "{$img_dir}picture{$E->ID}";?>.png"/>
                 </div>
                 <div class="col-sm-6">
                     <h2><strong><?php echo $E->Title;?></strong></h2>

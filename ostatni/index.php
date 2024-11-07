@@ -6,7 +6,7 @@
 
 <?php include 'include/session_open.php'; ?>
 <?php
-$EditionID=htmlentities($_GET['id']);
+$EditionID = isset($_GET['id']) ? htmlentities($_GET['id']) : "";
 
 include 'include/db.php'; 
 $sql = "SELECT MAX(ID) from `RSP_EDITION` where Published<now()";
@@ -36,10 +36,10 @@ $result = $conn->query($sql);
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="lead-article col-sm-8 mb-5 d-flex align-items-start">
-                    <div class="col-auto me-3">
-                        <img class="card-image" width=200 src="<?php echo "{$img_dir}picture{$E->ID}";?>.png"/>
+                    <div class="col-sm-3 me-3">
+                        <img class="img-thumbnail" src="<?php echo "{$img_dir}picture{$E->ID}";?>.png"/>
                     </div>   
-                    <div class="col">
+                    <div class="col-sm-9">
                     <h1><?php echo $E->Title;?></h1>
                     <h3>Redaktor:
                         <span class="author">
