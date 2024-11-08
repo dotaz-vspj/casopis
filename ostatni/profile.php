@@ -1,10 +1,10 @@
-<?php session_start(); ?>
+<?php include 'include/session_open.php'; ?>
 <?php include 'include/header.php'; ?>
-<?php require 'include/db.php'; ?>
 
 <?php
 
 // find user in rsp_session table
+var_dump($_SESSION);
 if (isset($_SESSION['user'])) {
     $sql = "SELECT * FROM RSP_SESSION WHERE Login = :login AND `SessionTag` = :session_tag LIMIT 1";
     $stmt = $conn->prepare($sql);
