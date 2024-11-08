@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- UPDATE TT 2024-11-06 -->
+<!-- UPDATE used img-dir: <php echo "{$img_dir}";>logo-dotaz.svg -->
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +16,7 @@
             <div class="container-fluid">
                 <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
-                        <img src="../grafika/logo-dotaz.svg" alt="Logo casopisu DOTAZ">
+                        <img src="<?php echo "{$img_dir}";?>logo-dotaz.svg" alt="Logo casopisu DOTAZ">
                     </a>
                     <ul class="navbar-nav">
                         <li class="nav-item">
