@@ -175,3 +175,47 @@ input[type="search"]:focus {
 .card-image {
     cursor: pointer;
 }
+
+.nav-tabs .nav-link {
+    background-color: #7473a7; 
+    color: white;
+    border: none; 
+    width:25%;
+}
+
+
+.nav-tabs .nav-link.active {
+    background-color: #12146a; 
+    color: white;
+}
+
+
+
+.tab-content {
+    color: white;  
+}
+
+
+.tab-content .tab-pane.show.active {
+    background-color: #12146a;
+    padding: 5px;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#contend {
+    width: 50%;
+}
+ul{
+    list-style-type: none; 
+    padding-left: 0;   
+}
+h1{
+    color: #12146a;
+}
