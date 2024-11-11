@@ -214,3 +214,15 @@ form.editor textarea {
 	min-height:100vh;
 	border:0;
 }
+
+.messages {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    width: 300px;
+    height: 100vh;
+    padding-top: 10rem;
+    border: solid 1px red;
+    background-color: #efefef;
+}

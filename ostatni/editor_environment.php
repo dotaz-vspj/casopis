@@ -23,7 +23,7 @@ include 'include/db.php'; ?>
 
 
 <!-- Modal -->
-<div class="modal right fade" id="messages" data-bs-keyboard="false" tabindex="-1" aria-labelledby="messages" aria-hidden="true">
+<!-- <div class="modal right fade" id="messages" data-bs-keyboard="false" tabindex="-1" aria-labelledby="messages" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -39,6 +39,10 @@ include 'include/db.php'; ?>
             </div>
         </div>
     </div>
+</div> -->
+<div class="messages">
+    <h5>Zprávy</h5>
+    <p>Zde budou zprávy</p>
 </div>
 
 <!-- end sidebar -->
