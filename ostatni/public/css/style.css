@@ -41,7 +41,11 @@
 }
 
 /* Custom positioning */
-header { margin-bottom: 10rem !important; }
+
+main {
+    margin-top: 10rem;
+}
+/* header { margin-bottom: 10rem !important; } */
 header .navbar { padding: 1.5em; }
 header .navbar-brand img { height: 2em; }
 header .navbar .nav-item:nth-child(1) { border-right: solid 1px white; }
@@ -218,4 +222,51 @@ ul{
 }
 h1{
     color: #12146a;
+}
+
+.sidebar {
+    background-color: #efefef;
+    top: 0;
+    padding-top: 10rem;
+}
+
+.middle {
+    padding-top: 1rem;
+}
+
+form.editor button {
+    min-width: 90px;
+}
+
+form.editor textarea {
+    min-height: 14em;
+}
+
+/* modal */
+.modal.right .modal-dialog {
+	position:absolute;
+	top:0;
+	right:0;
+	margin:0;
+}
+
+.modal.right .modal-dialog.modal-lg {
+	min-width:300px;
+}
+
+.modal-content, .modal.right .modal-content {
+	min-height:100vh;
+	border:0;
+}
+
+.messages {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    width: 300px;
+    height: 100vh;
+    padding-top: 10rem;
+    border: solid 1px red;
+    background-color: #efefef;
 }
