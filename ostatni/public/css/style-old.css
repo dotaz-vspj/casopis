@@ -41,11 +41,7 @@
 }
 
 /* Custom positioning */
-
-main {
-    margin-top: 10rem;
-}
-/* header { margin-bottom: 10rem !important; } */
+header { margin-bottom: 10rem !important; }
 header .navbar { padding: 1.5em; }
 header .navbar-brand img { height: 2em; }
 header .navbar .nav-item:nth-child(1) { border-right: solid 1px white; }
@@ -179,76 +175,3 @@ input[type="search"]:focus {
 .card-image {
     cursor: pointer;
 }
-
-.sidebar {
-    background-color: #efefef;
-    top: 0;
-    padding-top: 10rem;
-}
-
-.middle {
-    padding-top: 1rem;
-}
-
-form.editor button {
-    min-width: 90px;
-}
-
-form.editor textarea {
-    min-height: 14em;
-}
-
-/* modal */
-.modal.right .modal-dialog {
-	position:absolute;
-	top:0;
-	right:0;
-	margin:0;
-}
-
-.modal.right .modal-dialog.modal-lg {
-	min-width:300px;
-}
-
-/*Tomáš (update) adaptive-template */
-.modal-content, .modal.right .modal-content {
-	border:0;
-    min-height: 90vh;
-}
-
-.overlayed {
-  right:0;
-  position:absolute;
-  z-index: 1;
-}
-
-/*Aleš (new) article-author */
-.author-selectors {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.arrows {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: 25px; /* Posun šipek dolů */
-}
-
-.arrows button {
-    font-size: 20px;
-    padding: 5px;
-    width: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-

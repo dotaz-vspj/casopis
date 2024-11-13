@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         if ($stmt->execute()) {
                             $_SESSION['user'] = ['username' => $username, 'id' => $result['ID'], 'session_tag' => $session_hash];
                             // Redirect to profile.php
-                            header("Location: ../profile.php");
+                            header("Location: ../template.php");
                             exit();
                         }
                     } catch (PDOException $e) {
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         if ($stmt->execute()) {
                             $_SESSION['user'] = ['username' => $username, 'id' => $result['ID'], 'session_tag' => $session_hash];
                             // Redirect to profile.php
-                            header("Location: ../profile.php");
+                            header("Location: ../template.php");
                             exit();
                         }
                     } catch (PDOException $e) {
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user'] = ['username' => $username, 'email' => $email, 'id' => $last_id, 'session_tag' => $session_hash];
 
                 // Redirect to profile.php
-                header("Location: profile.php");
+                header("Location: template.php");
                 exit();
 
             } else {
