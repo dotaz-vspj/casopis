@@ -1,6 +1,5 @@
 <?php 
-session_start();
-
+include_once 'session_open.php';
 require_once 'db.php';
 include_once 'functions.php';
 

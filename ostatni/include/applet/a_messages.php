@@ -12,7 +12,7 @@
         $.getJSON( "include/ajax/getMessages.php?typ="+type+"&id="+index, function( data ) {
             var l_html="";
             $.each(data, function(i,e) {if (e) l_html = l_html.concat(
-                '<p class="list-group-item" data-id="',e['ID'],' ondblclick="messageClick(',e['ID'],",'",e['Article'],"',",e['Type'],'">',e['ID'],':',e['Message'],"</p>\n");
+                '<p class="list-group-item" data-id="',e['ID'],' ondblclick="messageClick(',e['ID'],",'",e['Article'],"',",e['Type'],'">',e['ID'],'(',e['TypeText'],',',e['Article'],'):',e['Message'],"</p>\n");
             });
             $( "#messageList" ).html( l_html );
         });    

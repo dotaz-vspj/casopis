@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php include 'include/session_open.php'; ?>
 <?php include 'include/header.php'; ?>
 
 <?php if(!empty($_SESSION['error'])) echo $_SESSION['error']; ?>

@@ -1,6 +1,6 @@
 <?php ?>
         <h5 class="mb-5" id="edit_header">Vložení/úprava článku</h5>
-        <form>
+        <form action="javascript:void(0);" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="articleTitle">Název článku</label>
                 <input type="text" class="form-control" id="articleTitle" placeholder="Zadejte název článku">
@@ -29,7 +29,7 @@
                     <select class="form-control" id="registeredAuthors">
                         <option disabled selected>Selhalo načtení autorů</option>
                     </select>
-                    <button type="button" class="btn btn-primary mt-2">Registrovat neevidovaného autora</button>
+                     <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#newAuthorModal">Registrovat neevidovaného autora</button>
                 </div>
             </div>
 
@@ -49,20 +49,64 @@
                 </select>
 
                 <!-- Custom file input for document -->
-                <label class="btn btn-primary" for="document">Upload Document</label>
+                <label class="btn btn-primary" id="document-btn" for="document">Upload Document</label>
                 <input class="form-control" id="document" name="document" type="file" style="display: none;">
 
                 <!-- Custom file input for image -->
-                <label class="btn btn-primary" for="image">Upload Image</label>
+                <label class="btn btn-primary" id="image-btn" for="image">Upload Image</label>
                 <input class="form-control" id="image" name="image" type="file" style="display: none;">
 
-                <button class="btn btn-success" name="submit" type="submit">Uložit</button>
+                <button class="btn btn-success" onclick="aPost()">Uložit</button>
             </div>
         </form>
+         <!-- Modal for new author registration -->
+<div class="modal fade" id="newAuthorModal" tabindex="-1" aria-labelledby="newAuthorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newAuthorModalLabel">Registrace nového autora</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newAuthorForm">
+                    <div class="mb-3">
+                        <label for="titleBefore" class="form-label">Titul před</label>
+                        <input type="text" class="form-control" id="titleBefore" placeholder="např. Ing.">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Příjmení *</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Příjmení" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">Jméno *</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Jméno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titleAfter" class="form-label">Titul za</label>
+                        <input type="text" class="form-control" id="titleAfter" placeholder="např. Ph.D.">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail *</label>
+                        <input type="email" class="form-control" id="email" placeholder="E-mail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="login" placeholder="Uživatelské jméno">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Telefon</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Telefonní číslo">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="registerNewAuthor()">Registrovat</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function editionsLoad(type,index){
         $.getJSON( "include/ajax/getEditions.php?typ="+type+"&id="+index, function( data ) {
-            var l_html="<option disabled selected>Vyberte Edici</option>\n";
+            var l_html="<option disabled selected>Vyberte Edici</option>\n<option>1</option>";
             $.each(data, function(i,e) {if (e) l_html = l_html.concat(
                 '<option value="',e['ID'],'">',e['ID'],':',e['Title'],"</option>\n");
             });
@@ -104,7 +148,7 @@
         $("#articleTitle").val("");
         $("#articleID").val("0");
         $("#selectedAuthors").html("");
-        var myID=getMyID();$("#authors").val(myID);
+        var myID=<?php echo $myID;?>;$("#authors").val(myID);
         $("#selectedAuthors").append($('<option>', {
                     value: myID,
                     text: $("#registeredAuthors option[value='"+myID+"']").text()
@@ -133,5 +177,58 @@
             $("#image").val("");
         });    
     }
+    function aPost() {
+        var formData = new FormData();
+        formData.append("articleID", $("#articleID").val());
+        formData.append("edition", $("#edice").val());
+        formData.append("articleTitle", $("#articleTitle").val());
+        formData.append("authors", $("#authors").val());
+        formData.append("abstract", $("#articleText").val());
+        formData.append("note", $("#editorNote").val());
+
+        // Append files to formData
+        var documentFile = $("#document")[0].files[0];
+        var imageFile = $("#image")[0].files[0];
+        if (documentFile) {
+            formData.append("document", documentFile);
+        }
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
+
+        $.ajax({
+            url: "include/ajax/setArticleAuthor.php",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                $(".alert-danger").removeClass("alert-danger");
+                var d = $.parseJSON(data);
+                if (d["status"] == 1) {
+                    setLayout(1);
+                    alert("Článek uložen.");
+                } else {
+                    var inField = {
+                        "": "",
+                        "articleID": "",
+                        "edition": "#edice",
+                        "articleTitle": "#articleTitle",
+                        "authors": "#selectedAuthors",
+                        "abstract": "#articleText",
+                        "document": "#document-btn",
+                        "image": "#image-btn",
+                        "note": "#editorNote"
+                    };
+                    if (inField[d["param"]] != "") {
+                        $(inField[d["param"]]).addClass("alert-danger");
+                    }
+                    alert("Status: " + d["status"] + "\n" + d["message"]);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("An error occurred: " + status + "\n" + error);
+            }
+        });
+    }
 </script>
-       
