@@ -23,13 +23,17 @@ $DB_HOST = getenv('DB_HOST');
 $DB_USER = getenv('DB_USER');
 $DB_PASS = getenv('DB_PASS');
 $DB_NAME = getenv('DB_NAME');
-$DB_PORT = getenv('DB_PORT');
+
+$doc_dir = getenv('DIR_DOCUMENTS');
+$img_dir = getenv('DIR_IMAGES');
 
 // Připojení k databdzi
 try {
-    $conn = new PDO("mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME", $DB_USER, $DB_PASS);
+    // $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+    $conn = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME", $DB_USER, $DB_PASS);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Connection success";
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
