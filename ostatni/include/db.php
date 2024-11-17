@@ -25,6 +25,9 @@ $DB_PASS = getenv('DB_PASS');
 $DB_NAME = getenv('DB_NAME');
 $DB_PORT = getenv('DB_PORT');
 
+$doc_dir = getenv('DIR_DOCUMENTS');
+$img_dir = getenv('DIR_IMAGES');
+
 // Připojení k databdzi
 try {
     $conn = new PDO("mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME", $DB_USER, $DB_PASS);
