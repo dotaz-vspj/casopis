@@ -1,7 +1,5 @@
+<?php include 'include/session_open.php'; ?>
 <?php
-// Start the session
-include 'session_open.php';
-
 // Unset all of the session variables
 $_SESSION = array();
 
@@ -19,5 +17,5 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirect to the login page or home page
-header("Location: ../loginpage.php");
+header("Location: ../index.php");
 exit;

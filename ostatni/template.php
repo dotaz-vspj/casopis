@@ -1,5 +1,17 @@
-<?php include 'include/session_open.php'; ?>
-<?php include 'include/db.php'; ?>
+<?php 
+// Template Administračního rozhraní Verse 2.0
+// Plné menu, kliknutí předáváno pomocí "intuitivních" parametrů
+// Seznam článků bez hlavičky a s upravenými barvami podle stavu
+
+include 'include/session_open.php'; ?>
+<?php include 'include/db.php'; 
+$scriptName="";
+$myFunc=50; //not registered
+if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
+    $result = $conn->query($sql);
+    $myFunc = $result->fetch()[0];}
+if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}    
+?>
 <?php include 'include/header.php'; ?>
 
 <div class="row w-100" style="min-height: 100vh; margin:0 auto 0 auto; padding-top: 90px; ">
@@ -10,6 +22,7 @@
 
 <!-- List -->
 <div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+                    <h5 class="mb-5">Moje články</h5>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
 
@@ -28,19 +41,19 @@
 </div>
 <script>
     var style=-1;
-    var styles={0:{
+    var styles={0:{  //1-3-6-2
             "list-out":["col-sm-3"],
             "main-out":["col"],
             "messages-out":["col-sm-2","mx-3","border","rounded-3"]},
-                1:{
+                1:{  //1-3-0-6
             "list-out":["col"],
             "main-out":[],
             "messages-out":["col-sm-6","mx-3","border","rounded-3"]},
-                2:{
+                2:{  //1-3-(6)-4
             "list-out":["col-sm-3"],
             "main-out":["col-sm-6","bg-primary"],
             "messages-out":["overlayed","col-sm-4","mx-3","bg-dark","border-double","border-3","rounded-2"]},
-                3:{
+                3:{  //1-3-8-0
             "list-out":["col-sm-3"],
             "main-out":["col","bg-primary"],
             "messages-out":[]}};
@@ -52,9 +65,14 @@
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
-    if (index==1) {setLayout(0);}
-    if (index==2) {messageLoad(0,0);setLayout(0)}
-    if (index==3) {condLayout(3,2);}
+    if (index=="UsrAdm") {window.location.replace('user_admin.php');}
+    if (index=="EdiAdm") {window.location.replace('edition_admin.php');}
+    if (index=="ArtRed") {window.location.replace('article_redactor.php');}
+    if (index=="ArtOpp") {window.location.replace('article_opponent.php');}
+    if (index=="ArtNew") {window.location.replace('article_author.php');}
+    if (index=="ArtAut") {window.location.replace('article_author.php');}
+    if (index=="Profile") {window.location.replace('profile.php');}
+    if (index=="Message") {condLayout(3,2);}
 }; 
 function articleClick(index,version){
     console.log('Article:'+index+','+version);

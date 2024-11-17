@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         if ($stmt->execute()) {
                             $_SESSION['user'] = ['username' => $username, 'id' => $result['ID'], 'session_tag' => $session_hash];
                             // Redirect to profile.php
-                            header("Location: ../article_author.php");
+                            header("Location: ../profile.php");
                             exit();
                         }
                     } catch (PDOException $e) {
                         $_SESSION['error'] = 'Chyba při vytváření relace: ' . $e->getMessage();
-                        header('Location: login.php');
+                        header('Location: loginpage.php');
                         exit();
                     }
                 } else {
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         if ($stmt->execute()) {
                             $_SESSION['user'] = ['username' => $username, 'id' => $result['ID'], 'session_tag' => $session_hash];
                             // Redirect to profile.php
-                            header("Location: ../article_author.php");
+                            header("Location: ../profile.php");
                             exit();
                         }
                     } catch (PDOException $e) {
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user'] = ['username' => $username, 'email' => $email, 'id' => $last_id, 'session_tag' => $session_hash];
 
                 // Redirect to profile.php
-                header("Location: article_author.php");
+                header("Location: profile.php");
                 exit();
 
             } else {
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } else {
         $_SESSION['error'] = 'Please fill in both fields.';
-        // header('Location: ../loginpage.php');
+        header('Location: ../loginpage.php');
         exit();
     }
 }

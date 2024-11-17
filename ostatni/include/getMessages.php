@@ -24,12 +24,12 @@ if ($FilterType==3) //oponent
         . "from (select distinct Article from RSP_ARTICLE_ROLE R "
           . "where R.Person=".$myID." and Article=".$FilterID. " and R.Role=21) X "
         . "left join RSP_EVENT E on X.Article=E.Article "
-        . "left join `RSP_CC_EVENT_Type` CC on E.Type=CC.ID where type in (4,5,11) order by E.ID desc"; 
+        . "left join `RSP_CC_EVENT_Type` CC on E.Type=CC.ID where type in (6) order by E.ID desc"; 
   else //opponent všechny
     $sql="select CC.descr as TypeText, E.* "
         . "from (select distinct Article from RSP_ARTICLE_ROLE R where R.Person=".$myID." and R.Role=21) X "
         . "left join RSP_EVENT E on X.Article=E.Article "
-        . "left join `RSP_CC_EVENT_Type` CC on E.Type=CC.ID where type in (4,5,11) order by E.ID desc"; 
+        . "left join `RSP_CC_EVENT_Type` CC on E.Type=CC.ID where type in (6) order by E.ID desc"; 
 $result = $conn->query($sql);
 $data = [];while ($data[]=$result->fetchObject()) {}
 echo json_encode($data, JSON_PRETTY_PRINT);

@@ -1,9 +1,11 @@
-<?php
-// Vázáno na Administrační rozhraní Verse 2.0
-// maketa, funkční menu.
+<?php 
+// Template Administračního rozhraní Verse 2.0
+// Plné menu, kliknutí předáváno pomocí "intuitivních" parametrů
+// Seznam článků bez hlavičky a s upravenými barvami podle stavu
+
 include 'include/session_open.php'; ?>
 <?php include 'include/db.php';
-$scriptName="Profile";
+$scriptName="ArticleRedactor";
 $myFunc=50; //not registered
 if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
     $result = $conn->query($sql);
@@ -20,28 +22,21 @@ if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}
 
 <!-- List -->
 <div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
-                    <h5 class="mb-5">Moje články</h5>
+                    <h5 class="mb-5">Redakce článků</h5>
+                <div class="w-50">
+                    <label for="articlesFilter">Vybrat články</label>
+                    <select class="form-control" id="articlesFilter" onchange="articlesLoad(2,this.value);">
+                        <option value="-2" selected>Všechny v neuzavřeném řízení</option>
+                        <option value="-1">Nezařazené k edici</option>
+                    </select>
+                </div>
+                    
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
 
 <!-- Main -->
 <div class="bg-light mx-3 pt-3" id="main-out" onclick="condLayout(2,0);">
-<?php
-echo "<p>Toto je <B>MAKETA</B> profilové stránky uživatele. Slouží vstupu do administračního rozhraní.<br/> Ve sprintu 3 bude upravena.</p>"; 
-        var_dump($_SESSION);
-if (isset($_SESSION['user'])) {
-    $sql = "SELECT * FROM RSP_SESSION WHERE Login = :login AND `SessionTag` = :session_tag LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':login', $_SESSION['user']['id'], PDO::PARAM_INT);
-    $stmt->bindParam(':session_tag', $_SESSION['user']['session_tag'], PDO::PARAM_STR);
-    $stmt->execute();
-
-    if ($stmt->rowCount() > 0) {
-        $session = $stmt->fetch();
-        echo '<p>Session Hash: ' . htmlspecialchars($session['SessionTag']) . '</p>';
-    }
-}
-?>
+<?php include 'include/applet/a_article_redactor.php'; ?>
 </div>
 
 <!-- Messages -->
@@ -51,6 +46,7 @@ if (isset($_SESSION['user'])) {
 
 </div>
 <script>
+    var ArticleStatus=0;
     var style=-1;
     var styles={0:{
             "list-out":["col-sm-3"],
@@ -70,15 +66,17 @@ if (isset($_SESSION['user'])) {
             "messages-out":[]}};
 
     $( document ).ready(function () {
-    articlesLoad(3,"21,22,24");
+    editionsLoad(0,0);
+    oppsLoad(3,0);
+    articlesLoad(2,-2);
     messagesLoad(0,0);
-    setLayout(3);
+    setLayout(1);
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
     if (index=="UsrAdm") {window.location.replace('user_admin.php');}
     if (index=="EdiAdm") {window.location.replace('edition_admin.php');}
-    if (index=="ArtRed") {window.location.replace('article_redactor.php');}
+    if (index=="ArtRed") {}
     if (index=="ArtOpp") {window.location.replace('article_opponent.php');}
     if (index=="ArtNew") {window.location.replace('article_author.php');}
     if (index=="ArtAut") {window.location.replace('article_author.php');}
@@ -88,6 +86,15 @@ function menuItemClick(index){
 function articleClick(index,version){
     console.log('Article:'+index+','+version);
     messagesLoad(1,index);
+    aFormLoad(index);
+    hidetabs();
+    ArticleStatus=version;
+    if (version==1) {
+        $("#article_accept").show();
+    } else if (version==2) {
+        $("#select_opponents").show();
+    } else {$("#maketar").show();}
+    condLayout(1,0);
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
