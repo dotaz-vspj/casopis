@@ -16,7 +16,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-blue fixed-top">
+        <nav class="navbar navbar-expand-lg bg-blue fixed-top d-flex align-items-center">
             <div class="container-fluid">
                 <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
@@ -42,7 +42,10 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <?php if (isset($_SESSION['user'])): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="include/logout.php">Odhlásit se</a>
+                                <a class="nav-link" href="registerpage.php">Profil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="include/logout.php">Odhlášení</a>
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
