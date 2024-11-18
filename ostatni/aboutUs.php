@@ -1,5 +1,7 @@
 <?php include 'include/session_open.php'; ?>
+<?php include 'include/db.php'; ?>
 <?php include 'include/header.php'; ?>
+
 
 <main>
   <div id="container" class="d-flex flex-column justify-content-center align-items-center h-100">
