@@ -1,5 +1,6 @@
 <?php 
-function loadEnv($file) {
+if (!isset($DB_HOST)) {
+    function loadEnv($file) {
     if (!file_exists($file)) {
         throw new Exception("Soubor se sys variables nenalezen");
     }
@@ -16,7 +17,7 @@ function loadEnv($file) {
         putenv(trim($key) . '=' . trim($value));
     }
 }
-
+ 
 loadEnv(__DIR__ . '/.env');
 
 $DB_HOST = getenv('DB_HOST');
@@ -24,8 +25,6 @@ $DB_USER = getenv('DB_USER');
 $DB_PASS = getenv('DB_PASS');
 $DB_NAME = getenv('DB_NAME');
 
-$doc_dir = getenv('DIR_DOCUMENTS');
-$img_dir = getenv('DIR_IMAGES');
 
 // Připojení k databdzi
 try {
@@ -36,4 +35,4 @@ try {
     // echo "Connection success";
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
-}
+} }

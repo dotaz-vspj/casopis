@@ -2,15 +2,9 @@
 // Template Administračního rozhraní Verse 2.0
 // Plné menu, kliknutí předáváno pomocí "intuitivních" parametrů
 // Seznam článků bez hlavičky a s upravenými barvami podle stavu
-
 include 'include/session_open.php'; ?>
-<?php include 'include/db.php'; 
-$scriptName="ArticleOpponent";
-$myFunc=50; //not registered
-if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
-    $result = $conn->query($sql);
-    $myFunc = $result->fetch()[0];}
-if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}    
+<?php $scriptName="ArticleOpponent";
+if ($myFun>21) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 

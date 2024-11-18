@@ -2,13 +2,8 @@
 // Vázáno na Administrační rozhraní Verse 2.0
 // funkční až na upload
 include 'include/session_open.php'; ?>
-<?php include 'include/db.php';
-$scriptName="ArticleAuthor";
-$myFunc=50; //not registered
-if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
-    $result = $conn->query($sql);
-    $myFunc = $result->fetch()[0];}
-if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}    
+<?php $scriptName="ArticleAuthor";
+if ($myFunc>22) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 

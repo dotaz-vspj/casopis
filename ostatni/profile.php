@@ -2,13 +2,8 @@
 // Vázáno na Administrační rozhraní Verse 2.0
 // maketa, funkční menu.
 include 'include/session_open.php'; ?>
-<?php include 'include/db.php';
-$scriptName="Profile";
-$myFunc=50; //not registered
-if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
-    $result = $conn->query($sql);
-    $myFunc = $result->fetch()[0];}
-if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}    
+<?php $scriptName="Profile";
+if ($myFunc>22) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 
@@ -91,7 +86,6 @@ function articleClick(index,version){
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
-    setLayout(index % 3);
 };
 function setLayout(mode) {
     if (style!=-1) {

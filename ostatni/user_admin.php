@@ -4,13 +4,8 @@
 // Seznam článků bez hlavičky a s upravenými barvami podle stavu
 
 include 'include/session_open.php'; ?>
-<?php include 'include/db.php'; 
-$scriptName="";
-$myFunc=50; //not registered
-if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
-    $result = $conn->query($sql);
-    $myFunc = $result->fetch()[0];}
-if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}    
+<?php $scriptName="user_admin";
+if ($myFunc>=20) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 

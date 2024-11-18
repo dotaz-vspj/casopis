@@ -1,10 +1,5 @@
 <?php include '../session_open.php'; ?>
-<?php include '../db.php'; ?>
 <?php 
-$myFunc=50; //not registered
-if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
-    $result = $conn->query($sql);
-    $myFunc = $result->fetch()[0];}
 // návratový objekt
 $response=array("status"=>0,"param"=>$_POST["action"],"message"=>"Not set");
 //testy způsobilosti parametrů - upravit !!!
