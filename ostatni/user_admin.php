@@ -1,9 +1,11 @@
-<?php
-// Vázáno na Administrační rozhraní Verse 2.0
-// maketa, funkční menu.
+<?php 
+// Template Administračního rozhraní Verse 2.0
+// Plné menu, kliknutí předáváno pomocí "intuitivních" parametrů
+// Seznam článků bez hlavičky a s upravenými barvami podle stavu
+
 include 'include/session_open.php'; ?>
-<?php include 'include/db.php';
-$scriptName="Profile";
+<?php include 'include/db.php'; 
+$scriptName="";
 $myFunc=50; //not registered
 if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
     $result = $conn->query($sql);
@@ -26,22 +28,9 @@ if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}
 
 <!-- Main -->
 <div class="bg-light mx-3 pt-3" id="main-out" onclick="condLayout(2,0);">
-<?php
-echo "<p>Toto je <B>MAKETA</B> profilové stránky uživatele. Slouží vstupu do administračního rozhraní.<br/> Ve sprintu 3 bude upravena.</p>"; 
-        var_dump($_SESSION);
-if (isset($_SESSION['user'])) {
-    $sql = "SELECT * FROM RSP_SESSION WHERE Login = :login AND `SessionTag` = :session_tag LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':login', $_SESSION['user']['id'], PDO::PARAM_INT);
-    $stmt->bindParam(':session_tag', $_SESSION['user']['session_tag'], PDO::PARAM_STR);
-    $stmt->execute();
-
-    if ($stmt->rowCount() > 0) {
-        $session = $stmt->fetch();
-        echo '<p>Session Hash: ' . htmlspecialchars($session['SessionTag']) . '</p>';
-    }
-}
-?>
+        <H1>MAKETA administrace uživatelů</H1>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed convallis magna eu sem. Sed ac dolor sit amet purus malesuada congue. In convallis. Etiam egestas wisi a erat. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Et harum quidem rerum facilis est et expedita distinctio. Donec vitae arcu. Maecenas libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Curabitur bibendum justo non orci. Praesent in mauris eu tortor porttitor accumsan. Fusce suscipit libero eget elit. Curabitur sagittis hendrerit ante.</p>
+        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum fermentum tortor id mi. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. Integer imperdiet lectus quis justo. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Maecenas libero. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Aenean id metus id velit ullamcorper pulvinar. Maecenas lorem. Aliquam erat volutpat. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam. Integer malesuada. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Proin in tellus sit amet nibh dignissim sagittis. Curabitur sagittis hendrerit ante. Aliquam in lorem sit amet leo accumsan lacinia. Etiam dictum tincidunt diam. </p>
 </div>
 
 <!-- Messages -->
@@ -70,7 +59,7 @@ if (isset($_SESSION['user'])) {
             "messages-out":[]}};
 
     $( document ).ready(function () {
-    articlesLoad(3,"21,22,24");
+    articlesLoad(0,0);
     messagesLoad(0,0);
     setLayout(3);
 });

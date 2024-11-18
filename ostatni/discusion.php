@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php include 'include/session_open.php'; ?>
 <?php include 'include/functions.php'; ?>
 <?php include 'include/header.php'; ?>
 

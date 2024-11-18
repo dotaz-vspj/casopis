@@ -1,5 +1,15 @@
-<?php include 'include/session_open.php'; ?>
-<?php include 'include/db.php'; ?>
+<?php 
+// Vázáno na Administrační rozhraní Verse 2.0
+// funkční až na upload
+include 'include/session_open.php'; ?>
+<?php include 'include/db.php';
+$scriptName="ArticleAuthor";
+$myFunc=50; //not registered
+if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;
+    $result = $conn->query($sql);
+    $myFunc = $result->fetch()[0];}
+if (($myFunc==50)||($myFunc==23)) {Header("location:index.php");die;}    
+?>
 <?php include 'include/header.php'; ?>
 
 <div class="row w-100" style="min-height: 100vh; margin:0 auto 0 auto; padding-top: 90px; ">
@@ -10,6 +20,7 @@
 
 <!-- List -->
 <div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+                    <h5 class="mb-5">Moje články</h5>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
 
@@ -26,7 +37,6 @@
 </div>
 <script>
     var style=-1;
-    var myID=0;
     var styles={0:{
             "list-out":["col-sm-3"],
             "main-out":["col"],
@@ -44,24 +54,27 @@
             "main-out":["col","bg-primary"],
             "messages-out":[]}};
 
-    $( document ).ready(function () {
-//    articlesLoad(1,24); //kde jsem autor
-// maketa: kde jsem oponent
-    articlesLoad(1,21); 
-    messagesLoad(0,0);
+    $( document ).ready(function () { 
+    articlesLoad(3,"22,24"); // autor nebo regAutor nebo creator
+    messagesLoad(2,0);
     editionsLoad(1,0); // nepublikované
     authorsLoad(1,0);  // Jen neadminy
     setLayout(1);
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
-    if (index==1) {aFormEmpty();condLayout(1,3);condLayout(2,3);}
-//    if (index==2) {messageLoad(0,0);setLayout(0)}
-    if (index==3) {condLayout(3,2);}
+    if (index=="UsrAdm") {window.location.replace('user_admin.php');}
+    if (index=="EdiAdm") {window.location.replace('edition_admin.php');}
+    if (index=="ArtRed") {window.location.replace('article_redactor.php');}
+    if (index=="ArtOpp") {window.location.replace('article_opponent.php');}
+    if (index=="ArtNew") {aFormEmpty();condLayout(1,3);condLayout(2,3);}
+    if (index=="ArtAut") {messagesLoad(2,0);setLayout(1);}
+    if (index=="Profile") {window.location.replace('profile.php');}
+    if (index=="Message") {condLayout(3,2);}
 }; 
 function articleClick(index,version){
     console.log('Article:'+index+','+version);
-    messagesLoad(1,index);
+    messagesLoad(2,index);
     aFormLoad(index);
     condLayout(1,0);
 };
@@ -96,7 +109,6 @@ function getMyID() {
     return jqXHR.responseText;
 }
 </script>
-
 
 <?php include 'include/footer.php'; ?>
     
