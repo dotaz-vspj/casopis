@@ -17,7 +17,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-blue fixed-top d-flex align-items-center">
-            <div class="container-fluid">
+            <div id="menuMain" class="container-fluid">
                 <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
                         <img src="<?php echo "{$img_dir}";?>logo-dotaz.svg" alt="Logo casopisu DOTAZ">

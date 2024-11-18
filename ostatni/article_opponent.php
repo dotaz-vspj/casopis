@@ -32,6 +32,7 @@ if ($myFun>21) {Header("location:index.php");die;}
 
 </div>
 <script>
+    var ArticleStatus=0;
     var style=-1;
     var styles={0:{
             "list-out":["col-sm-3"],
@@ -69,10 +70,16 @@ function menuItemClick(index){
 function articleClick(index,version){
     console.log('Article:'+index+','+version);
     messagesLoad(3,index);
+    aFormLoad(index);
+    hidetabs();
+    ArticleStatus=version;
+    if ((version==2)||(version==4)) {
+        $("#article_accept").show();
+    } else {$("#maketar").show();}
+    condLayout(1,0);
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
-    setLayout(index % 3);
 };
 function setLayout(mode) {
     if (style!=-1) {

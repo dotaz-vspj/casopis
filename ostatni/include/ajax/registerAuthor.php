@@ -1,5 +1,4 @@
 <?php include '../session_open.php'; ?>
-<?php include '../db.php'; ?>
 <?php
 // Z�sk�n� dat z POST po�adavku
 $titleBefore = $_POST['titleBefore'] ?? null;

@@ -8,7 +8,6 @@
 <?php
 $EditionID = isset($_GET['id']) ? htmlentities($_GET['id']) : "";
 
-include 'include/db.php'; 
 $sql = "SELECT MAX(ID) from `RSP_EDITION` where Published<now()";
 $result = $conn->query($sql);
 if ($result->rowCount() == 0) {Header("location:error.php");die;}

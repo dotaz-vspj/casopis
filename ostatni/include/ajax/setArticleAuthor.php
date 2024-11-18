@@ -1,5 +1,4 @@
 <?php include '../session_open.php'; ?>
-<?php include '../db.php'; ?>
 <?php 
 // návratový objekt
 $response=array("status"=>0,"param"=>"","message"=>"Not set");
@@ -37,7 +36,7 @@ if ($_POST["edition"]=="") {
 // upload a document file
 $year = date("Y");
 $edition = $_POST["edition"];
-$target_dir = "../../public/archive/";
+$target_dir = "../../".$doc_dir;
 if (!file_exists($target_dir)) {
     if (!@mkdir($target_dir, 0777, true)) {
         $response=array("status"=>5,"param"=>"","message"=>"File ERROR: ".error_get_last()['message']);
@@ -122,7 +121,7 @@ if (move_uploaded_file($_FILES["document"]["tmp_name"], $target_file)) {
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 // Upload img file
-$target_file = $target_dir . basename("picture".$in.'.'.$imgFileType);
+$target_file = "../../" . $img_dir . basename("picture".$in.'.'.$imgFileType);
 if (file_exists($target_file)) {
     $response=array("status"=>4,"param"=>"image","message"=>"Soubor {$target_file} již existuje");
     echo json_encode($response, JSON_PRETTY_PRINT);die;

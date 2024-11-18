@@ -229,10 +229,18 @@
     }
     
     function registerNewAuthor() { //Aleš
+        const firstName = $("#firstName").val().trim();
+        const lastName = $("#lastName").val().trim();
+        const email = $("#email").val().trim();
+        // Validace povinných polí
+        if (!firstName || !lastName || !email) {
+            alert("Prosím, vyplňte všechna povinná pole: Jméno, Příjmení a E-mail.");
+            return; // Zabránění odeslání formuláře
+        }
         $.post("include/ajax/registerAuthor.php", {
             titleBefore: $("#titleBefore").val(),
-            lastName: $("#lastName").val(),
-            firstName: $("#firstName").val(),
+            lastName: lastName,
+            firstName: firstName,
             titleAfter: $("#titleAfter").val(),
             email: $("#email").val(),
             login: $("#login").val(),
