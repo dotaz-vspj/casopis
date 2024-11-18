@@ -27,9 +27,6 @@ $DB_NAME = getenv('DB_NAME');
 $doc_dir = getenv('DIR_DOCUMENTS');
 $img_dir = getenv('DIR_IMAGES');
 
-$doc_dir = getenv('DIR_DOCUMENTS');
-$img_dir = getenv('DIR_IMAGES');
-
 // Připojení k databdzi
 try {
     // $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
