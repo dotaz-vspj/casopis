@@ -1,4 +1,8 @@
 /* Placeholder pictures */
+body{
+    padding:130px 0 100px 0;
+ 
+}
 .placeholder {
     display: block;
     background-color: #777;
@@ -42,9 +46,9 @@
 
 /* Custom positioning */
 
-main {
+/* main {
     margin-top: 10rem;
-}
+} */
 /* header { margin-bottom: 10rem !important; } */
 header .navbar { padding: 1.5em; }
 header .navbar-brand img { height: 2em; }
@@ -256,5 +260,32 @@ form.editor textarea {
     margin-left: 10px;
     align-self: flex-start;
 }
+/* Jana AboutUs - nemazat */
 
-
+.nav-tabs .nav-link {
+    background-color: #7473a7; 
+    color: white;
+    border: none; 
+    width:25%;
+}
+.nav-tabs .nav-link.active {
+    background-color: #12146a; 
+    color: white;
+}
+.tab-content {
+    color: white;  
+}
+.tab-content .tab-pane.show.active {
+    background-color: #12146a;
+    padding: 5px;
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+#contend {
+    width: 50%;
+}

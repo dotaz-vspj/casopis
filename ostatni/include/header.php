@@ -42,7 +42,7 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <?php if (isset($_SESSION['user'])): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile.php">Administrace</a>
+                                <a class="nav-link" href="profile.php">Profil</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="include/logout.php">Odhlásit se</a>

@@ -1,6 +1,12 @@
     <ul class="nav flex-column">
 <?php if ($myFunc<20) { ?>
-        <li class="nav-item" onclick="menuItemClick('UsrAdm');"><center>
+<?php if ($scriptName=="user_admin") {?>
+        <li class="nav-item" onclick="menuItemClick('UsrNew');"><center>
+            <img style="height:65px; width:50px; object-fit: contain; " src="<?php echo "{$img_dir}";?>profile.png" alt=""/><br/>
+            Nový uživatel</center>
+        </li>
+<?php } ?>
+<li class="nav-item" onclick="menuItemClick('UsrAdm');"><center>
             <img style="height:65px; width:50px; object-fit: contain; " src="<?php echo "{$img_dir}";?>usr_adm.png" alt=""/><br/>
             Správa uživatelů</center>
         </li>

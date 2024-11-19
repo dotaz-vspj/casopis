@@ -1,5 +1,5 @@
 <?php include 'include/session_open.php'; ?>
-<?php include 'include/functions.php'; ?>
+
 <?php include 'include/header.php'; ?>
 
 <?php 
@@ -12,10 +12,10 @@ if (!isset($id)) {
     exit();
 }
 
-// store article id in variable
-$articleId = extractNumber($id)[0];
-// store article number in variable
-$articleNumber = extractNumber($id)[1];
+// // store article id in variable
+// $articleId = extractNumber($id)[0];
+// // store article number in variable
+// $articleNumber = extractNumber($id)[1];
 
 ?>
 
@@ -44,7 +44,9 @@ $articleNumber = extractNumber($id)[1];
             </div>
             <div class="row justify-content-end mb-5">
                 <div class="col-sm-3">
-                    <a href="article.php?id=<?php echo htmlentities($articleId . '-' . $articleNumber) ?>" class="text-center box-btn btn-size-mid">Zpět na článek</a>
+                    <a href="article.php?id=<?php echo htmlentities($id)?>" class="text-center box-btn btn-size-mid">Zpět na článek</a>
+                    
+                    
                 </div>
             </div>
         </div>

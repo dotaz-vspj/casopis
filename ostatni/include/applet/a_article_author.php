@@ -220,31 +220,49 @@
                 }
             },
             error: function(xhr, status, error) {
-                if (inField[d["param"]]!="") {
-                    $(inField[d["param"]]).addClass("alert-danger");}
-                alert("Status: " + error + "/" + status+"/"+d["status"] + "\n" + d["message"]);
+                alert("Nepodařilo se odeslat data na server: "+error);
             }
         }
       );
     }
     
     function registerNewAuthor() { //Aleš
+      var inField={
+            "": "",
+            "ID" : "",
+            "Login" : "#login",
+            "Mail" : "#email",
+            "passwd1" : "",
+            "passwd2" : "",
+            "FirstName" : "#firstName",
+            "LastName" : "#lastName",
+            "TitleP" : "#titleAfter",
+            "TitleF" : "#titleBefore",
+            "Phone" : "#phone",
+            "Func" : "",
+            "Active" : "",
+            "note" : "#editorNote"
+        };
+        $(".alert-danger").removeClass("alert-danger");
         const firstName = $("#firstName").val().trim();
         const lastName = $("#lastName").val().trim();
         const email = $("#email").val().trim();
         // Validace povinných polí
-        if (!firstName || !lastName || !email) {
-            alert("Prosím, vyplňte všechna povinná pole: Jméno, Příjmení a E-mail.");
-            return; // Zabránění odeslání formuláře
-        }
+//        if (!firstName || !lastName || !email) {
+//            alert("Prosím, vyplňte všechna povinná pole: Jméno, Příjmení a E-mail.");
+//            return; // Zabránění odeslání formuláře
+//        }
         $.post("include/ajax/registerAuthor.php", {
-            titleBefore: $("#titleBefore").val(),
-            lastName: lastName,
-            firstName: firstName,
-            titleAfter: $("#titleAfter").val(),
-            email: $("#email").val(),
-            login: $("#login").val(),
-            phone: $("#phone").val()
+            ID: 0,
+            TitleF: $("#titleBefore").val(),
+            LastName: lastName,
+            FirstName: firstName,
+            TitleP: $("#titleAfter").val(),
+            Func: 24,
+            Active: true,
+            Mail: $("#email").val(),
+            Login: $("#login").val(),
+            Phone: $("#phone").val()
         },
         function(data, status) {
             if (status === "success") {
@@ -255,6 +273,8 @@
                     filterAuthors();
                     // $( "#registeredAuthors" ).val( response.id );
                 } else {
+                    if (inField[response["param"]]!="") {
+                        $(inField[response["param"]]).addClass("alert-danger");}
                     alert("Chyba při registraci autora: " + response.message);
                 }
             } else {

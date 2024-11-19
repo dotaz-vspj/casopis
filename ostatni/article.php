@@ -10,7 +10,7 @@
 <?php include 'include/session_open.php'; ?>
 <?php
 $ArticleID=htmlentities($_GET['id']);
-$category=htmlentities($_GET['cat']);
+$category="";
 if (!is_numeric($ArticleID)) {Header("location:index.php");die;}
 
 $sql = "SELECT A.*, case when A.Status=5 then E.Published else C.descr end Published FROM `RSP_ARTICLE` A ".
