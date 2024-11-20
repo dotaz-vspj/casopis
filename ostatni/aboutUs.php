@@ -1,6 +1,6 @@
 <?php include 'include/session_open.php'; 
 $sql = 'SELECT U.Func, CONCAT(case when TitleF is null then "" else CONCAT(TitleF," ") end,FirstName," ",LastName,case when TitleP is null then "" else CONCAT(", ",TitleP) end) fullName FROM `RSP_USER` U '.
-       "where Func in (11,12,13) order by Func, Lastname, Firstname";
+       "where Active=1 and Func in (11,12,13) order by Func, Lastname, Firstname";
 $result = $conn->query($sql);
 // if ($result->rowCount() == 0) {Header("location:index.php");die;}
 ?>
@@ -8,23 +8,17 @@ $result = $conn->query($sql);
 
 
 <main>
-  <div id="container" class="d-flex flex-column justify-content-center align-items-center">
+  <div id="container" class="d-flex flex-column justify-content-center align-items-center h-100">
     <div class="w-50" id="contend">
       <div class="mb-5">
       <h1>O nás</h1>
-      <p>Jsme studenti II. ročníku kombinovaného studia, a tvoříme team "Dotaz", kde v rámci předmětu Řízení Softwarových systémů pod vedením doc. Dr. Ing. Jana Voráčka, CSc. připravuje me projekt vědeckého časopisu. Projekt je veden jako skupinová seminární práce, a popravdě se nepočítá s jeho plným dokončením, což nám ovšem přijde škoda, neb jsme se na tom docela vyblbli (a občas i trochu zhádali). </p>
+      <p>Jsme studenti II. ročníku kombinovaného studia, a tvoříme team "Dotaz", kde v rámci předmětu Řízení Softwarových systémů pod vedením doc. Dr. Ing. Jana Voráčka, CSc. připravujeme projekt vědeckého časopisu. Projekt je veden jako skupinová seminární práce, a popravdě se nepočítá s jeho plným dokončením, což nám ovšem přijde škoda, neb jsme se na tom docela vyblbli (a občas i trochu zhádali). </p>
       </div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-           
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Redakční tým</button>
-            
-           
             <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" >Kontakty</button>
-
-        
             <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false" >Podmínky podání</button>
-
             <button class="nav-link" id="nav-map-tab" data-bs-toggle="tab" data-bs-target="#nav-map" type="button" role="tab" aria-controls="nav-map" aria-selected="false" >Mapa</button>
         </div>
     </nav>
@@ -40,13 +34,17 @@ $result = $conn->query($sql);
           <h4>Odpovědný redaktor</h4>
           <ul>
 <?php $U=$result->fetchObject();
-while ($U->Func<=12) { ?>
+while ($U && ($U->Func<=12)) { ?>
             <li><strong><?php echo $U->fullName; ?></strong></li>
 <?php $U=$result->fetchObject(); }  ?>
           </ul>
           <h4>Redakční rada</h4>
           <ul>
+<?php if ($U) { ?>          
             <li><strong><?php echo $U->fullName; ?></strong></li>
+<?php } else { ?>         
+            <li><strong>Osoby nejsou registrovány, zadejte je pomocí administračního rozhraní</strong></li>
+<?php } ?>         
 <?php while($U=$result->fetchObject()) { ?>          
             <li><strong><?php echo $U->fullName; ?></strong></li>
 <?php } ?>         

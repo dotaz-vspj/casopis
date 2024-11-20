@@ -1,11 +1,12 @@
-                <div class="row">
+         <input type="hidden" id="ID" name="ID" value="0">
+               <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="m-2" for="username">Přihlašovací jméno</label>
+                            <label class="m-2" for="username">Přihlašovací jméno (!)</label>
                             <input type="text" class="form-control" id="username" name="username">
                         </div>
                         <div class="form-group">
-                            <label class="m-2" for="email" required="required">Email</label>
+                            <label class="m-2" for="email" required="required">Email (*!)</label>
                             <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="form-group">
@@ -18,8 +19,8 @@
                         </div>
 <?php if ($scriptName=="user_admin") { ?>
                         <div class="form-group">
-                            <label class="m-2" for="funkce">Funkce</label>
-                            <select class="form-control" id="funkce" name="funkce">
+                            <label class="m-2" for="funkce">Funkce (*)</label>
+                            <select class="form-control" id="funkce" name="funkce" onchange="onDone(this);">
                                 <option value="0" selected disbled> --- Vyberte funkci/oprávnění ---</option>
 <?php
 $sql = "SELECT * from `RSP_CC_USER_Func`";
@@ -29,15 +30,18 @@ while ($U=$result->fetchObject()) { ?>
 <?php } ?>
                             </select>
                         </div>
+<?php } else { ?>
+         <input type="hidden" id="funkce" name="funkce" value="23" onchange="onDone(this);">
 <?php } ?>
+                        <div style="font-size: 0.6em;"><br/>Vysvětlivka: Položky s (*) jsou povinné; položky s (!) musí být unikátní v rámci systému</div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="m-2" for="first_name">Jméno</label>
+                            <label class="m-2" for="first_name">Jméno (*)</label>
                             <input type="text" class="form-control" id="first_name" name="first_name">
                         </div>
                         <div class="form-group">
-                            <label class="m-2" for="last_name">Příjmení</label>
+                            <label class="m-2" for="last_name">Příjmení (*)</label>
                             <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
                         <div class="form-group">
@@ -52,20 +56,12 @@ while ($U=$result->fetchObject()) { ?>
                             <label class="m-2" for="phone">Telefon</label>
                             <input type="text" class="form-control" id="phone" name="phone">
                         </div>
-<?php if ($scriptName=="user_admin") { ?>
-                        <div class="form-group">
+                        <div class="form-group" style="display:<?php echo (($scriptName=="user_admin")?"block":"none");?> ;">
                             <label class="m-2" for="active">Aktivní</label>
-                            <input type="checkbox" id="active" name="active">
+                            <input type="checkbox" id="active" name="active" checked>
                         </div>
-<?php } ?>
                     </div>
                 </div>
-<?php if ($scriptName=="user_admin") { ?>
-                <div class="form-group">
-                    <input type="hidden" id="ID" name="ID" value="0"/> 
-                    <button class="btn btn-size-mid box-btn btn-dark" type="submit" onclick="aUserPost()">Zadat</button>
-                </div>
-<?php } ?>
 <script>
     function aFormEmpty() {
             $("#ID").val(0);
@@ -78,8 +74,9 @@ while ($U=$result->fetchObject()) { ?>
             $("#title_p").val("");
             $("#title_f").val("");
             $("#phone").val("");
-            $("#funkce").val(0).change();
+            $("#funkce").val(0);
             $("#active").prop( "checked", true );
+            $("#editorNote").val("");
     }
     function aFormLoad(index) {
         $.getJSON( "include/ajax/getUsers.php?typ=4&id="+index, function( data ) {
@@ -93,11 +90,12 @@ while ($U=$result->fetchObject()) { ?>
             $("#title_p").val(data[0]["TitleP"]);
             $("#title_f").val(data[0]["TitleF"]);
             $("#phone").val(data[0]["Phone"]);
-            $("#funkce").val(data[0]["Func"]).change();
+            $("#funkce").val(data[0]["Func"]);
             $("#active").prop( "checked", (data[0]["Active"]==1) );
+            $("#editorNote").val("");
         });    
     }
-    function aUserPost() {
+    function aUserPost(myNote) {
       var inField={
             "": "",
             "ID" : "",
@@ -128,15 +126,14 @@ while ($U=$result->fetchObject()) { ?>
             "Phone" : $("#phone").val(),
             "Func" : $("#funkce").val(),
             "Active" : $("#active").is(":checked"),
-            "note" : $("#editorNote").val()
+            "note" : myNote
         },
         function(data, status) {
             if (status === "success") {
                 const d = JSON.parse(data);
                 if (d["status"]==1) {
-                    usersLoad(0,0); // autor nebo regAutor
-                    messagesLoad(0,0);
                     alert(d["message"]);
+                    $("#funkce").val(0).change();
                 } else {
                     if (inField[d["param"]]!="") {
                         $(inField[d["param"]]).addClass("alert-danger");}

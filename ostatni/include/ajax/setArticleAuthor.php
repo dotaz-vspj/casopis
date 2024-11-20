@@ -20,14 +20,6 @@ if ($_POST["authors"]=="") {
     $response=array("status"=>3,"param"=>"authors","message"=>"Autor neuveden");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
-// if ($_POST["document"]=="") {
-//     $response=array("status"=>4,"param"=>"document","message"=>"Nepřipojený dokument");
-//     echo json_encode($response, JSON_PRETTY_PRINT);die;
-// }
-// if ($_POST["image"]=="") {
-//     $response=array("status"=>3,"param"=>"image","message"=>"Nepřipojený obrázek");
-//     echo json_encode($response, JSON_PRETTY_PRINT);die;
-// }
 if ($_POST["edition"]=="") {
     $response=array("status"=>3,"param"=>"edition","message"=>"Není vybrána edice");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
@@ -49,8 +41,8 @@ if (empty($_FILES["document"])) {
 }
 $docFileType = strtolower(pathinfo($_FILES["document"]["name"],PATHINFO_EXTENSION));
 // Check file size
-if ($_FILES["document"]["size"] > 5000000) {
-    $response=array("status"=>4,"param"=>"document","message"=>"Soubor je příliš velký");
+if ($_FILES["document"]["size"] > 6000000) {
+    $response=array("status"=>4,"param"=>"document","message"=>"Soubor je příliš velký - max 5MB");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 // Allow certain file formats, only pdf and docx
@@ -58,14 +50,14 @@ if($docFileType != "pdf" && $docFileType != "docx" && $docFileType != "doc") {
     $response=array("status"=>4,"param"=>"document","message"=>"Povoleny jsou pouze soubory PDF a DOC/X");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
-if (empty($_FILES["document"])) {
+if (empty($_FILES["image"])) {
     $response=array("status"=>4,"param"=>"image","message"=>"Žádný obrázek nebyl nahrán");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 $imgFileType = strtolower(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION));
 // Check file size
-if ($_FILES["image"]["size"] > 1000000) {
-    $response=array("status"=>4,"param"=>"image","message"=>"Obrázek je příliš velký");
+if ($_FILES["image"]["size"] > 1200000) {
+    $response=array("status"=>4,"param"=>"image","message"=>"Obrázek je příliš velký - max 1MB");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 // Allow certain file formats, only png

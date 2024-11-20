@@ -1,9 +1,11 @@
-<?php
-// Vázáno na Administrační rozhraní Verse 2.0
-// maketa, funkční menu.
+<?php 
+// Template Administračního rozhraní Verse 2.0
+// Plné menu, kliknutí předáváno pomocí "intuitivních" parametrů
+// Seznam článků bez hlavičky a s upravenými barvami podle stavu
+
 include 'include/session_open.php'; ?>
-<?php $scriptName="Profile";
-if ($myFunc>22) {Header("location:index.php");die;}    
+<?php $scriptName="user_admin";
+if ($myFunc>=20) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 
@@ -15,28 +17,22 @@ if ($myFunc>22) {Header("location:index.php");die;}
 
 <!-- List -->
 <div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
-                    <h5 class="mb-5">Moje články</h5>
-<?php include 'include/applet/a_articles.php'; ?>
+                    <h5 class="mb-5">Seznam uživatelů</h5>
+<?php include 'include/applet/a_users.php'; ?>
 </div></div>
 
 <!-- Main -->
 <div class="bg-light mx-3 pt-3" id="main-out" onclick="condLayout(2,0);">
-<?php
-echo "<p>Toto je <B>MAKETA</B> profilové stránky uživatele. Slouží vstupu do administračního rozhraní.<br/> Ve sprintu 3 bude upravena.</p>"; 
-        var_dump($_SESSION);
-if (isset($_SESSION['user'])) {
-    $sql = "SELECT * FROM RSP_SESSION WHERE Login = :login AND `SessionTag` = :session_tag LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':login', $_SESSION['user']['id'], PDO::PARAM_INT);
-    $stmt->bindParam(':session_tag', $_SESSION['user']['session_tag'], PDO::PARAM_STR);
-    $stmt->execute();
+                    <h5 class="mb-5">Editace uživatele</h5>
+<?php include 'include/applet/a_user_admin.php'; ?>
+    <div class="form-group">
+        <label for="editorNote">Poznámka události</label>
+        <textarea class="form-control" id="editorNote" rows="2" placeholder="Zadejte poznámku k události"></textarea>
+    </div>
 
-    if ($stmt->rowCount() > 0) {
-        $session = $stmt->fetch();
-        echo '<p>Session Hash: ' . htmlspecialchars($session['SessionTag']) . '</p>';
-    }
-}
-?>
+    <div class="form-buttons">
+        <button class="btn btn-success" onclick="aPost()">Odeslat</button>
+    </div>
 </div>
 
 <!-- Messages -->
@@ -47,28 +43,41 @@ if (isset($_SESSION['user'])) {
 </div>
 <script>
     $( document ).ready(function () {
-    articlesLoad(3,"21,22,24");
-    messagesLoad(0,0);
+    aFormEmpty();
+    usersLoad(0,0);
+    messagesLoad(4,0);
     setLayout(3);
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
-    if (index=="UsrAdm") {window.location.replace('user_admin.php');}
+    if (index=="UsrNew") {aFormEmpty();condLayout(1,3);condLayout(2,3);}
+    if (index=="UsrAdm") {}
     if (index=="EdiAdm") {window.location.replace('edition_admin.php');}
     if (index=="ArtRed") {window.location.replace('article_redactor.php');}
     if (index=="ArtOpp") {window.location.replace('article_opponent.php');}
-    if (index=="ArtNew") {window.location.replace('article_author.php');}
     if (index=="ArtAut") {window.location.replace('article_author.php');}
     if (index=="Profile") {window.location.replace('profile.php');}
     if (index=="Message") {condLayout(3,2);}
 }; 
-function articleClick(index,version){
+function userClick(index,version){
     console.log('Article:'+index+','+version);
-    messagesLoad(1,index);
+    messagesLoad(4,index);
+    aFormLoad(index);
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
 };
+function aPost(){
+    aUserPost($("#editorNote").val());
+}
+function onDone (it) {
+    if (it.value==0) {
+        usersLoad(0,0);
+        messagesLoad(4,0);
+        aFormEmpty();
+        condLayout(1,3);condLayout(2,3);        
+    }
+}
 </script>
 
 

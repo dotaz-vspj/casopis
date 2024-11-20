@@ -1,6 +1,5 @@
 <?php ?>
         <h5 class="mb-5" id="edit_header">Vložení/úprava článku</h5>
-        <form action="javascript:void(0);">
             <div class="form-group">
                 <label for="articleTitle">Název článku</label>
                 <input type="text" class="form-control" id="articleTitle" placeholder="Zadejte název článku">
@@ -58,7 +57,6 @@
 
                 <button class="btn btn-success" onclick="aPost()">Uložit</button>
             </div>
-        </form>
          <!-- Modal for new author registration -->
 <div class="modal fade" id="newAuthorModal" tabindex="-1" aria-labelledby="newAuthorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -117,7 +115,7 @@
         $.getJSON( "include/ajax/getUsers.php?typ="+type+"&id="+index, function( data ) {
             var l_html="<option value=\"0\" disabled selected>Vyberte autora</option>\n";
             $.each(data, function(i,e) {if (e) l_html = l_html.concat(
-                '<option value="',e['ID'],'">',e['ID'],':',((e['TitleF']!=null)?e['TitleF']+' ':''),e['FirstName'],' ',e['LastName'],((e['TitleP']!=null)?', '+e['TitleP']:''),"</option>\n");
+                '<option value="',e['ID'],'">',e['ID'],':',((e['TitleF']!=null)?e['TitleF']+' ':''),e['LastName'],', ',e['FirstName'],((e['TitleP']!=null)?', '+e['TitleP']:''),"</option>\n");
             });
             $( "#registeredAuthors" ).html( l_html );
         });    
@@ -160,7 +158,8 @@
     }
     function aFormLoad(index) {
         $.getJSON( "include/ajax/getArticle.php?id="+index, function( data ) {
-            $("#edit_header").html("Úprava článku ID="+data[0]['ID']+'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
+            $("#edit_header").html("Úprava článku "//
+              +'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
             $("#articleTitle").val(data[0]['Title']);
             $("#articleID").val(data[0]['ID']);
             $("#authors").val(data[0]['authors']);
@@ -190,6 +189,10 @@
             "note" : "#editorNote"
         };
         $(".alert-danger").removeClass("alert-danger");
+        if ($('#document').val()) if (($("#document")[0].files[0].size / 1024)  > 5000) {
+            $('#document').addClass("alert-danger");alert("Dokument přesahuje 5MB");return false;}
+        if ($('#image').val()) if (($("#image")[0].files[0].size / 1024)  > 1000) {
+            $('#image').addClass("alert-danger");alert("Obrázek přesahuje 1MB");return false;}
         var formData = new FormData();
         formData.append("articleID", $('#articleID').val());
         formData.append("edition", $('#edice').val());

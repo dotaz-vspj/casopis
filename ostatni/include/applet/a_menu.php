@@ -6,10 +6,16 @@
             Nový uživatel</center>
         </li>
 <?php } ?>
-<li class="nav-item" onclick="menuItemClick('UsrAdm');"><center>
+        <li class="nav-item" onclick="menuItemClick('UsrAdm');"><center>
             <img style="height:65px; width:50px; object-fit: contain; " src="<?php echo "{$img_dir}";?>usr_adm.png" alt=""/><br/>
             Správa uživatelů</center>
         </li>
+<?php if ($scriptName=="edition_admin") {  ?>
+        <li class="nav-item" onclick="menuItemClick('EdiNew');"><center>
+            <img style="height:65px; width:50px; object-fit: contain; " src="<?php echo "{$img_dir}";?>art_my.png" alt=""/><br/>
+            Nové vydání</center>
+        </li>
+<?php } ?>
         <li class="nav-item" onclick="menuItemClick('EdiAdm');"><center>
             <img style="height:65px; width:50px; object-fit: contain; " src="<?php echo "{$img_dir}";?>edi_adm.png" alt=""/><br/>
             Správa vydání</center>

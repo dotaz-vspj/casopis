@@ -19,8 +19,8 @@ if (($userID=="")||(!is_numeric($userID))) {
     $response=array("status"=>2,"param"=>'ID',"message"=>"Chybné číslo záznamu USER");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
-if (($lastName=="")||($firstName=="")) {
-    $response=array("status"=>2,"param"=>(($lastName=="")?'LastName':'FirstName'),"message"=>"Chybí povinný parametr");
+if (($lastName=="")||($firstName=="")||($email=="")) {
+    $response=array("status"=>2,"param"=>(($lastName=="")?'LastName':(($firstName=="")?'FirstName':'Mail')),"message"=>"Chybí povinný parametr");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -50,10 +50,12 @@ if ($active==1) {
             . ' where Active=1 and ID<>'.$userID.' and (Login="'.$userName.'" or Mail="'.$email.'") group by Login';
     $result = $conn->query($sql);
     [$res,$lg]=$result->fetch();
+//        $response=array("status"=>2,"param"=>(($lg==1)?'Login':'Mail'),"message"=>"VAR:".$userName.'-'.$userID.'-'.$res.'-'.$lg."\n".$sql);
+//        echo json_encode($response, JSON_PRETTY_PRINT);die;
     if ($res!=0) {
         $response=array("status"=>2,"param"=>(($lg==1)?'Login':'Mail'),"message"=>"Duplicitní aktivní záznam");
         echo json_encode($response, JSON_PRETTY_PRINT);die;
-}   } else $_POST['Active']=0;
+}   } else {$_POST['Active']=0;$userName=null;}
 $titleBefore = $_POST['TitleF'] ?? null;
 if ($titleBefore=="") $titleBefore=null;
 $titleAfter = $_POST['TitleP'] ?? null;
@@ -69,11 +71,13 @@ if ($userID==0) try { //vkládání
         $stmt = $conn->prepare("INSERT INTO RSP_USER (FirstName, LastName, TitleF, TitleP, Func, Phone, Mail, Login, Password, Active) "
              ." VALUES (?, ?, ?, ?, ?, ?, ?, ?, null, ?)");
         $stmt->execute([$firstName, $lastName, $titleBefore, $titleAfter, $Func, $phone, $email, $userName, $active]);
-        $in = $conn->lastInsertId(); //insert_id; 
+        $userID = $conn->lastInsertId(); //insert_id article; 
 
-        $response = ['status' => 1, 'id' => $conn->lastInsertId() , 'message' => 'Osoba úspěšně zaregistrována'];
+        $response = ['status' => 1, 'id' => $userID , 'message' => 'Osoba úspěšně zaregistrována'];
     } catch (PDOException $e) {
-        $response = ['status' => 3, 'id' => "" , 'message' => $Func.'/Chyba při vkládání do databáze: ' . $e->getMessage()];
+        $response = ['status' => 3, 'id' => "" , 'message' => 'Chyba při vkládání do databáze: ' . $e->getMessage()];
+        echo json_encode($response, JSON_PRETTY_PRINT);die;
+
     }
 else try {
         $stmt = $conn->prepare('UPDATE RSP_USER set FirstName=:fn, LastName=:ln, TitleF=:tf, TitleP=:tp, Func=:f, Phone=:p, Mail=:m, Login=:l, Active=:a where ID=:whereid');
@@ -82,13 +86,23 @@ else try {
 
         $response = ['status' => 1, 'id' => $userID , 'message' => 'Osoba úspěšně upravena'];
     } catch (PDOException $e) {
-        $response = ['status' => 3, 'id' => "" , 'message' => $Func.'/Chyba při přepisu databáze: ' . $e->getMessage()];
+        $response = ['status' => 3, 'id' => "" , 'message' => 'Chyba při přepisu databáze: ' . $e->getMessage()];
+        echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
 if ($password!="") try {    
         $stmt = $conn->prepare('UPDATE RSP_USER set password=:pass where ID=:whereid');
         $stmt->execute(['pass' => password_hash($password, PASSWORD_DEFAULT), 'whereid' => $userID]);
     } catch (PDOException $e) {
-        $response = ['status' => 3, 'id' => "" , 'message' => $Func.'/Chyba při zadání hesla: ' . $e->getMessage()];
+        $response = ['status' => 3, 'id' => "" , 'message' => 'Chyba při zadání hesla: ' . $e->getMessage()];
+        echo json_encode($response, JSON_PRETTY_PRINT);die;
+    }
+
+try {    
+        $stmt = $conn->prepare('INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) '
+                . 'VALUES (now(), :creator, NULL, NULL, 10, :note, :data, NULL)');
+        $stmt->execute([ 'creator' => (($myID==0)?null:$myID), 'note' => $_POST["note"], 'data' => "{ID:".$userID."}"]);
+    } catch (PDOException $e) {
+        $response = ['status' => 3, 'id' => "" , 'message' => 'Chyba při logování: ' . $e->getMessage()];
     }
 
 echo json_encode($response);

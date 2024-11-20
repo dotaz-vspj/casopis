@@ -34,24 +34,6 @@ if ($myFunc>22) {Header("location:index.php");die;} //at least "Author"
 
 </div>
 <script>
-    var style=-1;
-    var styles={0:{  //1-3-6-2
-            "list-out":["col-sm-3"],
-            "main-out":["col"],
-            "messages-out":["col-sm-2","mx-3","border","rounded-3"]},
-                1:{  //1-3-0-6
-            "list-out":["col"],
-            "main-out":[],
-            "messages-out":["col-sm-6","mx-3","border","rounded-3"]},
-                2:{  //1-3-(6)-4
-            "list-out":["col-sm-3"],
-            "main-out":["col-sm-6","bg-primary"],
-            "messages-out":["overlayed","col-sm-4","mx-3","bg-dark","border-double","border-3","rounded-2"]},
-                3:{  //1-3-8-0
-            "list-out":["col-sm-3"],
-            "main-out":["col","bg-primary"],
-            "messages-out":[]}};
-
     $( document ).ready(function () {
     articlesLoad(0,0);
     messagesLoad(0,0);
@@ -76,25 +58,6 @@ function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
     setLayout(index % 3);
 };
-function setLayout(mode) {
-    if (style!=-1) {
-        Object.keys(styles[style]).forEach(key => {
-           styles[style][key].forEach(value => {
-           $("#"+key).removeClass(value); 
-           });
-        });
-    }
-    style=mode;
-    Object.keys(styles[style]).forEach(key => {
-       $("#"+key).css("display",((styles[style][key].length==0)?"none":"block"));
-       styles[style][key].forEach(value => {
-       $("#"+key).addClass(value); 
-       });
-    });
-}
-function condLayout(cond,mode){
-    if (style==cond) {setLayout(mode);return true;}
-    }
 </script>
 
 

@@ -1,8 +1,12 @@
-/* Placeholder pictures */
+/* Jana - odsazení headre a footer - nemazat */
 body{
     padding:130px 0 100px 0;
  
 }
+li{
+    color: #7473a7;
+}
+/* Placeholder pictures */
 .placeholder {
     display: block;
     background-color: #777;
@@ -46,9 +50,9 @@ body{
 
 /* Custom positioning */
 
-/* main {
+main {
     margin-top: 10rem;
-} */
+}
 /* header { margin-bottom: 10rem !important; } */
 header .navbar { padding: 1.5em; }
 header .navbar-brand img { height: 2em; }
@@ -65,10 +69,14 @@ header .navbar-brand {
 header .navbar .nav-item a {
     color: white;
 }
+header .navbar .nav-item a:hover {
+    color: #777;
+}
 
 header .navbar .nav-item.active {
     border: solid 1px white;
 }
+
 
 footer p {
     margin-bottom: 0;
@@ -260,6 +268,67 @@ form.editor textarea {
     margin-left: 10px;
     align-self: flex-start;
 }
+/*Přidat kod do style.css
+
+Vyhledávací pole a našeptávání - Ondra */
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+#search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.25s linear;
+    background-color: #12146a;
+    color: white;
+}
+
+#search:focus {
+    background-color: white;
+    color: black;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 45px; /* Posun pod vyhledávací pole */
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    display: none; /* Skryté, dokud nejsou k dispozici návrhy */
+    max-height: 200px; /* Maximální výška pro rolování */
+    overflow-y: auto;
+    border-radius: 4px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion-item strong {
+    display: block;
+    font-size: 16px;
+    color: #000;
+}
+
+.suggestion-item small {
+    display: block;
+    font-size: 12px;
+    color: #555;
+}
+
+
 /* Jana AboutUs - nemazat */
 
 .nav-tabs .nav-link {
