@@ -66,37 +66,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
             </div>
             <div class="modal-body">
-                <form id="newAuthorForm">
-                    <div class="mb-3">
-                        <label for="titleBefore" class="form-label">Titul před</label>
-                        <input type="text" class="form-control" id="titleBefore" placeholder="např. Ing.">
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Příjmení *</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Příjmení" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">Jméno *</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Jméno" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="titleAfter" class="form-label">Titul za</label>
-                        <input type="text" class="form-control" id="titleAfter" placeholder="např. Ph.D.">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">E-mail *</label>
-                        <input type="email" class="form-control" id="email" placeholder="E-mail" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="login" class="form-label">Login</label>
-                        <input type="text" class="form-control" id="login" placeholder="Uživatelské jméno">
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Telefon</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Telefonní číslo">
-                    </div>
+<?php include 'include/applet/a_user_admin.php'; ?>
                     <button type="button" class="btn btn-primary" onclick="registerNewAuthor()">Registrovat</button>
-                </form>
             </div>
         </div>
     </div>
@@ -230,60 +201,15 @@
     }
     
     function registerNewAuthor() { //Aleš
-      var inField={
-            "": "",
-            "ID" : "",
-            "Login" : "#login",
-            "Mail" : "#email",
-            "passwd1" : "",
-            "passwd2" : "",
-            "FirstName" : "#firstName",
-            "LastName" : "#lastName",
-            "TitleP" : "#titleAfter",
-            "TitleF" : "#titleBefore",
-            "Phone" : "#phone",
-            "Func" : "",
-            "Active" : "",
-            "note" : "#editorNote"
-        };
-        $(".alert-danger").removeClass("alert-danger");
-        const firstName = $("#firstName").val().trim();
-        const lastName = $("#lastName").val().trim();
-        const email = $("#email").val().trim();
-        // Validace povinných polí
-//        if (!firstName || !lastName || !email) {
-//            alert("Prosím, vyplňte všechna povinná pole: Jméno, Příjmení a E-mail.");
-//            return; // Zabránění odeslání formuláře
-//        }
-        $.post("include/ajax/registerAuthor.php", {
-            ID: 0,
-            TitleF: $("#titleBefore").val(),
-            LastName: lastName,
-            FirstName: firstName,
-            TitleP: $("#titleAfter").val(),
-            Func: 24,
-            Active: true,
-            Mail: $("#email").val(),
-            Login: $("#login").val(),
-            Phone: $("#phone").val()
-        },
-        function(data, status) {
-            if (status === "success") {
-                const response = JSON.parse(data);
-                if (response.status === 1) {
-                    alert("Autor byl úspěšně registrován.");
-                    $('#newAuthorModal').modal('hide');
-                    filterAuthors();
-                    // $( "#registeredAuthors" ).val( response.id );
-                } else {
-                    if (inField[response["param"]]!="") {
-                        $(inField[response["param"]]).addClass("alert-danger");}
-                    alert("Chyba při registraci autora: " + response.message);
-                }
-            } else {
-                alert("Nepodařilo se odeslat data na server.");
-            }
-        });
+        aUserPost("")
     }
+    function onUserDone (it) {
+    if (it.value==0) {
+        aUserEmpty();
+        $('#newAuthorModal').modal('hide');
+        filterAuthors();
+    }
+}
+
 </script>
        

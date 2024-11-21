@@ -8,7 +8,8 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 ?>
 <?php include 'include/header.php'; ?>
 
-<div class="row w-100" style="min-height: 100vh; margin:0 auto 0 auto; padding-top: 90px; ">
+<div  id="tt-application">
+<div  class="tt-row">
 <!-- Menu -->
 <div class="col-sm-1 bg-light" id="leftmenu-out" style="padding-top: 24px; ">
 <?php include 'include/applet/a_menu.php'; ?>
@@ -38,7 +39,7 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 <?php include 'include/applet/a_messages.php'; ?>
 </div>
 
-</div>
+</div></div>
 <script>
     var ArticleStatus=0;
     $( document ).ready(function () {

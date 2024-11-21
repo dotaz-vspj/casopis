@@ -1,37 +1,21 @@
          <input type="hidden" id="ID" name="ID" value="0">
-               <div class="row form-group">
-                    <div class="col-md-2">
-                        <label class="m-2" for="title_f">Tit.</label>
-                        <input type="text" class="form-control" id="title_f" name="title_f">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="m-2" for="first_name">Jméno (*)</label>
-                        <input type="text" class="form-control" id="first_name" name="first_name">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="m-2" for="last_name">Příjmení (*)</label>
-                        <input type="text" class="form-control" id="last_name" name="last_name">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="m-2" for="title_p">Tit.</label>
-                        <input type="text" class="form-control" id="title_p" name="title_p">
-                    </div>
-                </div>
-                <div class="row form-group">
-                        <div class="col-md-6">
-                            <label class="m-2" for="email" required="required">Email (*!)</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="m-2" for="phone">Telefon</label>
-                            <input type="text" class="form-control" id="phone" name="phone">
-                        </div>
-                </div>
-                <div class="row">
+               <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="m-2" for="username">Přihlašovací jméno (!)</label>
                             <input type="text" class="form-control" id="username" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label class="m-2" for="email" required="required">Email (*!)</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="m-2" for="password" required="required">Heslo</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label class="m-2" for="password_confirm" required="required">Potvrzení hesla</label>
+                            <input type="password" class="form-control" id="password_confirm" name="password_confirm">
                         </div>
 <?php if ($scriptName=="user_admin") { ?>
                         <div class="form-group">
@@ -49,24 +33,30 @@ while ($U=$result->fetchObject()) { ?>
 <?php } else { ?>
          <input type="hidden" id="funkce" name="funkce" value="23" onchange="onUserDone(this);">
 <?php } ?>
+                        <div style="font-size: 0.6em;"><br/>Vysvětlivka: Položky s (*) jsou povinné; položky s (!) musí být unikátní v rámci systému</div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="m-2" for="password" required="required">Heslo</label>
-                            <input type="password" class="form-control" id="password" name="password">
+                            <label class="m-2" for="first_name">Jméno (*)</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name">
                         </div>
                         <div class="form-group">
-                            <label class="m-2" for="password_confirm" required="required">Potvrzení hesla</label>
-                            <input type="password" class="form-control" id="password_confirm" name="password_confirm">
+                            <label class="m-2" for="last_name">Příjmení (*)</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6" style="font-size: 0.6em;">
-                    <br/>Vysvětlivka: Položky s (*) jsou povinné; položky s (!) musí být unikátní v rámci systému
-                    </div>
-                    <div class="col-md-6 form-group">
-                         <div class="form-group" style="display:<?php echo (($scriptName=="user_admin")?"block":"none");?> ;">
+                        <div class="form-group">
+                            <label class="m-2" for="title_f">Titul před jménem</label>
+                            <input type="text" class="form-control" id="title_f" name="title_f">
+                        </div>
+                        <div class="form-group">
+                            <label class="m-2" for="title_p">Titul za jménem</label>
+                            <input type="text" class="form-control" id="title_p" name="title_p">
+                        </div>
+                        <div class="form-group">
+                            <label class="m-2" for="phone">Telefon</label>
+                            <input type="text" class="form-control" id="phone" name="phone">
+                        </div>
+                        <div class="form-group" style="display:<?php echo (($scriptName=="user_admin")?"block":"none");?> ;">
                             <label class="m-2" for="active">Aktivní</label>
                             <input type="checkbox" id="active" name="active" checked>
                         </div>

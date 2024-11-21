@@ -8,21 +8,21 @@ include 'include/session_open.php'; ?>
 if ($myFunc>=20) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
-
-<div class="row w-100" style="min-height: 100vh; margin:0 auto 0 auto; padding-top: 90px; ">
+<div  id="tt-application">
+<div  class="tt-row">
 <!-- Menu -->
 <div class="col-sm-1 bg-light" id="leftmenu-out" style="padding-top: 24px; ">
 <?php include 'include/applet/a_menu.php'; ?>
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+<div class="pt-3" id="list-out"><div style="width:800px; ">
                     <h5 class="mb-5">Seznam uživatelů</h5>
 <?php include 'include/applet/a_users.php'; ?>
 </div></div>
 
 <!-- Main -->
-<div class="bg-light mx-3 pt-3" id="main-out" onclick="condLayout(2,0);">
+<div class="bg-light mx-3 pt-3 overflow-x-auto" id="main-out" onclick="condLayout(2,0);">
                     <h5 class="mb-5">Editace uživatele</h5>
 <?php include 'include/applet/a_user_admin.php'; ?>
     <div class="form-group">
@@ -36,17 +36,17 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 </div>
 
 <!-- Messages -->
-<div class="mx-3 bg-light" id="messages-out" onclick="condLayout(0,2);">
+<div class="mx-3 bg-light overflow-x-auto" id="messages-out" onclick="condLayout(0,2);">
 <?php include 'include/applet/a_messages.php'; ?>
 </div>
 
-</div>
+</div></div>
 <script>
     $( document ).ready(function () {
-    aFormEmpty();
+    aUserEmpty();
     usersLoad(0,0);
     messagesLoad(4,0);
-    setLayout(3);
+    setLayout(2);
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
@@ -62,7 +62,7 @@ function menuItemClick(index){
 function userClick(index,version){
     console.log('Article:'+index+','+version);
     messagesLoad(4,index);
-    aFormLoad(index);
+    aUserLoad(index);
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
@@ -70,11 +70,11 @@ function messageClick(index, article, eventtype) {
 function aPost(){
     aUserPost($("#editorNote").val());
 }
-function onDone (it) {
+function onUserDone (it) {
     if (it.value==0) {
         usersLoad(0,0);
         messagesLoad(4,0);
-        aFormEmpty();
+        aUserEmpty();
         condLayout(1,3);condLayout(2,3);        
     }
 }

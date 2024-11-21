@@ -16,7 +16,7 @@
 function aPost(){
     aUserPost("");
 }
-function onDone (it) {
+function onUserDone (it) {
     if (it.value==0) {
         window.location.replace('index.php');
     }

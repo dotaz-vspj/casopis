@@ -12,16 +12,17 @@ if ($_POST["articleID"]<=0){
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 //zápis do db
-if (($_POST["action"]=="2")||($_POST["action"]=="4")) { //SetStatus
+if (($_POST["action"]=="2")||($_POST["action"]=="4")) { //K recenzi nebo Přijato(=někdo vrátil)
   [$value,$event]=explode(',',$_POST["status"]);
   try {
-    $toChange=false;if ($_POST["action"]=="4") {
-        $sql="select count(R.Person) from `RSP_ARTICLE_ROLE` R left join (select * from `RSP_EVENT` order by Datum desc limit 1) E on E.Autor=R.Person "
-            . "where Article=".$_POST["articleID"]." and Role=21 and Active_to is null and Type not in (5,12)"; //najdi počet aktivní recenzenty, co nepřijali/nerecenzovali
+    $toChange=false;if ($_POST["action"]=="4") { //pouze stav K recenzi se dá poslat dál
+        $sql="select count(R.Person) from `RSP_ARTICLE_ROLE` R " //najdi (počet) nerozhodnutých recenzentů, co nepřijali/nerecenzovali
+                . "where R.Article=".$_POST["articleID"]." and Role=21 and Active_to is null "
+                . "and (SELECT type from `RSP_EVENT` E where E.Autor=R.Person order by ID desc limit 1) not in (5,12)"; 
         $result = $conn->query($sql);
         $toChange = ($result->fetch()[0]==0);
     }
-    if ($toChange||($event==13)) {
+    if ($toChange||($event==13)) {  //všichni OK nebo Odmítnout
         $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
         $result = $conn->query($sql);
     }

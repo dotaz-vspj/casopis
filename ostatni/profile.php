@@ -7,14 +7,15 @@ if ($myFunc>22) {Header("location:index.php");die;}
 ?>
 <?php include 'include/header.php'; ?>
 
-<div class="row w-100" style="min-height: 100vh; margin:0 auto 0 auto; padding-top: 90px; ">
+<div  id="tt-application">
+<div  class="tt-row">
 <!-- Menu -->
 <div class="col-sm-1 bg-light" id="leftmenu-out" style="padding-top: 24px; ">
 <?php include 'include/applet/a_menu.php'; ?>
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+<div class="pt-3 overflow-hidden" id="list-out"><div class="h-100" style="width:800px;">
                     <h5 class="mb-5">Moje články</h5>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
@@ -40,11 +41,11 @@ if (isset($_SESSION['user'])) {
 </div>
 
 <!-- Messages -->
-<div class="mx-3 bg-light" id="messages-out" onclick="condLayout(0,2);">
+<div class="mx-3 bg-light h-100" id="messages-out" onclick="condLayout(0,2);" style="overflow-y: scroll;">
 <?php include 'include/applet/a_messages.php'; ?>
 </div>
 
-</div>
+</div></div>
 <script>
     $( document ).ready(function () {
     articlesLoad(3,"21,22,24");

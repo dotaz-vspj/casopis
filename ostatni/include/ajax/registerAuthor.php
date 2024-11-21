@@ -100,7 +100,7 @@ if ($password!="") try {
 try {    
         $stmt = $conn->prepare('INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) '
                 . 'VALUES (now(), :creator, NULL, NULL, 10, :note, :data, NULL)');
-        $stmt->execute([ 'creator' => (($myID==0)?null:$myID), 'note' => $_POST["note"], 'data' => "{ID:".$userID."}"]);
+        $stmt->execute([ 'creator' => (($myID==0)?null:$myID), 'note' => (($_POST["note"]==NULL)?"":$_POST["note"]), 'data' => "{ID:".$userID."}"]);
     } catch (PDOException $e) {
         $response = ['status' => 3, 'id' => "" , 'message' => 'Chyba při logování: ' . $e->getMessage()];
     }

@@ -9,7 +9,7 @@
         <select class="form-control" id="articleAccept">
             <option value="" disabled selected>--nastavte zvolený postup--</option>
             <option value="7,12">Přijmout oponenturu</option>
-            <option value="4,13">Odmítnout oponenturu</option>
+            <option value="2,13">Odmítnout oponenturu</option>
         </select>
     </div>
     <div id="maketar" class="row" style="display:block;">

@@ -7,14 +7,15 @@ if ($myFunc>22) {Header("location:index.php");die;}
 ?>
 <?php include 'include/header.php'; ?>
 
-<div class="row w-100" style="min-height: 100vh; margin:0 auto 0 auto; padding-top: 90px; ">
+<div  id="tt-application">
+<div  class="tt-row">
 <!-- Menu -->
 <div class="col-sm-1 bg-light" id="leftmenu-out" style="padding-top: 24px; ">
 <?php include 'include/applet/a_menu.php'; ?>
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+<div class="pt-3" id="list-out"><div style="width:800px; ">
                     <h5 class="mb-5">Moje články</h5>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
@@ -29,14 +30,14 @@ if ($myFunc>22) {Header("location:index.php");die;}
 <?php include 'include/applet/a_messages.php'; ?>
 </div>
 
-</div>
+</div></div>
 <script>
     $( document ).ready(function () { 
     articlesLoad(3,"22,24"); // autor nebo regAutor nebo creator
     messagesLoad(2,0);
     editionsLoad(1,0); // nepublikované
     authorsLoad(1,0);  // Jen neadminy
-    setLayout(1);
+    setLayout(2);
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
