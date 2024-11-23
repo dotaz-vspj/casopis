@@ -175,6 +175,8 @@ CREATE TABLE `RSP_EDITION` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+INSERT INTO `RSP_EDITION` VALUES (1,'Softwarové inženýrství pro umělou inteligenci ','International Conference on AI Engineering – Software Engineering for AI (CAIN) ','2024-10-30',1);
+
 --
 -- Table structure for table `RSP_EVENT`
 --
