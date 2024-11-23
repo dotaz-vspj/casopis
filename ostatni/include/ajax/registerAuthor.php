@@ -66,6 +66,10 @@ if ($userName=="") $userName=null;
 
 $Func=23;if ($myFunc<=22) $Func=24;if ($myFunc<20) $Func=$_POST['Func'];
 if (($Func=="")||(!is_numeric($Func))) $Func=23;
+if (($Func<$myFunc)&&($userID!=$myID)) {
+    $response=array("status"=>4,"param"=>'passwd2',"message"=>"Nedostatečná práva k operaci");
+    echo json_encode($response, JSON_PRETTY_PRINT);die;
+}
 
 if ($userID==0) try { //vkládání
         $stmt = $conn->prepare("INSERT INTO RSP_USER (FirstName, LastName, TitleF, TitleP, Func, Phone, Mail, Login, Password, Active) "

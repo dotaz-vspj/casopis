@@ -13,7 +13,7 @@ if (isset($_SESSION['user']['session_tag'])) {
 }
 ?>
 
-<div class="container">
+<div class="container" style="padding-top:150px">
     <div class="row justify-content-center">
         <div class="col-sm-6 p-5 text-center login-register-form m-5">
             <form action="include/login.php" method="post">
@@ -25,6 +25,7 @@ if (isset($_SESSION['user']['session_tag'])) {
                 <label class="m-2" id="password">Heslo</label>
                 <input type="password" class="form-control" id="password" name="password">
             </div>
+            <div style="height:2em;"></div>
             <div class="form-group">
                 <button class="btn btn-size-mid box-btn btn-dark" type="submit">Přihlásit</button>
             </div>

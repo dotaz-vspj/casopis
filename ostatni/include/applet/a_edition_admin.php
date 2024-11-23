@@ -52,6 +52,7 @@
             if (status === "success") {
                 if (d["status"]==1) {
                     alert(d["message"]);
+                    $("#editorNote").val("");
                     editionsLoad(0,0);
                     messagesLoad(5,0);
                 } else {

@@ -49,6 +49,9 @@ while ($U=$result->fetchObject()) { ?>
 <?php } else { ?>
          <input type="hidden" id="funkce" name="funkce" value="23" onchange="onUserDone(this);">
 <?php } ?>
+                        <div style="font-size: 0.6em;">
+                            <br/>Vysvětlivka: Položky s (*) jsou povinné; položky s (!) musí být unikátní v rámci systému
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -59,18 +62,12 @@ while ($U=$result->fetchObject()) { ?>
                             <label class="m-2" for="password_confirm" required="required">Potvrzení hesla</label>
                             <input type="password" class="form-control" id="password_confirm" name="password_confirm">
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6" style="font-size: 0.6em;">
-                    <br/>Vysvětlivka: Položky s (*) jsou povinné; položky s (!) musí být unikátní v rámci systému
-                    </div>
-                    <div class="col-md-6 form-group">
-                         <div class="form-group" style="display:<?php echo (($scriptName=="user_admin")?"block":"none");?> ;">
+                        <div class="form-group" style="display:<?php echo (($scriptName=="user_admin")?"block":"none");?> ;">
                             <label class="m-2" for="active">Aktivní</label>
                             <input type="checkbox" id="active" name="active" checked>
                         </div>
                     </div>
+                    <div style="height:2em;"></div>
                 </div>
 <script>
     function aUserEmpty() {

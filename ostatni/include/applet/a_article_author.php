@@ -183,7 +183,7 @@
             success: function(response) {
                 d=$.parseJSON(response);
                 if (d["status"]==1) {
-                    articlesLoad(1,"22,24"); // autor nebo regAutor
+                    articlesLoad(3,"22,24"); // autor nebo regAutor
                     messagesLoad(0,0);
                     setLayout(1);
                     alert("Článek uložen.");

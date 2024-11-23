@@ -166,11 +166,6 @@ input[type="search"]:focus {
     background-color: #f2f9ff;
 }
 
-.login-register-form .form-group {
-    /* margin-top: 3rem; */
-    min-height: 120px;
-}
-
 .login-register-form button {
     padding: 6px 12px;
     line-height: 2em;
@@ -239,7 +234,7 @@ form.editor textarea {
     justify-content: flex-start;
     flex-wrap: nowrap;
     margin-top: 90px; /* Odsazení pod header */
-   height:100vh;/* Odsazení nad footer */
+    margin-bottom: 55px; /* Odsazení nad footer */
     min-height: calc(100vh - 145px); /* Výška mezi header a footer */
     position: relative;
     overflow-x: hidden;
@@ -395,4 +390,37 @@ Vyhledávací pole a našeptávání - Ondra */
 }
 #contend {
     width: 50%;
+}
+
+#leftmenu-out .nav-item img {
+    filter: grayscale(1) opacity(0.5);
+    object-fit: contain;
+}
+
+#leftmenu-out .nav-item.active {
+    background-color: white;
+    color:#000;
+}
+
+#leftmenu-out .nav-item.active img {
+    filter: grayscale(0);
+    transition: all 0.25s ease-in-out;
+}
+
+#leftmenu-out .nav-item {
+    color: grey;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+#leftmenu-out .nav-item:hover {
+    background-color: white;
+}
+
+#leftmenu-out .nav-item:hover img {
+    filter: grayscale(0) opacity(1);
+}
+
+#leftmenu-out {
+    margin-right: 10px;
 }
