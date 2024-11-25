@@ -3,13 +3,44 @@
         <label for="articleTitle">Název článku</label>
         <input type="text" class="form-control" id="articleTitle" disabled>
         <input type="hidden" id="articleID" name="articleID">
+        <label for="articleStatus">Stav článku</label>
+        <select class="form-control" id="articleStatus" disabled>
+<?php
+$sql="SELECT * FROM `RSP_CC_ARTICLE_Stat`";
+$result = $conn->query($sql);
+while ($st=$result->fetchObject()) {?>
+        <option value="<?php echo $st->ID; ?>"><?php echo $st->descr; ?></option>
+<?php } ?>
+        </select>
+        <div id="oppHeader"></div>
+    </div>
+    <div id="article_catch" class="row" style="display:none;">
+        <label for="articleCatch">Převzít článek</label>
+        <span style="color:red;">Pozor, článek je zpracováván jinou osobou, přepnutí následujícího voliče a odeslání způsobí násilné převzetí.</span>
+        <select class="form-control" id="articleCatch">
+            <option value="" disabled selected>--Potvrďte převzetí článku--</option>
+            <option value="10,17">Převzít článek</option>
+        </select>
     </div>
     <div id="article_accept" class="row" style="display:none;">
+        <label for="articleVersion">Aktivní verze článku</label>
+        <select class="form-control" id="articleVersion">
+        </select>
         <label for="articleAccept">Přijmout článek</label>
         <select class="form-control" id="articleAccept">
             <option value="" disabled selected>--nastavte zvolený postup--</option>
-            <option value="2,6">Přijmout článek</option>
-            <option value="3,7">Odmítnout článek</option>
+            <option value="12,12">Přijmout článek (->nastavení oponentů)</option>
+            <option value="20,16">Vrátit článek k úpravě</option>
+            <option value="11,11">Odmítnout článek (nevratné!!!)</option>
+        </select>
+    </div>
+    <div id="article_publish" class="row" style="display:none;">
+        <label for="articlePublish">Přijmout článek</label>
+        <select class="form-control" id="articlePublish">
+            <option value="" disabled selected>--nastavte zvolený postup--</option>
+            <option value="5,15">Publikovat článek</option>
+            <option value="10,21">Vrátit článek do redakce</option>
+            <option value="11,11">Odmítnout článek (nevratné!!!)</option>
         </select>
     </div>
     <div id="select_opponents" class="row" style="display:none;">
@@ -38,11 +69,6 @@
             </div>
 
     </div>
-    <div id="maketar" class="row" style="display:block;">
-    <H1>MAKETA redaktor</H1>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed convallis magna eu sem. Sed ac dolor sit amet purus malesuada congue. In convallis. Etiam egestas wisi a erat. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Et harum quidem rerum facilis est et expedita distinctio. Donec vitae arcu. Maecenas libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Curabitur bibendum justo non orci. Praesent in mauris eu tortor porttitor accumsan. Fusce suscipit libero eget elit. Curabitur sagittis hendrerit ante.</p>
-        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum fermentum tortor id mi. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. Integer imperdiet lectus quis justo. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Maecenas libero. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Aenean id metus id velit ullamcorper pulvinar. Maecenas lorem. Aliquam erat volutpat. Sed elit dui, pellentesque a, faucibus vel, interdum nec, diam. Integer malesuada. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Proin in tellus sit amet nibh dignissim sagittis. Curabitur sagittis hendrerit ante. Aliquam in lorem sit amet leo accumsan lacinia. Etiam dictum tincidunt diam. </p>
-    </div>
     <div class="form-group">
         <label for="editorNote">Poznámka události</label>
         <textarea class="form-control" id="editorNote" rows="2" placeholder="Zadejte poznámku k události"></textarea>
@@ -62,11 +88,23 @@
             $( "#articlesFilter" ).html( l_html );
         });    
     }
+    function versionsLoad(type, index) {
+        $.getJSON( "include/ajax/getVersions.php?typ="+type+"&id="+index, function( data ) {
+            var l_html="";
+            $.each(data, function(i,e) {if (e) l_html = l_html.concat(
+                '<option value="',e['ID'],'">',e['ID'],':',e['Document']," [",e['Created'],"]</option>\n");
+            });
+            $( "#articleVersion" ).html( l_html );
+        });    
+
+    }
     function hidetabs(){
+        $("#article_catch").hide();
         $("#article_accept").hide();
+        $("#article_publish").hide();
         $("#select_opponents").hide();
-        $("#maketar").hide();
         $("#articleAccept").val("");
+        $("#articlePublish").val("");
     }
     function oppsLoad(type,index){
         $.getJSON( "include/ajax/getUsers.php?typ="+type+"&id="+index, function( data ) {
@@ -101,29 +139,30 @@
             $("#articleID").val(data[0]['ID']);
             $("#opponents").val(data[0]['opponents']);
             $("#selectedOpps").html("");
-            $.each(data[0]['opponents'].split(','),function(){
+            if (data[0]['opponents']) 
+              $.each(data[0]['opponents'].split(','),function(){
                 $("#selectedOpps").append($('<option>', {
                     value: this,
                     text: $("#registeredOpps option[value='"+this+"']").text()
                 }));
             });
-//            $("#articleText").val(data[0]['Abstract']);
             $("#editorNote").val("");
-//            $("#document").val("");
-//            $("#image").val("");
         });    
+        versionsLoad(0,index);
+        $.getJSON( "include/ajax/getOppSummary.php?id="+index, function( data ) {
+            $("#oppHeader").html('Stav recenzí: Přiděleno: '+data["sum"]+', přijato: '+data["acc"]+', schváleno: '+data["done"]);
+            
+         });    
     }
     function aPost() {
-      var isOK=false;
-      if (ArticleStatus==1) isOK=($("#articleAccept").val()!="");
-      if (ArticleStatus==2) isOK=true;
-      
-      if (isOK) 
+      const Choice=(($("#articleStatus").val()=="10")?$("#articleAccept").val():(($("#articleStatus").val()=="40")?$("#articlePublish").val():$("#articleCatch").val()));
+      if (($("#articleStatus").val()=="12")||(Choice&&(Choice!=""))) 
       $.post("include/ajax/setArticleRedactor.php",
         {
             articleID: $("#articleID").val(),
-            action: ArticleStatus,
-            status: $("#articleAccept").val(),
+            action: $("#articleStatus").val(),
+            status: Choice,
+            version: $("#articleVersion").val(),
             opponents: $("#opponents").val(),
             note: $("#editorNote").val()
         },
@@ -132,7 +171,7 @@
             if ((status="success")&&(d["status"]==1)) {
                 articlesLoad(2,$("#articlesFilter").val()); // obnov seznam článků
                 articleClick($("#articleID").val(),d["param"]);
-                alert("Stav nastaven.");
+                alert(d["message"]);
             } else {
                 alert("Status: " + status+"/"+d["status"] + "\n" + d["message"]);
             }

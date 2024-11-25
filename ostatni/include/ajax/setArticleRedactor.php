@@ -1,3 +1,4 @@
+<?php include 'getOppSummary_php.php'; ?>
 <?php include '../session_open.php'; ?>
 <?php 
 // návratový objekt
@@ -12,19 +13,8 @@ if ($_POST["articleID"]<=0){
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 //zápis do db
-if ($_POST["action"]=="1") { //SetStatus
-  [$value,$event]=explode(',',$_POST["status"]);
-  try {
-    $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
-    $result = $conn->query($sql);
-    $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
-            . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", ".$event.", '".$_POST["note"]."', NULL, NULL)";
-    $result = $conn->query($sql);
-
-    // výstup "OK"
-    $response["status"]=1;$response["param"]=$value;
-  } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
-} } else if ($_POST["action"]=="2") { //SetOpponents
+if ($_POST["action"]=="12") { //SetOpponents
+  $value=12;
   try {
     $sql="update `RSP_ARTICLE_ROLE` set Active_to=now() " //ukonči nezaslané
             . "where Article=".$_POST["articleID"]." and ".(($_POST["opponents"]!="")?"Person not in (".$_POST["opponents"].") and ":"")."Role=21";
@@ -49,18 +39,45 @@ if ($_POST["action"]=="1") { //SetStatus
         if ($isNew) {
             $result = $conn->query(substr($sql, 0, -1));  //fakt přidej, jen když je koho
             $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
-                . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", 4 , '".$_POST["note"]."', NULL, NULL)"; //přiděleno k recenzi
+                . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", 13 , '".$_POST["note"]."', NULL, NULL)"; //přiděleno k recenzi
             $result = $conn->query($sql);  //pošli message
-            $sql="Select count(Person) list FROM `RSP_ARTICLE_ROLE` " // spočti aktivní opponenty 
-                . "where Article=".$_POST["articleID"]." and Person and Active_to is null and Role=21";
-            $result = $conn->query($sql);  //kolik? jsou aspoň dva?
-            if ($result->fetch()[0]>=2) {    // a případně změň stav
-                $sql="UPDATE `RSP_ARTICLE` set status=4 where ID=".$_POST["articleID"];
-                $result = $conn->query($sql);
-                $response["param"]=4;
-            } };
-        $response["status"]=1;
+            }
+        $oppSum=getOppSummary($conn,$_POST["articleID"]);
+        if ($oppSum["sum"]>=2) {$value=30;
+            if ($oppSum["acc"]==$oppSum["sum"]) $value=31;
+            if ($oppSum["done"]==$oppSum["sum"]) {$value=40;
+                $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
+                . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", 14 , '".$_POST["note"]."', NULL, NULL)"; //předáno k publikaci
+                $result = $conn->query($sql);  //pošli message
+            }
+            $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
+            $result = $conn->query($sql);
+        };
+    $response=array("status"=>1,"param"=>$value,"message"=>"Předáno");
     } 
+  } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
+} } else { //SetStatus
+  [$value,$event]=explode(',',$_POST["status"]);
+  if ($_POST["action"]=="10") { // set version
+    if ($_POST["version"]<=0){
+        $response=array("status"=>2,"param"=>"articleID","message"=>"Chybná verze článku");
+        echo json_encode($response, JSON_PRETTY_PRINT);die;
+    }
+    try {
+      $sql="UPDATE `RSP_ARTICLE` set ActiveVersion=".$_POST["version"]." where ID=".$_POST["articleID"]." and ActiveVersion<>".$_POST["version"];
+        $result = $conn->query($sql);
+    } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
+  } }
+  try { //uprav stav a zapiš event
+    $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
+    $result = $conn->query($sql);
+    $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
+            . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", ".$event.", '".$_POST["note"]."', NULL, NULL)";
+    $result = $conn->query($sql);
+
+    // výstup "OK"
+        $response=array("status"=>1,"param"=>$value,"message"=>"Stav nastaven");
+
   } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
 } }
 

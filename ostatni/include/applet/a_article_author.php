@@ -1,5 +1,6 @@
 <?php ?>
-        <h5 class="mb-5" id="edit_header">Vložení/úprava článku</h5>
+<div id="contMain" style="display:none; ">
+    <h5 class="mb-5" id="edit_header">Vložení/úprava článku</h5>
             <div class="form-group">
                 <label for="articleTitle">Název článku</label>
                 <input type="text" class="form-control" id="articleTitle" placeholder="Zadejte název článku">
@@ -41,6 +42,8 @@
                 <label for="editorNote">Poznámka pro redakci</label>
                 <textarea class="form-control" id="editorNote" rows="2" placeholder="Zadejte poznámku pro redakci"></textarea>
             </div>
+            <div id="edit_restricted">
+            </div>
 
             <div class="form-buttons">
                 <select id="edice" name="edice" style="width: 120px;">
@@ -71,7 +74,7 @@
             </div>
         </div>
     </div>
-</div>
+</div></div>
 <script>
     function editionsLoad(type,index){
         $.getJSON( "include/ajax/getEditions.php?typ="+type+"&id="+index, function( data ) {
@@ -114,6 +117,7 @@
     }
     function aFormEmpty() {
         $("#edit_header").html("Vložení nového článku");
+        $("#edit_restricted").html("");
         $("#articleTitle").val("");
         $("#articleID").val("0");
         $("#selectedAuthors").html("");
@@ -126,11 +130,13 @@
         $("#editorNote").val("");
         $("#document").val("");
         $("#image").val("");
+        $("#contMain").show();
     }
     function aFormLoad(index) {
         $.getJSON( "include/ajax/getArticle.php?id="+index, function( data ) {
             $("#edit_header").html("Úprava článku "//
               +'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
+            $("#edit_restricted").html(((data[0]['Status']==20)?"":'<span style="color:red;">Pozor, článek je zpracováván, editace teď není možná.</span> Lze pouze zaslat redaktorovi novou, neaktivní verzi článku (tlačítko "Upload Document"+"Uložit").'));
             $("#articleTitle").val(data[0]['Title']);
             $("#articleID").val(data[0]['ID']);
             $("#authors").val(data[0]['authors']);
@@ -145,6 +151,7 @@
             $("#editorNote").val("");
             $("#document").val("");
             $("#image").val("");
+            $("#contMain").show();
         });    
     }
     function aPost() {
@@ -184,9 +191,9 @@
                 d=$.parseJSON(response);
                 if (d["status"]==1) {
                     articlesLoad(3,"22,24"); // autor nebo regAutor
-                    messagesLoad(0,0);
+                    messagesLoad(2,0);
                     setLayout(1);
-                    alert("Článek uložen.");
+                    alert(d["message"]);
                 } else {
                     if (inField[d["param"]]!="") {
                         $(inField[d["param"]]).addClass("alert-danger");}

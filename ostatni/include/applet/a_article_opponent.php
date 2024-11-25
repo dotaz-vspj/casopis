@@ -9,61 +9,77 @@
         <label for="articleAccept">Přijmout oponenturu</label>
         <select class="form-control" id="articleAccept">
             <option value="" disabled selected>--nastavte zvolený postup--</option>
-            <option value="7,12">Přijmout oponenturu</option>
-            <option value="2,13">Odmítnout oponenturu</option>
+            <option value="31,32">Přijmout oponenturu</option>
+            <option value="13,30">Odmítnout oponenturu</option>
         </select>
     </div>
     <div id="opp_submit" class="row" style="display:block;">
-        <div class="form-group">
-            <h5>Hodnocení článku</h5>
-            <div class="mb-3">
-                <label for="ratingRelevance" class="form-label">Aktuálnost, zajímavost a přínosnost</label>
-                <select class="form-select" id="ratingRelevance" required>
-                    <option value="" disabled selected>Vyberte hodnocení</option>
-                    <option value="1">1 (nejlepší)</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5 (nejhorší)</option>
-                </select>
+        <h5>Recenze článku</h5>
+        <div class="row form-group">
+            <div class="col-sm-6">
+                <div class="mb-3">
+                    <label for="ratingRelevance" class="form-label">Aktuálnost, zajímavost a přínosnost</label>
+                    <select class="form-select" id="ratingRelevance" required>
+                        <option value="" disabled selected>Vyberte hodnocení</option>
+                        <option value="1">1 (nejlepší)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (nejhorší)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="ratingOriginality" class="form-label">Originalita</label>
+                    <select class="form-select" id="ratingOriginality" required>
+                        <option value="" disabled selected>Vyberte hodnocení</option>
+                        <option value="1">1 (nejlepší)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (nejhorší)</option>
+                    </select>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="ratingOriginality" class="form-label">Originalita</label>
-                <select class="form-select" id="ratingOriginality" required>
-                    <option value="" disabled selected>Vyberte hodnocení</option>
-                    <option value="1">1 (nejlepší)</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5 (nejhorší)</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="ratingExpertise" class="form-label">Odborná úroveň</label>
-                <select class="form-select" id="ratingExpertise" required>
-                    <option value="" disabled selected>Vyberte hodnocení</option>
-                    <option value="1">1 (nejlepší)</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5 (nejhorší)</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="ratingLanguage" class="form-label">Jazyková a stylistická úroveň</label>
-                <select class="form-select" id="ratingLanguage" required>
-                    <option value="" disabled selected>Vyberte hodnocení</option>
-                    <option value="1">1 (nejlepší)</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5 (nejhorší)</option>
-                </select>
+            <div class="col-sm-6">
+                <div class="mb-3">
+                    <label for="ratingExpertise" class="form-label">Odborná úroveň</label>
+                    <select class="form-select" id="ratingExpertise" required>
+                        <option value="" disabled selected>Vyberte hodnocení</option>
+                        <option value="1">1 (nejlepší)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (nejhorší)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="ratingLanguage" class="form-label">Jazyková a stylistická úroveň</label>
+                    <select class="form-select" id="ratingLanguage" required>
+                        <option value="" disabled selected>Vyberte hodnocení</option>
+                        <option value="1">1 (nejlepší)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (nejhorší)</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="recenze">Detailní slovní hodnocení</label>
-            <textarea class="form-control" id="recenze" rows="2" placeholder="Zadejte detail recenze"></textarea>
+        <div class="row form-group">
+            <div class="form-group">
+                <label for="recenze">Detailní slovní hodnocení</label>
+                <textarea class="form-control" id="recenze" rows="2" placeholder="Zadejte detail recenze"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="ratingOverall" class="form-label">Celkový verdikt</label>
+                <select class="form-select" id="ratingOverall" required>
+                    <option value="" disabled selected>Vyberte hodnocení</option>
+                    <option value="1">Přijímám bez výhrad</option>
+                    <option value="2">Přijímám s výhradami (nepožaduji opravy k revizi)</option>
+                    <option value="3">Vracím k doplnění (požaduji opravy na novou recenzi)</option>
+                    <option value="4">Zamítám</option>
+                </select>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -102,33 +118,35 @@
             $("#articleTitle").val(data[0]['Title']);
         });
         formStatus=0; //neposíláme nic
-        if ([2,4,7,8].includes(articleStatus)) {
+        if ([12,30,31].includes(articleStatus)) {
             $.getJSON( "include/ajax/getMessages.php?typ=5&id="+index, function( data ) {
                 formStatus=1; //posíláme stav
                 if (data[0]) {  //pokud s článkem pracoval, a naposled přijal nebo zpracoval recenzi...
-                    $("#opp_submit").show();
                     formStatus=2; // asi posíláme recenzi
-                    if (data[0]["Type"] == 12) {
+                    if (data[0]["Type"] == 32) {
                         $("#submitID").val(0);    
                         $("#ratingRelevance").val("");    
                         $("#ratingOriginality").val("");    
                         $("#ratingExpertise").val("");    
                         $("#ratingLanguage").val("");    
+                        $("#ratingOverall").val("");    
                         $("#recenze").val("");
-                    } else if (data[0]["Type"] == 5) {
+                    } else if ([31,34,35].includes(data[0]["Type"])) {
                         $("#submitID").val(data[0]["ID"]);    
                         rng=JSON.parse(data[0]["Data"]);
                         $("#ratingRelevance").val(rng["Relevance"]);    
                         $("#ratingOriginality").val(rng["Originality"]);    
                         $("#ratingExpertise").val(rng["Expertise"]);    
                         $("#ratingLanguage").val(rng["Language"]);    
-                        $("#recenze").val(rng["Msg"]);
+                        $("#ratingOverall").val(rng["Overall"]);    
+                        $("#recenze").val(rng["Msg"].replace(/u(0[01][\dA-F]{2})/gi, function(match, code) {return String.fromCharCode(parseInt(code, 16));}));
                     } else {    // pokud na to "sáhl blbě"
-                        $("#opp_submit").hide();
-                        $("#opp_accept").show();
                         formStatus=1; // tak ne, posíláme stav
                     }
                 }
+                if (formStatus==2) $("#opp_submit").show();
+                else  $("#opp_accept").show();
+
             });
         }
     }
@@ -142,8 +160,9 @@
                 Originality : $("#ratingOriginality").val(),   
                 Expertise : $("#ratingExpertise").val(),  
                 Language : $("#ratingLanguage").val(),   
+                Overall : $("#ratingOverall").val(),   
                 Msg : $("#recenze").val()};
-            if (!DATA['Relevance'] || !DATA['Originality'] || !DATA['Expertise'] || !DATA['Language']) {
+            if (!DATA['Relevance'] || !DATA['Originality'] || !DATA['Expertise'] || !DATA['Language']|| !DATA['Overall']) {
                 alert("Prosím ohodnoťte všechny kategorie.");
                 return;
             }    

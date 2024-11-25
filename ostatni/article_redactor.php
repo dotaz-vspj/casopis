@@ -18,14 +18,11 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 <!-- List -->
 <div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
                     <h5 class="mb-5">Redakce článků</h5>
-                <div class="w-50">
                     <label for="articlesFilter">Vybrat články</label>
                     <select class="form-control" id="articlesFilter" onchange="articlesLoad(2,this.value);">
                         <option value="-2" selected>Všechny v neuzavřeném řízení</option>
                         <option value="-1">Nezařazené k edici</option>
                     </select>
-                </div>
-                    
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
 
@@ -41,12 +38,11 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 
 </div></div>
 <script>
-    var ArticleStatus=0;
     $( document ).ready(function () {
     editionsLoad(0,0);
     oppsLoad(3,0);
     articlesLoad(2,-2);
-    messagesLoad(0,0);
+    messagesLoad(1,0);
     setLayout(1);
 });
 function menuItemClick(index){
@@ -63,19 +59,18 @@ function menuItemClick(index){
 function articleClick(index,version){
     console.log('Article:'+index+','+version);
     messagesLoad(1,index);
-    aFormLoad(index);
     hidetabs();
-    ArticleStatus=version;
-    if (version==1) {
-        $("#article_accept").show();
-    } else if (version==2) {
-        $("#select_opponents").show();
-    } else {$("#maketar").show();}
+    $("#articleStatus").val(version);
+    aFormLoad(index);
+    if (version==10) $("#article_accept").show();
+    else if (version==12) $("#select_opponents").show();
+    else if (version==40) $("#article_publish").show();
+    else $("#article_catch").show();
     condLayout(1,0);
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
-    setLayout(index % 3);
+    if ([31,34,35].includes(eventtype)) opponentureLoad(index);
 };
 </script>
 

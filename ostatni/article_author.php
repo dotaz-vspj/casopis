@@ -16,7 +16,13 @@ if ($myFunc>22) {Header("location:index.php");die;}
 
 <!-- List -->
 <div class="pt-3" id="list-out"><div style="width:800px; ">
-                    <h5 class="mb-5">Moje články</h5>
+        <div class="row"><div class="col-md-4">            
+        <h5 class="mb-5">Moje články</h5>
+        </div>
+        <div class="col-md-2"  style="font-size:.6em" onclick="menuItemClick('ArtNew');"><center>
+            <img style="height:26px; width:20px; object-fit: contain; " src="<?php echo "{$img_dir}";?>art_new.png" alt=""/><br/>
+            Nový článek
+        </center></div></div>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
 
@@ -37,6 +43,7 @@ if ($myFunc>22) {Header("location:index.php");die;}
     messagesLoad(2,0);
     editionsLoad(1,0); // nepublikované
     authorsLoad(1,0);  // Jen neadminy
+    aFormEmpty();
     setLayout(2);
 });
 function menuItemClick(index){
@@ -58,6 +65,7 @@ function articleClick(index,version){
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
+    if ([31,34,35].includes(eventtype)) opponentureLoad(index);
 };
 function getMyID() {    
     var jqXHR = $.ajax({
