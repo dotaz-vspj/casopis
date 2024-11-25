@@ -38,7 +38,7 @@ $Status=0;if ($articleID!=0) {
         echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
 }
-if (($articleID==0)||($Status=20)) { // insert nebo plný update musí mít data
+if (($articleID==0)||($Status==20)) { // insert nebo plný update musí mít data
     if ($articleTitle=="") {
         $response=array("status"=>3,"param"=>"articleTitle","message"=>"Prázdný titulek");
         echo json_encode($response, JSON_PRETTY_PRINT);die;
@@ -95,7 +95,7 @@ if ($articleID==0) { //vložení článku
     //zápis do db
     try {
         $sql="INSERT INTO `RSP_ARTICLE` (`Edition`, `Title`, `Abstract`, `Status`, `ActiveVersion`, `Creator`) "
-                . "VALUES (".$editon.",'".$articleTitle."', '".$_POST["abstract"]."', 10, NULL, ".$myID.")";
+                . "VALUES (".$edition.",'".$articleTitle."', '".$_POST["abstract"]."', 10, NULL, ".$myID.")";
         $result = $conn->query($sql);
         $in = $conn->lastInsertId(); //insert_id article; 
     //    $response["message"]=var_export($in,true);
@@ -130,7 +130,7 @@ if ($articleID==0) { //vložení článku
         echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
     if (move_uploaded_file($_FILES["document"]["tmp_name"], $target_file)) {
-        $response=array("status"=>1,"param"=>"document","message"=>"Soubor ". htmlspecialchars( basename( $_FILES["document"]["name"])). " byl nahrán.");
+        $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["document"]["name"])). " byl nahrán.";
         chmod($target_file, 0755);
     } else {
         $response=array("status"=>4,"param"=>"document","message"=>"Soubor dokumentu se nepodařilo nahrát");
@@ -143,7 +143,7 @@ if ($articleID==0) { //vložení článku
         echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        $response=array("status"=>1,"param"=>"","message"=>"Soubor ". htmlspecialchars( basename( $_FILES["image"]["name"])). " byl nahrán.");
+        $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["image"]["name"])). " byl nahrán.";
         chmod($target_file, 0755);
     } else {
         $response=array("status"=>4,"param"=>"image","message"=>"Soubor obrazu se nepodařilo nahrát");
@@ -173,6 +173,7 @@ if ($articleID==0) { //vložení článku
                 if ($isNew) {
                     $result = $conn->query(substr($sql, 0, -1));  //fakt přidej, jen když je koho
                 }   }
+        $response=array("status"=>1,"param"=>$in,"message"=>"Článek byl upraven");
         } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
             echo json_encode($response, JSON_PRETTY_PRINT);die;
         }
@@ -183,7 +184,7 @@ if ($articleID==0) { //vložení článku
                 unlink($target_file);
             }
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                $response=array("status"=>1,"param"=>"","message"=>"Soubor ". htmlspecialchars( basename( $_FILES["image"]["name"])). " byl nahrán.");
+                $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["image"]["name"])). " byl nahrán.";
                 chmod($target_file, 0755);
             } else {
                 $response=array("status"=>4,"param"=>"image","message"=>"Soubor obrazu se nepodařilo nahrát");
@@ -208,7 +209,7 @@ if ($articleID==0) { //vložení článku
             echo json_encode($response, JSON_PRETTY_PRINT);die;
         }
         if (move_uploaded_file($_FILES["document"]["tmp_name"], $target_file)) {
-            $response=array("status"=>1,"param"=>"document","message"=>"Soubor ". htmlspecialchars( basename( $_FILES["document"]["name"])). " byl nahrán.");
+            $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["document"]["name"])). " byl nahrán.";
             chmod($target_file, 0755);
         } else {
             $response=array("status"=>4,"param"=>"document","message"=>"Soubor dokumentu se nepodařilo nahrát");
