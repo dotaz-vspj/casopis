@@ -53,12 +53,8 @@ function articleClick(index,version){
     articleStatus=parseInt(version);
     console.log('Article:'+index+','+version);
     messagesLoad(3,index);
-    aFormLoad(index);
     hidetabs();
-    if ((version==2)||(version==4)) {
-        $("#opp_accept").show();
-    };
-    {$("#opp_submit").show();}
+    aFormLoad(index);
     setLayout(0);
 };
 function messageClick(index, article, eventtype) {

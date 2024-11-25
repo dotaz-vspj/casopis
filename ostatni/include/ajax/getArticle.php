@@ -6,7 +6,7 @@ $data = [];if (is_numeric($FilterID)&&($FilterID!=0)) {
     $result = $conn->query($sql);
     $data[]=$result->fetchObject();
     $sql="select GROUP_CONCAT(Person) as authors from RSP_ARTICLE_ROLE "
-            . "where Role=24 and (Active_to is null or Active_to>now()) and Article=".$FilterID;
+            . "where Role in (22,24) and (Active_to is null or Active_to>now()) and Article=".$FilterID;
     $result = $conn->query($sql);
     $data[0]->authors=$result->fetch()['authors'];
     $sql="select GROUP_CONCAT(Person) as opponents from RSP_ARTICLE_ROLE "

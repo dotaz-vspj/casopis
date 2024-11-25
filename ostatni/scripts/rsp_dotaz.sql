@@ -27,14 +27,14 @@ CREATE TABLE `RSP_CC_ARTICLE_Stat` (
 --
 
 INSERT INTO `RSP_CC_ARTICLE_Stat` (`ID`, `descr`, `color`) VALUES
-(10, 'K rozhodnutí', 'cyan'),
+(5, 'Publikováno', 'darkgreen'),
+(10, 'K rozhodnutí', 'lightsalmon'),
 (11, 'Zamítnuto', 'red'),
 (12, 'Přijato', 'lightgreen'),
 (20, 'Oprava autorem', 'blue'),
 (30, 'K recenzi', 'yellow'),
 (31, 'Probíhá recenze', 'khaki'),
-(40, 'Schváleno', 'green'),
-(05, 'Publikováno', 'darkgreen');
+(40, 'Schváleno', 'green');
 
 -- --------------------------------------------------------
 
@@ -56,10 +56,12 @@ INSERT INTO `RSP_CC_EVENT_Type` (`ID`, `descr`, `rights`) VALUES
 (1, 'Editace uživatele', 12),
 (2, 'Editace vydání', 12),
 (11, 'Článek zamítnut', 12),
-(12, 'Článek k úpravě autorem', 12),
+(12, 'Článek odsouhlasen', 12),
 (13, 'Článek postoupen k recenzi', 12),
 (14, 'Článek postoupen k publikaci', 12),
-(05, 'Publikováno', 11),
+(15, 'Publikováno', 11),
+(16, 'Článek k úpravě autorem', 12),
+(17, 'Článek odebrán redaktorem', 12),
 (20, 'Podání článku', 22),
 (21, 'Oprava článku', 22),
 (30, 'Recenze odmítnuta', 21),
@@ -132,6 +134,7 @@ CREATE TABLE `RSP_EDITION` (
   `Redactor` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `RSP_EDITION` VALUES (1,'Publikovane vydani','Jedno musi byt publikovane','2024-11-26',1);
 --
 -- Struktura tabulky `RSP_ARTICLE`
 --

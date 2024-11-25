@@ -173,7 +173,7 @@ if ($articleID==0) { //vložení článku
                 if ($isNew) {
                     $result = $conn->query(substr($sql, 0, -1));  //fakt přidej, jen když je koho
                 }   }
-        $response=array("status"=>1,"param"=>$in,"message"=>"Článek byl upraven");
+        $response=array("status"=>1,"param"=>$articleID,"message"=>"Článek byl upraven");
         } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
             echo json_encode($response, JSON_PRETTY_PRINT);die;
         }

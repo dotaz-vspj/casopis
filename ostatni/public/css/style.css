@@ -1,3 +1,75 @@
+#messageListContainer    .list-group-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+#messageListContainer    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+#messageListContainer    .message-details {
+        display: none;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+#messageListContainer    .list-group-item.expanded .message-details {
+        display: block;
+    }
+
+#messageListContainer    .no-messages {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+    }
+
+/* Každá zpráva bude mít šířku 100% pro menší obrazovky, 50% pro střední a 33% pro velké obrazovky */
+.message-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* 100% na malých obrazovkách */
+    transition: transform 0.3s ease;
+}
+
+.message-item:hover {
+    transform: scale(1.02);
+}
+
+.message-item .message-header {
+    font-size: 14px;
+    color: #888;
+}
+
+.message-item .message-body {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.message-item .message-footer {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 12px;
+    color: #777;
+}
+
 /* Jana - odsazení headre a footer - nemazat */
 /*body{
     padding:130px 0 100px 0;
@@ -361,8 +433,11 @@ Vyhledávací pole a našeptávání - Ondra */
     color: #555;
 }
 
+.tab-content {
+    padding: 20px;  
+}
 
-/* Jana AboutUs - nemazat */
+/* Jana AboutUs - nemazat 
 
 .nav-tabs .nav-link {
     background-color: #7473a7; 
@@ -371,14 +446,14 @@ Vyhledávací pole a našeptávání - Ondra */
     width:25%;
 }
 .nav-tabs .nav-link.active {
-    background-color: #12146a; 
-    color: white;
+    background-color: #12146a;
+    color: black;
 }
 .tab-content {
     color: white;  
 }
 .tab-content .tab-pane.show.active {
-    background-color: #12146a;
+    background-color: white;
     padding: 5px;
 }
 #container {
@@ -391,7 +466,7 @@ Vyhledávací pole a našeptávání - Ondra */
 #contend {
     width: 50%;
 }
-
+ */
 #leftmenu-out .nav-item img {
     filter: grayscale(1) opacity(0.5);
     object-fit: contain;
@@ -415,6 +490,12 @@ Vyhledávací pole a našeptávání - Ondra */
 
 #leftmenu-out .nav-item:hover {
     background-color: white;
+}
+
+#leftmenu-out .nav-item img {
+    height:65px;
+    width:50px;
+    object-fit: contain;
 }
 
 #leftmenu-out .nav-item:hover img {

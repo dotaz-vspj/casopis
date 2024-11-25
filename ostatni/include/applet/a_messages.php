@@ -1,12 +1,13 @@
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Zprávy</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="setLayout(3);"></button>
-            </div>
-            <div class="modal-body" id="messageList">
-                Žádné aktivní zprávy
-            </div>
-        </div>
+<div class="modal-content" id="messageListContainer" style="height: 100%;">
+    <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Zprávy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body" id="messageList">
+        <p class="no-messages">Žádné aktivní zprávy</p>
+    </div>
+</div>
+
         <!-- Modal -->
         <div class="modal fade" id="opponentModal" tabindex="-1" role="dialog" aria-labelledby="opponentModalLabel" aria-hidden="true" style="height:600px; padding-top:200px; ">
             <div class="modal-dialog" role="document">
@@ -25,11 +26,23 @@
     function messagesLoad(type,index){
         $.getJSON( "include/ajax/getMessages.php?typ="+type+"&id="+index, function( data ) {
             var l_html="";
-            $.each(data, function(i,e) {if (e) l_html = l_html.concat(
-                '<p class="list-group-item" data-id="',e['ID'],'" ondblclick="messageClick(',e['ID'],",'",e['Article'],"',",e['Type'],');">',e['ID'],'(',e['TypeText'],',',e['Article'],'):',e['Message'],"</p>\n");
+            $.each(data, function(i,e) {if (e) l_html += `
+                <div class="list-group-item" data-id="${e['ID']}" ${((e['Message'])?'onclick="toggleDetails(this)"':"")} ondblclick="messageClick(${e['ID']},'${e['Article']}','${e['Type']}')">
+                        <div class="message-header">
+                            <div>${e['Datum'] || "Datum neznámé"} - ${e['Author'] || "Autor neznámý"}</div>
+                            <div class="align-self-end"> ${e['TypeText'] || "Neurčeno"} &nbsp; ${((e['Message'])?'&#9660':"&nbsp;&nbsp;&nbsp;")}</div>
+                        </div>
+                        <div class="message-details">
+                            <div> ${e['Message'] || ""}</div>
+                        </div>
+                    </div>
+                `;
             });
-            $( "#messageList" ).html( l_html );
-        });    
+        document.getElementById("messageList").innerHTML = l_html;
+        });
+    }
+    function toggleDetails(element) {
+        element.classList.toggle("expanded");
     }
     function opponentureLoad(opponentId) {                
         // AJAX request pro získání oponentury podle ID

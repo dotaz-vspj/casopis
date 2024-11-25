@@ -1,4 +1,4 @@
-<footer class="container-fluid bg-blue text-center p-3 text-grey  mt-5">
+<footer class="container-fluid bg-blue text-center p-3 text-grey fixed-bottom mt-5">
     <div class="row">
         <div class="column">
             <p class="align-items-center">Tato aplikace je výsledkem školního projektu v kurzu Řízení SW projektu na Vysoké škole polytechnické Jihlava. Nejedná se o stránky skutečného časopisu!</p>

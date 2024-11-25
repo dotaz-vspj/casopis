@@ -17,7 +17,13 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 
 <!-- List -->
 <div class="pt-3" id="list-out"><div style="width:800px; ">
-                    <h5 class="mb-5">Seznam uživatelů</h5>
+        <div class="row"><div class="col-md-4">            
+        <h5 class="mb-5">Seznam uživatelů</h5>
+        </div>
+        <div class="col-md-2"  style="font-size:.6em" onclick="menuItemClick('UsrNew');"><center>
+            <img style="height:26px; width:20px; object-fit: contain; " src="<?php echo "{$img_dir}";?>profile.png" alt=""/><br/>
+            Nový uživatel
+        </center></div></div>
 <?php include 'include/applet/a_users.php'; ?>
 </div></div>
 
@@ -50,7 +56,7 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 });
 function menuItemClick(index){
     console.log('Menu:'+index);
-    if (index=="UsrNew") {aFormEmpty();condLayout(1,3);condLayout(2,3);}
+    if (index=="UsrNew") {aUserEmpty();condLayout(1,3);condLayout(2,3);}
     if (index=="UsrAdm") {}
     if (index=="EdiAdm") {window.location.replace('edition_admin.php');}
     if (index=="ArtRed") {window.location.replace('article_redactor.php');}
@@ -74,7 +80,7 @@ function onUserDone (it) {
     if (it.value==0) {
         usersLoad(0,0);
         messagesLoad(4,0);
-        aUserEmpty();
+        aUserLoad($("#ID").val());
         condLayout(1,3);condLayout(2,3);        
     }
 }

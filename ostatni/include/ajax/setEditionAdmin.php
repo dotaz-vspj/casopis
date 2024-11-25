@@ -42,7 +42,7 @@ try {
     if ($id==0) $id = $conn->lastInsertId();
     
     $stmt = $conn->prepare("INSERT INTO RSP_EVENT (Datum, Autor, Edition, Type, Message) VALUES (now(), :autor, :edition, :type, :message)");
-    $stmt->execute(['autor' => $myID, 'edition'=>$id, 'type'=>(($published==NULL)?3:9), 'message' => $note ]);
+    $stmt->execute(['autor' => $myID, 'edition'=>$id, 'type'=>(($published==NULL)?2:15), 'message' => $note ]);
     $conn->commit();
     $response=['status' => 1,'param' => 0,'message' => 'Úpravy byly úspěšně uloženy.'];
 } catch (Exception $e) {

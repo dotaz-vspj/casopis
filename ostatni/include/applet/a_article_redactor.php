@@ -26,6 +26,9 @@ while ($st=$result->fetchObject()) {?>
         <label for="articleVersion">Aktivní verze článku</label>
         <select class="form-control" id="articleVersion">
         </select>
+        <label for="articleEdition">Zařadit k edici</label>
+        <select class="form-control" id="articleEdition">
+        </select>
         <label for="articleAccept">Přijmout článek</label>
         <select class="form-control" id="articleAccept">
             <option value="" disabled selected>--nastavte zvolený postup--</option>
@@ -35,7 +38,7 @@ while ($st=$result->fetchObject()) {?>
         </select>
     </div>
     <div id="article_publish" class="row" style="display:none;">
-        <label for="articlePublish">Přijmout článek</label>
+        <label for="articlePublish">Publikovat článek</label>
         <select class="form-control" id="articlePublish">
             <option value="" disabled selected>--nastavte zvolený postup--</option>
             <option value="5,15">Publikovat článek</option>
@@ -78,6 +81,7 @@ while ($st=$result->fetchObject()) {?>
         <button class="btn btn-success" onclick="aPost()">Odeslat</button>
     </div>
 <script>
+    var delayArtVer=0;
     function editionsLoad(type,index){
         $.getJSON( "include/ajax/getEditions.php?typ="+type+"&id="+index, function( data ) {
             var l_html="<option value=\"-2\" selected>Všechny v neuzavřeném řízení</option>\n"+
@@ -88,6 +92,15 @@ while ($st=$result->fetchObject()) {?>
             $( "#articlesFilter" ).html( l_html );
         });    
     }
+    function editionsLoad2(type,index){
+        $.getJSON( "include/ajax/getEditions.php?typ="+type+"&id="+index, function( data ) {
+            var l_html="";
+            $.each(data, function(i,e) {if (e) l_html = l_html.concat(
+                '<option value="',e['ID'],'">',e['ID'],':',e['Title'],"</option>\n");
+            });
+            $( "#articleEdition" ).html( l_html );
+        });    
+    }
     function versionsLoad(type, index) {
         $.getJSON( "include/ajax/getVersions.php?typ="+type+"&id="+index, function( data ) {
             var l_html="";
@@ -95,6 +108,7 @@ while ($st=$result->fetchObject()) {?>
                 '<option value="',e['ID'],'">',e['ID'],':',e['Document']," [",e['Created'],"]</option>\n");
             });
             $( "#articleVersion" ).html( l_html );
+            $( "#articleVersion" ).val(delayArtVer).change();
         });    
 
     }
@@ -133,11 +147,15 @@ while ($st=$result->fetchObject()) {?>
         $("#opponents").val(arr);
     }
     function aFormLoad(index) {
+        versionsLoad(0,index);
         $.getJSON( "include/ajax/getArticle.php?id="+index, function( data ) {
             $("#edit_header").html("Zpracování článku ID="+data[0]['ID']+'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
             $("#articleTitle").val(data[0]['Title']);
             $("#articleID").val(data[0]['ID']);
             $("#opponents").val(data[0]['opponents']);
+            $("#articleEdition").val(data[0]['Edition']).change();
+            delayArtVer=data[0]['ActiveVersion'];
+            $("#articleVersion").val(delayArtVer).change();
             $("#selectedOpps").html("");
             if (data[0]['opponents']) 
               $.each(data[0]['opponents'].split(','),function(){
@@ -148,7 +166,6 @@ while ($st=$result->fetchObject()) {?>
             });
             $("#editorNote").val("");
         });    
-        versionsLoad(0,index);
         $.getJSON( "include/ajax/getOppSummary.php?id="+index, function( data ) {
             $("#oppHeader").html('Stav recenzí: Přiděleno: '+data["sum"]+', přijato: '+data["acc"]+', schváleno: '+data["done"]);
             
@@ -163,6 +180,7 @@ while ($st=$result->fetchObject()) {?>
             action: $("#articleStatus").val(),
             status: Choice,
             version: $("#articleVersion").val(),
+            edition: $("#articleEdition").val(),
             opponents: $("#opponents").val(),
             note: $("#editorNote").val()
         },

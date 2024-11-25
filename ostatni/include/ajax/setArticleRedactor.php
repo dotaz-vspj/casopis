@@ -64,8 +64,10 @@ if ($_POST["action"]=="12") { //SetOpponents
         echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
     try {
-      $sql="UPDATE `RSP_ARTICLE` set ActiveVersion=".$_POST["version"]." where ID=".$_POST["articleID"]." and ActiveVersion<>".$_POST["version"];
+        $sql="UPDATE `RSP_ARTICLE` set ActiveVersion=".$_POST["version"]." where ID=".$_POST["articleID"]." and (ActiveVersion is null or ActiveVersion<>".$_POST["version"].")";
         $result = $conn->query($sql);
+        $sql="UPDATE `RSP_ARTICLE` set Edition=".$_POST["edition"]." where ID=".$_POST["articleID"]." and (Edition is null or Edition<>".$_POST["edition"].")";
+        if ($_POST["edition"]>0) $result = $conn->query($sql);
     } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
   } }
   try { //uprav stav a zapiš event
