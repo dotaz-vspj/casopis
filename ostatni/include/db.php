@@ -18,7 +18,11 @@ if (!isset($DB_HOST)) {
     }
 }
  
-loadEnv(__DIR__ . '/.env');
+if (file_exists(__DIR__ . '/.env-personal')) {
+    loadEnv(__DIR__ . '/.env-personal');
+} else {
+    loadEnv(__DIR__ . '/.env');
+}
 
 $DB_HOST = getenv('DB_HOST');
 $DB_USER = getenv('DB_USER');

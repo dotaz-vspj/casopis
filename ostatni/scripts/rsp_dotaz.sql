@@ -59,7 +59,7 @@ INSERT INTO `RSP_CC_EVENT_Type` (`ID`, `descr`, `rights`) VALUES
 (12, 'Článek k úpravě autorem', 12),
 (13, 'Článek postoupen k recenzi', 12),
 (14, 'Článek postoupen k publikaci', 12),
-(15, 'Publikováno', 11),
+(05, 'Publikováno', 11),
 (20, 'Podání článku', 22),
 (21, 'Oprava článku', 22),
 (30, 'Recenze odmítnuta', 21),
@@ -440,7 +440,7 @@ ALTER TABLE `RSP_VERSION`
 COMMIT;
 
 DELIMITER $$
-CREATE DEFINER=`admin_dotaz`@`%` FUNCTION `hasAccess`(`userNO` INT, `articleNO` INT) RETURNS tinyint(1)
+CREATE DEFINER=`admin_dotaz`@`localhost` FUNCTION `hasAccess`(`userNO` INT, `articleNO` INT) RETURNS tinyint(1)
     READS SQL DATA
     SQL SECURITY INVOKER
 BEGIN
