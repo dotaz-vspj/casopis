@@ -1,3 +1,4 @@
+<?php include 'getOppSummary_php.php'; ?>
 <?php include '../session_open.php'; ?>
 <?php 
 // návratový objekt
@@ -12,19 +13,17 @@ if ($_POST["articleID"]<=0){
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 //zápis do db
+$oppSum=getOppSummary($conn,$_POST["articleID"]);
 if (($_POST["action"]=="1")) { //Zapsat stav
   [$value,$event]=explode(',',$_POST["status"]);
   try {
-    $toChange=false;if ($_POST["action"]=="4") { //pouze stav K recenzi se dá poslat dál
-        $sql="select count(R.Person) from `RSP_ARTICLE_ROLE` R " //najdi (počet) nerozhodnutých recenzentů, co nepřijali/nerecenzovali
-                . "where R.Article=".$_POST["articleID"]." and Role=21 and Active_to is null "
-                . "and (SELECT type from `RSP_EVENT` E where E.Autor=R.Person order by ID desc limit 1) not in (32,34)"; 
-        $result = $conn->query($sql);
-        $toChange = ($result->fetch()[0]==0);
-    }
-    if ($toChange||($event==13)) {  //všichni OK nebo Odmítnout
-        $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
-        $result = $conn->query($sql);
+    if ($event==32) { //posuň stavy, pokud vrací nebo (je poslední co přijal, a čeká se na posun (30))
+        if ($oppSum["acc"]+1==$oppSum["sum"]) {
+            $sql="UPDATE `RSP_ARTICLE` set status=".$value." where status=30 and ID=".$_POST["articleID"];
+            $result = $conn->query($sql);
+    }   } else {
+            $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
+            $result = $conn->query($sql);
     }
     $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
             . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", ".$event.", '".$_POST["note"]."', NULL, NULL)";
@@ -36,26 +35,23 @@ if (($_POST["action"]=="1")) { //Zapsat stav
 } }
 if (($_POST["action"]=="2")) { //Zapsat recenzi
   switch ($_POST["data"]["Overall"]) {
-  case 1: $value=40;$event=34; break;
-  case 2:
-  case 3: $value=10;$event=35; break;
-  case 4:
-  default: $value=10;$event=31; break;
-}
+      case 1: $value=40;$event=34; break;
+      case 2:
+      case 3: $value=10;$event=35; break;
+      case 4:
+      default: $value=10;$event=31; break;
+  }
   $data=json_encode($_POST["data"]);
-
   try {
-    $toChange=false;if ($_POST["action"]=="31") { //pouze stav K recenzi se dá poslat dál
-        $sql="select count(R.Person) from `RSP_ARTICLE_ROLE` R " //najdi (počet) recenzentů, co nerecenzovali
-                . "where R.Article=".$_POST["articleID"]." and Role=21 and Active_to is null "
-                . "and (SELECT type from `RSP_EVENT` E where E.Autor=R.Person order by ID desc limit 1) not in (34,35)"; 
+    if ($value==40) { //posuň stavy, pokud vrací nebo (je poslední co schválil, a čeká se na posun (31))
+        if ($oppSum["done"]+1==$oppSum["sum"]){  //všichni OK 
+        $sql="UPDATE `RSP_ARTICLE` set status=".$value." where status=31 and ID=".$_POST["articleID"]; //recenzováno
         $result = $conn->query($sql);
-        $toChange = ($result->fetch()[0]==0);
+    }   } else {
+            $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
+            $result = $conn->query($sql);
     }
-    if (($toChange)||($value==10)) {  //všichni OK nebo vrať
-        $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"]; //recenzováno
-        $result = $conn->query($sql);
-    }
+
     $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
             . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", ".$event." ,'".$_POST["note"]."','".$data."', NULL)";
     $result = $conn->query($sql);

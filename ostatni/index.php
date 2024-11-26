@@ -47,7 +47,7 @@ $result = $conn->query($sql);
                         Vydáno dne:
                         <span class="published">
                             <?php 
-                                if (strtotime($E->Published) === false) {
+                                if (is_null($E->Published) || strtotime($E->Published) === false) {
                                     echo '"' . $E->Published . '"';
                                 } else {
                                     echo $E->Published;
@@ -86,7 +86,7 @@ $result = $conn->query($sql);
                                                 </div>
                                                 <div class="article-published">Vydáno dne
                                                     <?php 
-                                                        if (strtotime($A->Published) === false) {
+                                                        if (is_null($A->Published) || strtotime($A->Published) === false) {
                                                             echo '"' . $A->Published . '"';
                                                         } else {
                                                             echo $A->Published;

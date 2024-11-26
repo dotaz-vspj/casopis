@@ -1,4 +1,19 @@
-<div class="modal-content" id="messageListContainer" style="height: 100%;">
+<!-- Modal by AI -->
+<div class="modal fade" id="opponentModal" tabindex="-1" role="dialog" aria-labelledby="opponentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="min-height: auto; border:solid; border-radius:10px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="opponentModalLabel">Detaily Oponentury</h5>
+                <button type="button" class="btn-close" onclick="$('#opponentModal').removeClass('show').css('display', 'none').attr('aria-hidden', 'true').removeAttr('aria-modal');" aria-label="Zavřít"></button>
+            </div>
+            <div class="modal-body">
+                <p id="opponentDetails">Načítám...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-content" id="messageList<?php echo (($scriptName=="ArticleRedactor")?"2":"") ;?>Container" style="height: 100%;">
     <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Zprávy</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -8,29 +23,17 @@
     </div>
 </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="opponentModal" tabindex="-1" role="dialog" aria-labelledby="opponentModalLabel" aria-hidden="true" style="height:600px; padding-top:200px; ">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
-                        <h5 class="modal-title" id="opponentModalLabel">Detaily Oponentury</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p id="opponentDetails">Načítám...</p>
-                    </div>
-                </div>
-            </div>
-        </div> 
 <script>
     function messagesLoad(type,index){
         $.getJSON( "include/ajax/getMessages.php?typ="+type+"&id="+index, function( data ) {
             var l_html="";
             $.each(data, function(i,e) {if (e) l_html += `
-                <div class="list-group-item" data-id="${e['ID']}" ${((e['Message'])?'onclick="toggleDetails(this)"':"")} ondblclick="messageClick(${e['ID']},'${e['Article']}','${e['Type']}')">
+                <div class="list-group-item" data-id="${e['ID']}" ${((e['Message'])?'onclick="toggleDetails(this)"':"")} ${((e['Data'])?"ondblclick=\"messageClick("+e['ID']+","+e['Article']+","+e['Type']+")\"":"")}>
                         <div class="message-header">
-                            <div>${e['Datum'] || "Datum neznámé"} - ${e['Author'] || "Autor neznámý"}</div>
-                            <div class="align-self-end"> ${e['TypeText'] || "Neurčeno"} &nbsp; ${((e['Message'])?'&#9660':"&nbsp;&nbsp;&nbsp;")}</div>
+                            <div class="col d-flex justify-content-between flex-wrap">
+                            <div class="box">${e['Datum'] || "Datum neznámé"} - ${e['Author'] || "Autor neznámý"}</div>
+                            <div class="box"> ${e['TypeText'] || "Neurčeno"} ${((e['Article'])?"- (čl."+e['Article']+") ":"")}&nbsp; </div></div>
+                            <div style="widtht:3em">${((e['Message'])?'&#9660':"")}${((e['Data'])?'&#9650':"")}</div>
                         </div>
                         <div class="message-details">
                             <div> ${e['Message'] || ""}</div>
@@ -64,7 +67,10 @@
                 $("#opponentDetails").html(details);
 
                 // Otevření modálního okna
-                $("#opponentModal").modal('show');
+                $('#opponentModal').addClass('show').css('display', 'block').attr('aria-modal', 'true').removeAttr('aria-hidden').show();
+//                $('body').append('<div class="modal-backdrop fade show style="z-index: 10;"></div>');
+
+                
             },
             error: function() {
                 alert("Chyba při načítání oponentury."+status);

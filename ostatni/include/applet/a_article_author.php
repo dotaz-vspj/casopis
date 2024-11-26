@@ -179,8 +179,8 @@
         formData.append("abstract", $('#articleText').val());
         formData.append("document", $('#document')[0].files[0]);
         formData.append("image", $('#image')[0].files[0]);
-        formData.append("doc_name", $('document').val());
-        formData.append("note", $('editorNote').val());
+        formData.append("doc_name", $('#document').val());
+        formData.append("note", $('#editorNote').val());
         $.ajax({
             url: 'include/ajax/setArticleAuthor.php',  // URL PHP backendového skriptu
             type: 'POST',

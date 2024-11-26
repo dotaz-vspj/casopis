@@ -16,7 +16,7 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+<div class="pt-3" id="list-out"><div style="width:800px; ">
         <div class="row"><div class="col-md-4">            
         <h5 class="mb-5">Vydání</h5>
         </div>

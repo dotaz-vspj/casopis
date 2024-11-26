@@ -2,7 +2,7 @@
 <?php 
 // návratový objekt
 $response=array("status"=>0,"param"=>"","message"=>"Not set");
-
+//var_dump($_POST);
 //testy způsobilosti parametrů - upravit !!!
 if ($myID==0) {
     $response=array("status"=>2,"param"=>"","message"=>"Nepřihlášený uživatel - nelze vkládat");

@@ -26,33 +26,37 @@ $result = $conn->query($sql);
     <div class="tab-content" id="nav-tabContent">
         
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" >
-          <h4>Šéfredaktor</h4>
+          
 <?php $U=$result->fetchObject(); ?>
           <ul>
-            <li><strong><?php echo $U->fullName; ?></strong></li>
+          <h4>Šéfredaktor</h4>
+            <li><?php echo $U->fullName; ?></li>
           </ul>
-          <h4>Odpovědný redaktor</h4>
+          
           <ul>
+          <h4>Odpovědný redaktor</h4>
 <?php $U=$result->fetchObject();
 while ($U && ($U->Func<=12)) { ?>
-            <li><strong><?php echo $U->fullName; ?></strong></li>
+            <li><?php echo $U->fullName; ?></li>
 <?php $U=$result->fetchObject(); }  ?>
           </ul>
-          <h4>Redakční rada</h4>
+          
           <ul>
+          <h4>Redakční rada</h4>
 <?php if ($U) { ?>          
-            <li><strong><?php echo $U->fullName; ?></strong></li>
+            <li><?php echo $U->fullName; ?></li>
 <?php } else { ?>         
-            <li><strong>Osoby nejsou registrovány, zadejte je pomocí administračního rozhraní</strong></li>
+            <li>Osoby nejsou registrovány, zadejte je pomocí administračního rozhraní</li>
 <?php } ?>         
 <?php while($U=$result->fetchObject()) { ?>          
-            <li><strong><?php echo $U->fullName; ?></strong></li>
+            <li><?php echo $U->fullName; ?></li>
 <?php } ?>         
           </ul>
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" >
-            <h4>Kontakty</h4>
+            
             <ul>
+            <h4>Kontakty</h4>
                 <li><strong>Telefon:</strong> +420 123 456 789</li>
                 <li><strong>Email:</strong> jan.novak@vse.cz</li>
             </ul>
@@ -62,8 +66,9 @@ while ($U && ($U->Func<=12)) { ?>
             </ul>
         </div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" >
-            <h4>Podmínky podání</h4>
+       
             <ol>
+            <h4>Podmínky podání</h4>
                 <li>Podání článku musí být provedeno elektronicky prostřednictvím našeho webového formuláře.</li>
                 <li>Článek musí být originální, dosud nepublikovaný.</li>
                 <li>Všechny podání budou posuzována recenzenty z oboru.</li>
@@ -71,16 +76,19 @@ while ($U && ($U->Func<=12)) { ?>
             </ol>
         </div>
         
-        <div class="tab-pane fade d-flex flex-column justify-content-center align-items-center " id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab" >
+        <div class="tab-pane fade d-flex flex-column " id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab" >
             
             <div class="d-flex gap-5">
             <div>
+            
+            <ul>
             <h4>Mapa</h4>
-            <p><strong>Vysoká škola polytechnická</strong></p>
-            <p>Tolstého 1556/16 </p>
-            <p>58601 Jihlava</p>
+            <li><strong>Vysoká škola polytechnická Jihlava</strong></li>
+            <li>Tolstého 1556/16 </li>
+            <li>58601 Jihlava</li>
+            </ul>
             </div>
-            <iframe style="border:none" src="https://frame.mapy.cz/s/fabagugaru" width="400" height="280" frameborder="0"></iframe>
+            <iframe style="border:none" src="https://frame.mapy.cz/s/cafuvarebu" width="400" height="280" frameborder="0"></iframe>
             
         </div>
     </div>
@@ -89,29 +97,30 @@ while ($U && ($U->Func<=12)) { ?>
   <script>//Jana Aboutus - nemazat
 $(document).ready(function() {
 
-  $('main.nav-link').on('click', function() {
-      
-      $('main.nav-link').css({
-          'background-color': '#7473a7',
-          'color': 'white'
-      });
-      $('main.tab-pane').css({
-          'background-color': '#7473a7',
-          'color': 'white'
-      });
+$('main.nav-link').on('click', function() {
     
-      $(this).css({
-          'background-color': '#12146a',
-          'color': 'white'
-      });
-     
-      var targetTab = $(this).attr('data-bs-target');
-      $(targetTab).css({
-          'background-color': '#12146a',
-          'color': 'white'
-      });
-  });
-});</script>
+    $('main.nav-link').css({
+        'background-color': '#12146a',
+        'color': 'white'
+    });
+    $('main.tab-pane').css({
+        'background-color': '#12146a',
+        'color': 'white'
+    });
+  
+    $(this).css({
+        'background-color': '#f0f0f0',
+        'color': 'black',
+        
+    });
+   
+    var targetTab = $(this).attr('data-bs-target');
+    $(targetTab).css({
+        'background-color': '#12146a',
+        'color': 'white'
+    });
+});
+})</script>
 <?php include 'include/footer.php'; ?>
 
 

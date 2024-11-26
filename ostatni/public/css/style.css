@@ -1,3 +1,38 @@
+#messageList2Container .list-group-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* 100% na malých obrazovkách */
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+#messageList2Container .list-group-item:hover {
+    transform: scale(1.02);
+}
+
+#messageList2Container .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #888;
+}
+
+#messageList2Container .message-details {
+    display: none;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+#messageList2Container .list-group-item.expanded .message-details {
+        display: block;
+    }
+
 #messageListContainer    .list-group-item {
         margin-bottom: 15px;
         padding: 10px;
@@ -37,38 +72,6 @@
         font-style: italic;
     }
 
-/* Každá zpráva bude mít šířku 100% pro menší obrazovky, 50% pro střední a 33% pro velké obrazovky */
-.message-item {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%; /* 100% na malých obrazovkách */
-    transition: transform 0.3s ease;
-}
-
-.message-item:hover {
-    transform: scale(1.02);
-}
-
-.message-item .message-header {
-    font-size: 14px;
-    color: #888;
-}
-
-.message-item .message-body {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #333;
-}
-
-.message-item .message-footer {
-    margin-top: 10px;
-    text-align: right;
-    font-size: 12px;
-    color: #777;
-}
 
 /* Jana - odsazení headre a footer - nemazat */
 /*body{
@@ -289,7 +292,6 @@ form.editor textarea {
 
 .modal-content, .modal.right .modal-content {
 	border:0;
-        min-height: 100vh;
 }
 
 /*Tomáš (update) adaptive-template */
