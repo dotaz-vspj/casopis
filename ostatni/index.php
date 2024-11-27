@@ -31,6 +31,7 @@ $result = $conn->query($sql);
 
 ?>
 <?php include 'include/header.php'; ?>
+<div class="disclaimer">Tato aplikace je výsledkem školního projektu v kurzu Řízení SW projektu na Vysoké škole polytechnické Jihlava. Nejedná se o stránky skutečného časopisu!</div>
 <main>
         <div class="container-fluid">
             <div class="row justify-content-center">

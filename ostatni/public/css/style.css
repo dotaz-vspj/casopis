@@ -507,3 +507,10 @@ Vyhledávací pole a našeptávání - Ondra */
 #leftmenu-out {
     margin-right: 10px;
 }
+
+.disclaimer {
+    font-size: 0.8rem;
+    color: red;
+    width: 100%;
+    text-align: center;
+}

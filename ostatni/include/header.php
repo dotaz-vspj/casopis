@@ -16,7 +16,7 @@
 </head>
 <body onclick="document_onClick(this)">
     <header>
-        <nav class="navbar navbar-expand-lg bg-blue fixed-top">
+        <nav class="navbar navbar-expand-lg bg-blue">
             <div id="menuMain" class="container-fluid">
                 <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
