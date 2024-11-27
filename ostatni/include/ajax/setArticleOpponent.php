@@ -43,11 +43,13 @@ if (($_POST["action"]=="2")) { //Zapsat recenzi
   }
   $data=json_encode($_POST["data"]);
   try {
-    if ($value==40) { //posuň stavy, pokud vrací nebo (je poslední co schválil, a čeká se na posun (31))
-        if ($oppSum["done"]+1==$oppSum["sum"]){  //všichni OK 
-        $sql="UPDATE `RSP_ARTICLE` set status=".$value." where status=31 and ID=".$_POST["articleID"]; //recenzováno
-        $result = $conn->query($sql);
-    }   } else {
+    if ($value==40) { //posuň stavy, pokud je kladná, a ***
+        if ($oppSum["done"]+1==$oppSum["sum"]) { // ***=je to poslední recenze -> to by mohlo být na schválení
+            if ($oppSum["sum"]<2) $value=10;  // (ale není jich dost, tak v tom případě to vrať)
+            if ($oppSum["agr"]+1!=$oppSum["sum"]) $value=10;  // (ale nejsou všechny OK, tak v tom případě to vrať)
+            $sql="UPDATE `RSP_ARTICLE` set status=".$value." where status=31 and ID=".$_POST["articleID"]; //vrátit nebo schváleno
+            $result = $conn->query($sql);
+    }   } else { // nebo to vrať, když je záporná
             $sql="UPDATE `RSP_ARTICLE` set status=".$value." where ID=".$_POST["articleID"];
             $result = $conn->query($sql);
     }

@@ -13,10 +13,10 @@
     </div>
 </div>
 
-<div class="modal-content" id="messageList<?php echo (($scriptName=="ArticleRedactor")?"2":"") ;?>Container" style="height: 100%;">
+<div class="modal-content" id="messageListContainer" style="height: 100%;">
     <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Zprávy</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="setLayout(3);"></button>
     </div>
     <div class="modal-body" id="messageList">
         <p class="no-messages">Žádné aktivní zprávy</p>
