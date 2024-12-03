@@ -173,13 +173,7 @@ CREATE TABLE `RSP_ARTICLE_ROLE` (
   `Role` int NOT NULL,
   `Active_from` date NOT NULL,
   `Active_to` date DEFAULT NULL,
-  `active` int GENERATED ALWAYS AS ((case when (`Active_to` is null) then 1 else NULL end)) VIRTUAL,
-  UNIQUE KEY `Article` (`Article`,`Person`,`active`) USING BTREE,
-  KEY `Role` (`Role`),
-  KEY `FKeyAR_USER` (`Person`),
-  CONSTRAINT `FKey_AR_ARTICLE` FOREIGN KEY (`Article`) REFERENCES `RSP_ARTICLE` (`ID`),
-  CONSTRAINT `FKeyAR_USER` FOREIGN KEY (`Person`) REFERENCES `RSP_USER` (`ID`),
-  CONSTRAINT `TableAR_Index` FOREIGN KEY (`Role`) REFERENCES `RSP_CC_USER_Func` (`ID`)
+  `active` int GENERATED ALWAYS AS ((case when (`Active_to` is null) then 1 else NULL end)) VIRTUAL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

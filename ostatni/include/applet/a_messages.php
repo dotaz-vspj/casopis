@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="modal-content" id="messageListContainer" style="height: 100%;">
+<div class="modal-content" id="messageListContainer" style="min-height: 100%;">
     <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Zprávy</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="setLayout(3);"></button>
@@ -63,8 +63,11 @@
                               "<strong>Expertise:</strong> " + data.Expertise + "<br>" +
                               "<strong>Language:</strong> " + data.Language + "<br>" +
                               "<strong>Overall:</strong> " + data.Overall + "<br>" +
-                              "<strong>Message:</strong> " + data.Msg.replace(/u(0[01][\dA-F]{2})/gi, function(match, code) {return String.fromCharCode(parseInt(code, 16));});
-                $("#opponentDetails").html(details);
+                              "<strong>Message:</strong> " + data.Msg.replace(/u(0[01][\dA-F]{2})/gi, function(match, code) {return String.fromCharCode(parseInt(code, 16));})+
+                              ((data.doc!=null)?'<a href="include/ajax/getDocument.php?typ=o&id='+data.id+'">'+
+                              '<img src="<?php echo "{$img_dir}";?>download.png" height=50 alt="Soubor ke stažení"></a>':'');
+                
+                    $("#opponentDetails").html(details);
 
                 // Otevření modálního okna
                 $('#opponentModal').addClass('show').css('display', 'block').attr('aria-modal', 'true').removeAttr('aria-hidden').show();
@@ -76,5 +79,25 @@
                 alert("Chyba při načítání oponentury."+status);
             }
         });
+    }
+    function opponentListLoad(id) {                
+        // AJAX request pro získání oponentury podle ID
+        $.getJSON("include/ajax/getMessages.php?id="+id, function( data ) {
+          $.getJSON("include/ajax/getUsers.php?typ=4&id="+JSON.parse(data[0]["Data"]).join(","), function( data ) {
+            // Zobrazit detaily oponentury v modálním okně
+            var l_html="<H5>Seznam oponentů po akci:</h5>\n";
+            var opps=$("#opponents").val();
+            $.each(data, function(i,e) {if (e) l_html += `
+                <li class="list-group-item" data-id="${e['ID']}" >
+                    <span style="${((opps)?"background-color:"+((opps.split(',').includes(String(e['ID'])))?"lightgreen; ":"red; "):"")}display: inline-block; text-align:center; width:4ch;">${e['ID']}</span> &nbsp;
+                    ${e['LastName']}, ${e['FirstName']}</li>
+                `;
+            });
+            $("#opponentDetails").html(l_html);
+
+            // Otevření modálního okna
+            $('#opponentModal').addClass('show').css('display', 'block').attr('aria-modal', 'true').removeAttr('aria-hidden').show();
+        });
+      });
     }
 </script>
