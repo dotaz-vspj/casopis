@@ -17,7 +17,13 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 
 <!-- List -->
 <div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
-                    <h5 class="mb-5">Vydání</h5>
+        <div class="row"><div class="col-md-4">            
+        <h5 class="mb-5">Vydání</h5>
+        </div>
+        <div class="col-md-2"  style="font-size:.6em" onclick="menuItemClick('EdiNew');"><center>
+            <img style="height:26px; width:20px; object-fit: contain; " src="<?php echo "{$img_dir}";?>art_my.png" alt=""/><br/>
+            Nové vydání
+        </center></div></div>
 <?php include 'include/applet/a_editions.php'; ?>
 </div></div>
 

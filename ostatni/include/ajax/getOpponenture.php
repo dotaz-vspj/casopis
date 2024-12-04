@@ -11,8 +11,11 @@ if (isset($_GET['id'])) {
     if ($row = $result->fetchObject()) {
         // Předpokládám, že v posledním řádku je JSON v atributu 'Data'
         $data = json_decode($row->Data, true);
+<<<<<<< HEAD
         $data['id']=$id;
         $data['doc']=$row->Document;
+=======
+>>>>>>> 609e36f10bc9432c73774adb86c5e325502420be
         // Pokud jsou data validní, vrátíme je jako JSON
         if ($data) {
             echo json_encode($data);

@@ -6,6 +6,7 @@ $myID=0;if (isset($_SESSION['user'])&&isset($_SESSION['user']['id'])) $myID=$_SE
 include 'db.php';
 $doc_dir = getenv('DIR_DOCUMENTS');
 $img_dir = getenv('DIR_IMAGES');
+$scriptName="";
 
 $myFunc=50; //not registered
 if ($myID!=0) {$sql = "SELECT Func from `RSP_USER` U where ID=".$myID;

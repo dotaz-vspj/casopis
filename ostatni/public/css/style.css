@@ -1,3 +1,9 @@
+/* Jana - odsazení headre a footer - nemazat */
+/*body{
+    padding:130px 0 100px 0;
+ 
+ }*/
+
 /* Placeholder pictures */
 .placeholder {
     display: block;
@@ -61,10 +67,14 @@ header .navbar-brand {
 header .navbar .nav-item a {
     color: white;
 }
+header .navbar .nav-item a:hover {
+    color: #777;
+}
 
 header .navbar .nav-item.active {
     border: solid 1px white;
 }
+
 
 footer p {
     margin-bottom: 0;
@@ -156,11 +166,6 @@ input[type="search"]:focus {
     background-color: #f2f9ff;
 }
 
-.login-register-form .form-group {
-    /* margin-top: 3rem; */
-    min-height: 120px;
-}
-
 .login-register-form button {
     padding: 6px 12px;
     line-height: 2em;
@@ -210,16 +215,56 @@ form.editor textarea {
 	min-width:300px;
 }
 
-/*Tomáš (update) adaptive-template */
 .modal-content, .modal.right .modal-content {
 	border:0;
-        min-height: 90vh;
+        min-height: 100vh;
 }
 
-.overlayed {
+/*Tomáš (update) adaptive-template */
+/* Základní nastavení pro celý obal aplikace */
+#tt-application {
+    display: flex;
+    height: 100vh; /* Celková výška stránky */
+    overflow-y: auto;
+}
+/* Row nastavení */
+#tt-application .tt-row {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    margin-top: 90px; /* Odsazení pod header */
+    margin-bottom: 55px; /* Odsazení nad footer */
+    min-height: calc(100vh - 145px); /* Výška mezi header a footer */
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Sloupce */
+#tt-application .tt-row > div {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    
+}
+#leftmenu-out, #main-out {
+    overflow-y: hidden; /* Žádný vnitřní scroll */
+    min-height: 750px; /* Určuje výšku pro celou stránku (aby určoval výšku) */
+    display: flex;
+    flex-direction: column;
+    
+}
+#list-out, #messages-out {
+    overflow-y: auto; /* Povolit vertikální scrollování */
+}
+
+#tt-application .overlayed {
   right:0;
   position:absolute;
   z-index: 1;
+  top: 0; 
+  height: 100%;
 }
 
 /*Aleš (new) article-author */
@@ -256,5 +301,126 @@ form.editor textarea {
     margin-left: 10px;
     align-self: flex-start;
 }
+/*Přidat kod do style.css
+
+Vyhledávací pole a našeptávání - Ondra */
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+#search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.25s linear;
+    background-color: #12146a;
+    color: white;
+}
+
+#search:focus {
+    background-color: white;
+    color: black;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 45px; /* Posun pod vyhledávací pole */
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    display: none; /* Skryté, dokud nejsou k dispozici návrhy */
+    max-height: 200px; /* Maximální výška pro rolování */
+    overflow-y: auto;
+    border-radius: 4px;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion-item strong {
+    display: block;
+    font-size: 16px;
+    color: #000;
+}
+
+.suggestion-item small {
+    display: block;
+    font-size: 12px;
+    color: #555;
+}
 
 
+/* Jana AboutUs - nemazat */
+
+.nav-tabs .nav-link {
+    background-color: #7473a7; 
+    color: white;
+    border: none; 
+    width:25%;
+}
+.nav-tabs .nav-link.active {
+    background-color: #12146a; 
+    color: white;
+}
+.tab-content {
+    color: white;  
+}
+.tab-content .tab-pane.show.active {
+    background-color: #12146a;
+    padding: 5px;
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+#contend {
+    width: 50%;
+}
+
+#leftmenu-out .nav-item img {
+    filter: grayscale(1) opacity(0.5);
+    object-fit: contain;
+}
+
+#leftmenu-out .nav-item.active {
+    background-color: white;
+    color:#000;
+}
+
+#leftmenu-out .nav-item.active img {
+    filter: grayscale(0);
+    transition: all 0.25s ease-in-out;
+}
+
+#leftmenu-out .nav-item {
+    color: grey;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+#leftmenu-out .nav-item:hover {
+    background-color: white;
+}
+
+#leftmenu-out .nav-item:hover img {
+    filter: grayscale(0) opacity(1);
+}
+
+#leftmenu-out {
+    margin-right: 10px;
+}

@@ -43,7 +43,6 @@ if ($myFunc>22) {Header("location:index.php");die;}
     messagesLoad(2,0);
     editionsLoad(1,0); // nepublikované
     authorsLoad(1,0);  // Jen neadminy
-    aFormEmpty();
     setLayout(2);
 });
 function menuItemClick(index){
@@ -65,7 +64,6 @@ function articleClick(index,version){
 };
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
-    if ([31,34,35].includes(eventtype)) opponentureLoad(index);
 };
 function getMyID() {    
     var jqXHR = $.ajax({

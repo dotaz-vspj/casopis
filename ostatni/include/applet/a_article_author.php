@@ -1,6 +1,6 @@
 <?php ?>
-        <h5 class="mb-5" id="edit_header">Vložení/úprava článku</h5>
-        <form action="javascript:void(0);">
+<div id="contMain" style="display:none; ">
+    <h5 class="mb-5" id="edit_header">Vložení/úprava článku</h5>
             <div class="form-group">
                 <label for="articleTitle">Název článku</label>
                 <input type="text" class="form-control" id="articleTitle" placeholder="Zadejte název článku">
@@ -42,6 +42,8 @@
                 <label for="editorNote">Poznámka pro redakci</label>
                 <textarea class="form-control" id="editorNote" rows="2" placeholder="Zadejte poznámku pro redakci"></textarea>
             </div>
+            <div id="edit_restricted">
+            </div>
 
             <div class="form-buttons">
                 <select id="edice" name="edice" style="width: 120px;">
@@ -58,7 +60,6 @@
 
                 <button class="btn btn-success" onclick="aPost()">Uložit</button>
             </div>
-        </form>
          <!-- Modal for new author registration -->
 <div class="modal fade" id="newAuthorModal" tabindex="-1" aria-labelledby="newAuthorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -68,41 +69,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
             </div>
             <div class="modal-body">
-                <form id="newAuthorForm">
-                    <div class="mb-3">
-                        <label for="titleBefore" class="form-label">Titul před</label>
-                        <input type="text" class="form-control" id="titleBefore" placeholder="např. Ing.">
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Příjmení *</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Příjmení" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">Jméno *</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Jméno" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="titleAfter" class="form-label">Titul za</label>
-                        <input type="text" class="form-control" id="titleAfter" placeholder="např. Ph.D.">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">E-mail *</label>
-                        <input type="email" class="form-control" id="email" placeholder="E-mail" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="login" class="form-label">Login</label>
-                        <input type="text" class="form-control" id="login" placeholder="Uživatelské jméno">
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Telefon</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Telefonní číslo">
-                    </div>
+<?php include 'include/applet/a_user_admin.php'; ?>
                     <button type="button" class="btn btn-primary" onclick="registerNewAuthor()">Registrovat</button>
-                </form>
             </div>
         </div>
     </div>
-</div>
+</div></div>
 <script>
     function editionsLoad(type,index){
         $.getJSON( "include/ajax/getEditions.php?typ="+type+"&id="+index, function( data ) {
@@ -117,7 +89,7 @@
         $.getJSON( "include/ajax/getUsers.php?typ="+type+"&id="+index, function( data ) {
             var l_html="<option value=\"0\" disabled selected>Vyberte autora</option>\n";
             $.each(data, function(i,e) {if (e) l_html = l_html.concat(
-                '<option value="',e['ID'],'">',e['ID'],':',((e['TitleF']!=null)?e['TitleF']+' ':''),e['FirstName'],' ',e['LastName'],((e['TitleP']!=null)?', '+e['TitleP']:''),"</option>\n");
+                '<option value="',e['ID'],'">',e['ID'],':',((e['TitleF']!=null)?e['TitleF']+' ':''),e['LastName'],', ',e['FirstName'],((e['TitleP']!=null)?', '+e['TitleP']:''),"</option>\n");
             });
             $( "#registeredAuthors" ).html( l_html );
         });    
@@ -145,6 +117,7 @@
     }
     function aFormEmpty() {
         $("#edit_header").html("Vložení nového článku");
+        $("#edit_restricted").html("");
         $("#articleTitle").val("");
         $("#articleID").val("0");
         $("#selectedAuthors").html("");
@@ -157,10 +130,13 @@
         $("#editorNote").val("");
         $("#document").val("");
         $("#image").val("");
+        $("#contMain").show();
     }
     function aFormLoad(index) {
         $.getJSON( "include/ajax/getArticle.php?id="+index, function( data ) {
-            $("#edit_header").html("Úprava článku ID="+data[0]['ID']+'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
+            $("#edit_header").html("Úprava článku "//
+              +'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
+            $("#edit_restricted").html(((data[0]['Status']==20)?"":'<span style="color:red;">Pozor, článek je zpracováván, editace teď není možná.</span> Lze pouze zaslat redaktorovi novou, neaktivní verzi článku (tlačítko "Upload Document"+"Uložit").'));
             $("#articleTitle").val(data[0]['Title']);
             $("#articleID").val(data[0]['ID']);
             $("#authors").val(data[0]['authors']);
@@ -175,6 +151,7 @@
             $("#editorNote").val("");
             $("#document").val("");
             $("#image").val("");
+            $("#contMain").show();
         });    
     }
     function aPost() {
@@ -190,6 +167,10 @@
             "note" : "#editorNote"
         };
         $(".alert-danger").removeClass("alert-danger");
+        if ($('#document').val()) if (($("#document")[0].files[0].size / 1024)  > 5000) {
+            $('#document').addClass("alert-danger");alert("Dokument přesahuje 5MB");return false;}
+        if ($('#image').val()) if (($("#image")[0].files[0].size / 1024)  > 1000) {
+            $('#image').addClass("alert-danger");alert("Obrázek přesahuje 1MB");return false;}
         var formData = new FormData();
         formData.append("articleID", $('#articleID').val());
         formData.append("edition", $('#edice').val());
@@ -209,10 +190,10 @@
             success: function(response) {
                 d=$.parseJSON(response);
                 if (d["status"]==1) {
-                    articlesLoad(1,"22,24"); // autor nebo regAutor
-                    messagesLoad(0,0);
+                    articlesLoad(3,"22,24"); // autor nebo regAutor
+                    messagesLoad(2,0);
                     setLayout(1);
-                    alert("Článek uložen.");
+                    alert(d["message"]);
                 } else {
                     if (inField[d["param"]]!="") {
                         $(inField[d["param"]]).addClass("alert-danger");}
@@ -220,39 +201,22 @@
                 }
             },
             error: function(xhr, status, error) {
-                if (inField[d["param"]]!="") {
-                    $(inField[d["param"]]).addClass("alert-danger");}
-                alert("Status: " + error + "/" + status+"/"+d["status"] + "\n" + d["message"]);
+                alert("Nepodařilo se odeslat data na server: "+error);
             }
         }
       );
     }
     
     function registerNewAuthor() { //Aleš
-        $.post("include/ajax/registerAuthor.php", {
-            titleBefore: $("#titleBefore").val(),
-            lastName: $("#lastName").val(),
-            firstName: $("#firstName").val(),
-            titleAfter: $("#titleAfter").val(),
-            email: $("#email").val(),
-            login: $("#login").val(),
-            phone: $("#phone").val()
-        },
-        function(data, status) {
-            if (status === "success") {
-                const response = JSON.parse(data);
-                if (response.status === 1) {
-                    alert("Autor byl úspěšně registrován.");
-                    $('#newAuthorModal').modal('hide');
-                    filterAuthors();
-                    // $( "#registeredAuthors" ).val( response.id );
-                } else {
-                    alert("Chyba při registraci autora: " + response.message);
-                }
-            } else {
-                alert("Nepodařilo se odeslat data na server.");
-            }
-        });
+        aUserPost("")
     }
+    function onUserDone (it) {
+    if (it.value==0) {
+        aUserEmpty();
+        $('#newAuthorModal').modal('hide');
+        filterAuthors();
+    }
+}
+
 </script>
        

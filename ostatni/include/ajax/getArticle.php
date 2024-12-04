@@ -1,5 +1,4 @@
 <?php include '../session_open.php'; ?>
-<?php include '../db.php'; ?>
 <?php
 $FilterID=0;if (isset($_GET['id'])) $FilterID=htmlentities($_GET['id']);
 $data = [];if (is_numeric($FilterID)&&($FilterID!=0)) {

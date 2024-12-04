@@ -1,9 +1,6 @@
 <?php include 'include/session_open.php'; ?>
-<?php include 'include/functions.php'; ?>
 <?php include 'include/header.php'; ?>
-
 <?php 
-
 // store get id in variable with input_var
 $id = filter_input(INPUT_GET, 'id', FILTER_UNSAFE_RAW);
 // if id is not set, redirect to index.php
@@ -11,15 +8,8 @@ if (!isset($id)) {
     header('Location: index.php');
     exit();
 }
-
-// store article id in variable
-$articleId = extractNumber($id)[0];
-// store article number in variable
-$articleNumber = extractNumber($id)[1];
-
 ?>
 
-<!-- make html with bootstrap in same style as category.php or index.php -->
 <div class="container-fluid mb-5">
     <div class="row justify-content-center">
         <div class="col-sm-8">
@@ -44,7 +34,7 @@ $articleNumber = extractNumber($id)[1];
             </div>
             <div class="row justify-content-end mb-5">
                 <div class="col-sm-3">
-                    <a href="article.php?id=<?php echo htmlentities($articleId . '-' . $articleNumber) ?>" class="text-center box-btn btn-size-mid">Zpět na článek</a>
+                    <a href="article.php?id=<?php echo htmlentities($id) ?>" class="text-center box-btn btn-size-mid">Zpět na článek</a>
                 </div>
             </div>
         </div>

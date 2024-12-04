@@ -1,5 +1,9 @@
-<?php include 'include/session_open.php'; ?>
-<?php include 'include/db.php'; ?>
+<?php include 'include/session_open.php'; 
+$sql = 'SELECT U.Func, CONCAT(case when TitleF is null then "" else CONCAT(TitleF," ") end,FirstName," ",LastName,case when TitleP is null then "" else CONCAT(", ",TitleP) end) fullName FROM `RSP_USER` U '.
+       "where Active=1 and Func in (11,12,13) order by Func, Lastname, Firstname";
+$result = $conn->query($sql);
+// if ($result->rowCount() == 0) {Header("location:index.php");die;}
+?>
 <?php include 'include/header.php'; ?>
 
 
@@ -8,19 +12,13 @@
     <div class="w-50" id="contend">
       <div class="mb-5">
       <h1>O nás</h1>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque possimus minus dignissimos itaque accusantium illo doloremque assumenda! Aperiam asperiores fugit illo commodi error expedita deserunt? Sit ex cumque adipisci repudiandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil architecto ipsam error quos laboriosam eum excepturi aliquid fuga accusamus fugiat! Temporibus odio non modi ipsam est laudantium corporis, deserunt eaque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam optio labore aut recusandae, cumque aspernatur asperiores voluptate dolore maxime cupiditate vero dicta, repellendus laudantium? Architecto autem magnam beatae distinctio tenetur. lorem </p>
+      <p>Jsme studenti II. ročníku kombinovaného studia, a tvoříme team "Dotaz", kde v rámci předmětu Řízení Softwarových systémů pod vedením doc. Dr. Ing. Jana Voráčka, CSc. připravujeme projekt vědeckého časopisu. Projekt je veden jako skupinová seminární práce, a popravdě se nepočítá s jeho plným dokončením, což nám ovšem přijde škoda, neb jsme se na tom docela vyblbli (a občas i trochu zhádali). </p>
       </div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-           
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Redakční tým</button>
-            
-           
             <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" >Kontakty</button>
-
-        
             <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false" >Podmínky podání</button>
-
             <button class="nav-link" id="nav-map-tab" data-bs-toggle="tab" data-bs-target="#nav-map" type="button" role="tab" aria-controls="nav-map" aria-selected="false" >Mapa</button>
         </div>
     </nav>
@@ -29,15 +27,27 @@
         
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" >
           <h4>Šéfredaktor</h4>
+<?php $U=$result->fetchObject(); ?>
           <ul>
-            <li><strong>Titul jméno přijmení titul</strong> - univezita</li>
+            <li><strong><?php echo $U->fullName; ?></strong></li>
+          </ul>
+          <h4>Odpovědný redaktor</h4>
+          <ul>
+<?php $U=$result->fetchObject();
+while ($U && ($U->Func<=12)) { ?>
+            <li><strong><?php echo $U->fullName; ?></strong></li>
+<?php $U=$result->fetchObject(); }  ?>
           </ul>
           <h4>Redakční rada</h4>
           <ul>
-            <li><strong>Titul jméno přijmení titul</strong> - univezita</li>
-            <li><strong>Titul jméno přijmení titul</strong> - univezita</li>
-            <li><strong>Titul jméno přijmení titul</strong> - univezita</li>
-            <li><strong>Titul jméno přijmení titul</strong> - univezita</li>
+<?php if ($U) { ?>          
+            <li><strong><?php echo $U->fullName; ?></strong></li>
+<?php } else { ?>         
+            <li><strong>Osoby nejsou registrovány, zadejte je pomocí administračního rozhraní</strong></li>
+<?php } ?>         
+<?php while($U=$result->fetchObject()) { ?>          
+            <li><strong><?php echo $U->fullName; ?></strong></li>
+<?php } ?>         
           </ul>
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" >
@@ -76,7 +86,32 @@
     </div>
   </div>
   </main>
-  
+  <script>//Jana Aboutus - nemazat
+$(document).ready(function() {
+
+  $('main.nav-link').on('click', function() {
+      
+      $('main.nav-link').css({
+          'background-color': '#7473a7',
+          'color': 'white'
+      });
+      $('main.tab-pane').css({
+          'background-color': '#7473a7',
+          'color': 'white'
+      });
+    
+      $(this).css({
+          'background-color': '#12146a',
+          'color': 'white'
+      });
+     
+      var targetTab = $(this).attr('data-bs-target');
+      $(targetTab).css({
+          'background-color': '#12146a',
+          'color': 'white'
+      });
+  });
+});</script>
 <?php include 'include/footer.php'; ?>
 
 

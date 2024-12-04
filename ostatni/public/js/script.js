@@ -1,59 +1,66 @@
 function gotoarticle(id) {
     window.location.href = "article.php?id=" + id;
 }
+//  úpravy našeptávání a vyhledávání (by Ondra)
+function search_onInput(it) {
+    const query = it.value.trim();
+    if (query.length >= 2) {
+        // AJAX požadavek na návrhy
+        $.ajax({
+            url: 'include/search_suggestions.php',
+            method: 'GET',
+            data: { query },
+            success: function (data) {
+                console.log('Načtené návrhy:', data); // Debug
+                $('#suggestions').html(data).show();
+            }
+        });
+    } else {
+        $('#suggestions').hide();
+    }
+}
 
-$('#document').on('change', function() {
-    var fileName = this.files[0].name;
-    var nextSibling = $(this).next();
-    nextSibling.text(fileName);
-});
+// Skrytí návrhů při kliknutí mimo vyhledávací pole
+function document_onClick(e) {
+    if (!$(e.target).closest('.search-container').length) {
+        $('#suggestions').hide();
+    }
+}
 
-$('#image').on('change', function() {
-    var fileName = this.files[0].name;
-    var nextSibling = $(this).next();
-    nextSibling.text(fileName);
-});
+// Odeslání formuláře
+//function searchForm_onSubmit(e) {
+//    const query = $('#search').val().trim();
+//    if (!query) {
+//        e.preventDefault(); 
+//        flashError('#search');
+//    }
+//}
 
-var style=-1;
-var styles={0:{
-        "list-out":["col-sm-3"],
-        "main-out":["col"],
-        "messages-out":["col-sm-2","mx-3","border","rounded-3"]},
-            1:{
-        "list-out":["col"],
-        "main-out":[],
-        "messages-out":["col-sm-6","mx-3","border","rounded-3"]},
-            2:{
-        "list-out":["col-sm-3"],
-        "main-out":["col-sm-6","bg-primary"],
-        "messages-out":["overlayed","col-sm-4","mx-3","bg-dark","border-double","border-3","rounded-2"]},
-            3:{
-        "list-out":["col-sm-3"],
-        "main-out":["col","bg-primary"],
-        "messages-out":[]}};
-
-$( document ).ready(function () {
-    articlesLoad(0,0);
-    messagesLoad(0,0);
-    setLayout(1);
-});
-
-function menuItemClick(index){
-    console.log('Menu:'+index);
-    if (index==1) {setLayout(0);}
-    if (index==2) {messagesLoad(0,0);setLayout(0)}
-    if (index==3) {condLayout(3,2);}
-}; 
-
-function articleClick(index,version){
-    console.log('Article:'+index+','+version);
-    messagesLoad(1,index);
-};
-
-function messageClick(index, article, eventtype) {
-    console.log('Message:'+index+','+article+','+eventtype);
-    setLayout(index % 3);
-};
+// Efekt probliknutí při prázdném vyhledávacím poli
+function flashError(selector) {
+    const element = $(selector);
+    element.addClass('flash-error');
+    setTimeout(() => element.removeClass('flash-error'), 500);
+}
+// end Ondra
+// stylování rozhraní administrační aplikace (by TT)
+    var style=-1;
+    var styles={0:{
+            "list-out":["col-sm-3"],
+            "main-out":["col"],
+            "messages-out":["col-sm-2","mx-3","border","rounded-3"]},
+                1:{
+            "list-out":["col"],
+            "main-out":[],
+            "messages-out":["col-sm-6","mx-3","border","rounded-3"]},
+                2:{
+            "list-out":["col-sm-3"],
+            "main-out":["col-sm-6","bg-primary"],
+            "messages-out":["overlayed","col-sm-4","mx-3","bg-dark","border-double","border-3","rounded-2"]},
+                3:{
+            "list-out":["col-sm-3"],
+            "main-out":["col","bg-primary"],
+            "messages-out":[]}};
 
 function setLayout(mode) {
     if (style!=-1) {
@@ -63,9 +70,7 @@ function setLayout(mode) {
            });
         });
     }
-
     style=mode;
-
     Object.keys(styles[style]).forEach(key => {
        $("#"+key).css("display",((styles[style][key].length==0)?"none":"block"));
        styles[style][key].forEach(value => {
@@ -73,7 +78,7 @@ function setLayout(mode) {
        });
     });
 }
-
 function condLayout(cond,mode){
     if (style==cond) {setLayout(mode);return true;}
-}
+    }
+//end TT

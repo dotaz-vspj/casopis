@@ -14,10 +14,10 @@
     <script src="public/js/script.js"></script>
     <title>D.O.T.A.Z - rozcestník</title>
 </head>
-<body>
+<body onclick="document_onClick(this)">
     <header>
-        <nav class="navbar navbar-expand-lg bg-blue fixed-top d-flex align-items-center">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-blue fixed-top">
+            <div id="menuMain" class="container-fluid">
                 <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
                         <img src="<?php echo "{$img_dir}";?>logo-dotaz.svg" alt="Logo casopisu DOTAZ">
@@ -32,17 +32,17 @@
                     </ul>
                 </div>
                 <div class="col-sm-4">
-                    <form class="d-flex" role="search" method="get" action="include/search.php">
-                        <input class="form-control me-2" type="search" placeholder="Článek, autor, téma, ..." aria-label="Search">
-                        <button class="btn btn-light-border" type="submit">Vyhledat</button>
-                    </form>
-                </div>
+    <form class="d-flex search-container" role="search" onsubmit="return false;">
+        <input id="search" name="query" class="form-control me-2" type="search" placeholder="Vyhledávejte podle článků nebo autorů..." aria-label="Search" autocomplete="off" oninput="search_onInput(this)">
+        <div id="suggestions" class="suggestions-list"></div>
+    </form>
+</div>
 
                 <div class="col-sm-4 d-flex justify-content-end">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <?php if (isset($_SESSION['user'])): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile.php">Administrace</a>
+                                <a class="nav-link" href="profile.php">Profil</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="include/logout.php">Odhlásit se</a>
@@ -60,3 +60,4 @@
             </div>
         </nav>
     </header>
+    

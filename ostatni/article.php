@@ -1,3 +1,7 @@
+<!-- UPDATE TT 2024-11-18 -->
+<!-- Header updates -->
+<!-- script "remove header" onload -->
+
 <!-- UPDATE TT 2024-11-06 -->
 <!-- UPDATE used session_open: <php include 'include/session_open.php'; ?> - defines $myID#$img_dir-->
 <!-- UPDATE used img-dir: <php echo "{$img_dir}picture{$A->ID}";?>.png -->
@@ -6,9 +10,9 @@
 <?php include 'include/session_open.php'; ?>
 <?php
 $ArticleID=htmlentities($_GET['id']);
-$category=htmlentities($_GET['cat']);
+$category="";
 if (!is_numeric($ArticleID)) {Header("location:index.php");die;}
-include 'include/db.php'; 
+
 $sql = "SELECT A.*, case when A.Status=5 then E.Published else C.descr end Published FROM `RSP_ARTICLE` A ".
        "left join `RSP_EDITION` E on A.Edition=E.ID ".
        "left join `RSP_CC_ARTICLE_Stat` C on A.Status=C.ID ".
@@ -76,4 +80,17 @@ echo (($nID == "")?'javascript:void(0)" style="color:gray; ':'article.php?id='.$
         </div>
     </div>
 </div>
+<script>
+$( document ).ready(function () { 
+    if (window.name == "_preview") $("#menuMain").html('                <div class="col-sm-2 d-flex" style="width:145px; ">' +
+'                        <img src="<?php echo "{$img_dir}";?>logo-dotaz.svg" alt="Logo casopisu DOTAZ">' +
+'                </div><div class="col-sm-2"></div>' +
+'                <div class="col-sm-8" style="color:lightgray; ">' +
+'                    Toto je náhledové okno s omezenou funkcí. Po skončení prohlídky ho doporučujeme &nbsp;' +
+'                    <button type="button" class="btn btn-light-border"onclick="self.close();">Uzavřít</button>' +
+'                    &nbsp; (a vrátit se do původního okna).' +
+'                </div>');
+});
+
+</script>
 <?php include 'include/footer.php'; ?>
