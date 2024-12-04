@@ -6,6 +6,7 @@
 
 <?php include 'include/session_open.php'; ?>
 <?php
+$scriptName = "Index";
 $EditionID = isset($_GET['id']) ? htmlentities($_GET['id']) : "";
 
 $sql = "SELECT MAX(ID) from `RSP_EDITION` where Published<now()";

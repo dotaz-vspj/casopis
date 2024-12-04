@@ -3,7 +3,7 @@
 // maketa, funkční menu.
 include 'include/session_open.php'; ?>
 <?php $scriptName="Profile";
-if ($myFunc>23) {Header("location:index.php");die;}    
+if ($myFunc>24) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 
@@ -15,7 +15,7 @@ if ($myFunc>23) {Header("location:index.php");die;}
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div class="h-100" style="width:800px;">
+<div class="pt-3" id="list-out"><div class="h-100" style="width:800px;">
                     <h5 class="mb-5">Moje články</h5>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
@@ -34,21 +34,25 @@ if ($myFunc>23) {Header("location:index.php");die;}
         </B> s oprávněním <B>"<?php echo $ME->descr; ?>"</B></p>
     <p>V systému máte přístup k <B> 
 <?php
-    $sql = "SELECT (SELECT count(ID) from `RSP_ARTICLE` where hasAccess(".$myID.",ID)) access,"
-            . "(SELECT count(ID) from `RSP_ARTICLE` where Creator=".$myID.") owner";
+    $sql = "SELECT (SELECT count(ID) from `RSP_ARTICLE` where hasAccess(".$myID.",ID)) access, "
+            . "(SELECT count(ID) from `RSP_ARTICLE` where Creator=".$myID.") owner, "
+            . "(SELECT MAX(ID) from `RSP_ARTICLE` where hasAccess(".$myID.",ID)) last";
     $result = $conn->query($sql);
     $ME = $result->fetchObject();
     echo $ME->access; ?>
-        </B> článkům a jste vlastníkem <B><?php echo $ME->owner; ?></B> článků.</p>
+        </B> článkům a jste vlastníkem <B><?php echo $ME->owner; ?></B> článků -> k nahlédnutí od posledního: &nbsp;
+         <a href="article.php?id=<?php echo $ME->last; ?>" target="_preview"><button type="button" class="btn btn-primary mt-2" onclick="">Seznam článků</button></a>
+</p>
     <p>V systému máte evidováno <B> 
 <?php
     $sql = "SELECT count(ID) count, MIN(Datum) min, MAX(Datum) max from `RSP_EVENT` where Autor=".$myID;
     $result = $conn->query($sql);
     $ME = $result->fetchObject();
     echo $ME->count; ?>
-        </B> akcí v sekci Zprávy, a to v období od <B><?php echo $ME->min; ?></B> do <B><?php echo $ME->max; ?></B>.</p>
-    <p>Pro práci se systémem si nejprve vyberte oblast Vaší plánované činnosti z&nbsp;levého menu,
-            seznam článků zde (bez výběru z&nbsp;menu) je pouze informační přehled a není možné s&nbsp;nimi zde (na&nbsp;<code>profile.php</code>) manipulovat.</p>
+        </B> vlastních akcí v sekci Zprávy, a to v období od <B><?php echo $ME->min; ?></B> do <B><?php echo $ME->max; ?></B>.</p>
+    <p><B>Pro práci se systémem si nejprve vyberte oblast Vaší plánované činnosti z&nbsp;levého menu</B>,<br/>
+            aktuálně viditelný seznam článků (bez výběru z&nbsp;menu) je pouze informační přehled <br/>
+            a není možné s&nbsp;nimi zde (na&nbsp;<code>profile.php</code>) manipulovat.</p>
     <p>Pokud chcete změnit své registrační údaje, můžete použít toto tlačítko:
      <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateUser">Změnit vlastní údaje</button>
     </p>
@@ -90,9 +94,10 @@ if (isset($_SESSION['user'])) {
 
 </div></div>
 <script>
-    $( document ).ready(function () {
-    articlesLoad(3,"21,22,24");
-    messagesLoad(0,0);
+  $( document ).ready(function () {
+    if (<?php echo $myFunc; ?><20) articlesLoad(2,-2); 
+    else articlesLoad(3,"21,22,24");
+    messagesLoad(6,0);
     setLayout(3);
     aUserLoad(<?php echo $myID; ?>)
 });

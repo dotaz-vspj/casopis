@@ -34,7 +34,8 @@ if ($myFunc==50) {
     }
     $Func=23;
 } else {
-    $Func=filter_input(INPUT_POST, 'Func', FILTER_VALIDATE_INT);if ($myFunc==22) $Func=24;
+    $Func=filter_input(INPUT_POST, 'Func', FILTER_VALIDATE_INT);
+    if ($myFunc==22) $Func=(($myID==$userID)?22:24); // autor dává sebe jako Reg.Autora, jiné přidá jako neregistrovaného
     if (($Func=="")||(!is_numeric($Func))||($Func==0)) {
         $response=array("status"=>2,"param"=>"Func","message"=>"Funkce není nastavena");
         echo json_encode($response, JSON_PRETTY_PRINT);die;
@@ -64,8 +65,6 @@ $phone = $_POST['Phone'] ?? null;
 if ($phone=="") $phone=null;
 if ($userName=="") $userName=null;
 
-$Func=23;if ($myFunc<=22) $Func=24;if ($myFunc<20) $Func=$_POST['Func'];
-if (($Func=="")||(!is_numeric($Func))) $Func=23;
 if (($Func<$myFunc)&&($userID!=$myID)) {
     $response=array("status"=>4,"param"=>'passwd2',"message"=>"Nedostatečná práva k operaci");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
@@ -103,7 +102,7 @@ if ($password!="") try {
 
 try {    
         $stmt = $conn->prepare('INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) '
-                . 'VALUES (now(), :creator, NULL, NULL, 10, :note, :data, NULL)');
+                . 'VALUES (now(), :creator, NULL, NULL, 1, :note, :data, NULL)');
         $stmt->execute([ 'creator' => (($myID==0)?null:$myID), 'note' => (($_POST["note"]==NULL)?"":$_POST["note"]), 'data' => "{ID:".$userID."}"]);
     } catch (PDOException $e) {
         $response = ['status' => 3, 'id' => "" , 'message' => 'Chyba při logování: ' . $e->getMessage()];

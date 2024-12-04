@@ -26,7 +26,7 @@ $result = $conn->query($sql);
                     <h4>Vydáno dne:
                         <span class="published">
                             <?php 
-                                if (strtotime($E->Published) === false) {
+                                if (($E->Published == "" )||(strtotime($E->Published) === false)) {
                                     echo '"' . $E->Published . '"';
                                 } else {
                                     echo $E->Published;

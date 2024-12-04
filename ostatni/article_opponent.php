@@ -16,7 +16,7 @@ if ($myFunc>21) {Header("location:index.php");die;}
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+<div class="pt-3" id="list-out"><div style="width:800px; ">
                     <h5 class="mb-5">Články k oponentuře</h5>
 <?php include 'include/applet/a_articles.php'; ?>
 </div></div>
@@ -53,12 +53,8 @@ function articleClick(index,version){
     articleStatus=parseInt(version);
     console.log('Article:'+index+','+version);
     messagesLoad(3,index);
-    aFormLoad(index);
     hidetabs();
-    if ((version==2)||(version==4)) {
-        $("#opp_accept").show();
-    };
-    {$("#opp_submit").show();}
+    aFormLoad(index);
     setLayout(0);
 };
 function messageClick(index, article, eventtype) {

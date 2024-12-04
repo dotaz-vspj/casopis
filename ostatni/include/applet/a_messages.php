@@ -59,11 +59,11 @@
 
                 // Zobrazit detaily oponentury v modálním okně
                 var details = "<strong>Relevance:</strong> " + data.Relevance + "<br>" +
-                              "<strong>Originalita:</strong> " + data.Originality + "<br>" +
-                              "<strong>Odbornost:</strong> " + data.Expertise + "<br>" +
-                              "<strong>Jazyk:</strong> " + data.Language + "<br>" +
-                              "<strong>Celkové hodnocení:</strong> " + data.Overall + "<br>" +
-                              "<strong>Zpráva:</strong> " + data.Msg.replace(/u(0[01][\dA-F]{2})/gi, function(match, code) {return String.fromCharCode(parseInt(code, 16));})+
+                              "<strong>Originality:</strong> " + data.Originality + "<br>" +
+                              "<strong>Expertise:</strong> " + data.Expertise + "<br>" +
+                              "<strong>Language:</strong> " + data.Language + "<br>" +
+                              "<strong>Overall:</strong> " + data.Overall + "<br>" +
+                              "<strong>Message:</strong> " + data.Msg.replace(/u(0[01][\dA-F]{2})/gi, function(match, code) {return String.fromCharCode(parseInt(code, 16));})+
                               ((data.doc!=null)?'<a href="include/ajax/getDocument.php?typ=o&id='+data.id+'">'+
                               '<img src="<?php echo "{$img_dir}";?>download.png" height=50 alt="Soubor ke stažení"></a>':'');
                 

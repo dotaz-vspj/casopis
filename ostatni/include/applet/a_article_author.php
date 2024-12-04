@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="articleTitle">Název článku</label>
                 <input type="text" class="form-control" id="articleTitle" placeholder="Zadejte název článku">
-                <input type="hidden" id="articleID" name="articleID">
+                <input type="hidden" id="articleID" name="articleID" value="0">
             </div>
 
             <!-- Sekce pro výběr autorů -->
@@ -116,6 +116,7 @@
         $("#authors").val(arr);
     }
     function aFormEmpty() {
+        $(".alert-danger").removeClass("alert-danger");
         $("#edit_header").html("Vložení nového článku");
         $("#edit_restricted").html("");
         $("#articleTitle").val("");
@@ -133,6 +134,7 @@
         $("#contMain").show();
     }
     function aFormLoad(index) {
+        $(".alert-danger").removeClass("alert-danger");
         $.getJSON( "include/ajax/getArticle.php?id="+index, function( data ) {
             $("#edit_header").html("Úprava článku "//
               +'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
@@ -179,8 +181,8 @@
         formData.append("abstract", $('#articleText').val());
         formData.append("document", $('#document')[0].files[0]);
         formData.append("image", $('#image')[0].files[0]);
-        formData.append("doc_name", $('document').val());
-        formData.append("note", $('editorNote').val());
+        formData.append("doc_name", $('#document').val());
+        formData.append("note", $('#editorNote').val());
         $.ajax({
             url: 'include/ajax/setArticleAuthor.php',  // URL PHP backendového skriptu
             type: 'POST',
@@ -195,7 +197,7 @@
                     setLayout(1);
                     alert(d["message"]);
                 } else {
-                    if (inField[d["param"]]!="") {
+                    if ((d["param"]!="") && (inField[d["param"]]!="")) {
                         $(inField[d["param"]]).addClass("alert-danger");}
                     alert("Status: " + status+"/"+d["status"] + "\n" + d["message"]);
                 }

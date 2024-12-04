@@ -39,11 +39,11 @@ if ($myFunc>22) {Header("location:index.php");die;}
 </div></div>
 <script>
     $( document ).ready(function () { 
+    authorsLoad(1,0);  // Jen neadminy
     articlesLoad(3,"22,24"); // autor nebo regAutor nebo creator
     messagesLoad(2,0);
     editionsLoad(1,0); // nepublikované
-    authorsLoad(1,0);  // Jen neadminy
-    aFormEmpty();
+//    aFormEmpty();
     setLayout(2);
 });
 function menuItemClick(index){
@@ -67,14 +67,6 @@ function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
     if ([31,34,35].includes(eventtype)) opponentureLoad(index);
 };
-function getMyID() {    
-    var jqXHR = $.ajax({
-        url: "include/ajax/getMyID.php",
-        type: 'GET',
-        async: false,
-    });
-    return jqXHR.responseText;
-}
 </script>
 
 <?php include 'include/footer.php'; ?>

@@ -10,7 +10,7 @@
         <select class="form-control" id="articleAccept">
             <option value="" disabled selected>--nastavte zvolený postup--</option>
             <option value="31,32">Přijmout oponenturu</option>
-            <option value="13,30">Odmítnout oponenturu</option>
+            <option value="12,30">Odmítnout oponenturu</option>
         </select>
     </div>
     <div id="opp_submit" class="row" style="display:block;">
@@ -88,13 +88,17 @@
     </div>
 
     <div class="form-buttons">
-        <button class="btn btn-success" onclick="aPost()">Odeslat</button>
+        <!-- Custom file input for document -->
+        <label class="btn btn-primary" id="document-btn" for="document">Upload Document</label>
+        <input class="form-control" id="document" name="document" type="file" style="display: none;">
+
+        <button id="submit" class="btn btn-success" onclick="aPost()">Odeslat</button>
     </div>
 <script>
     var formStatus=0;
     var articleStatus=0;
 
-    function editionsLoad(type,index){
+/*    function editionsLoad(type,index){
         $.getJSON( "include/ajax/getEditions.php?typ="+type+"&id="+index, function( data ) {
             var l_html="<option value=\"-2\" selected>Všechny v neuzavřeném řízení</option>\n"+
                        "<option value=\"-1\">Nezařazené k edici</option>\n";
@@ -104,22 +108,30 @@
             $( "#articlesFilter" ).html( l_html );
         });    
     }
-    function hidetabs(){
+*/    function hidetabs(){
         $("#opp_accept").hide();
         $("#opp_submit").hide();
+        $("#document-btn").hide();
         $("#articleAccept").val("");
         formStatus=0;
     }
     function aFormLoad(index) {
+        $(".alert-danger").removeClass("alert-danger");
         $("#articleID").val(index);
         $("#editorNote").val("");
         $.getJSON( "include/ajax/getArticle.php?id="+index, function( data ) {
-            $("#edit_header").html("Zpracování článku ID="+data[0]['ID']+'<a href="article.php?id='+data[0]['ID']+'" target="_preview"><button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
+            if (~(","+data[0]['opponents']+",").indexOf(",<?php echo $myID?>,")) {
+                $("#submit").prop('disabled', false);
+                $("#edit_header").html("Zpracování článku ID="+data[0]['ID']+'<a href="article.php?id='+data[0]['ID']+'" target="_preview">\n'
+                +'<button type="button" class="btn btn-primary mt-2 float-end">Náhled</button></a>');
+            } else {
+                $("#submit").prop('disabled', true);
+                $("#edit_header").html("Náhled neaktivní recenze k ID="+data[0]['ID']);}
             $("#articleTitle").val(data[0]['Title']);
         });
         formStatus=0; //neposíláme nic
         if ([12,30,31].includes(articleStatus)) {
-            $.getJSON( "include/ajax/getMessages.php?typ=5&id="+index, function( data ) {
+            $.getJSON( "include/ajax/getMessages.php?typ=6&id="+index, function( data ) {
                 formStatus=1; //posíláme stav
                 if (data[0]) {  //pokud s článkem pracoval, a naposled přijal nebo zpracoval recenzi...
                     formStatus=2; // asi posíláme recenzi
@@ -144,14 +156,14 @@
                         formStatus=1; // tak ne, posíláme stav
                     }
                 }
-                if (formStatus==2) $("#opp_submit").show();
+                if (formStatus==2) {$("#opp_submit").show();$("#document-btn").show();}
                 else  $("#opp_accept").show();
-
             });
         }
     }
     function aPost() {
         var isOK=false;
+        $(".alert-danger").removeClass("alert-danger");
         if (formStatus==1) isOK=($("#articleAccept").val()!="");
         var DATA={};
         if (formStatus==2) {
@@ -166,26 +178,49 @@
                 alert("Prosím ohodnoťte všechny kategorie.");
                 return;
             }    
+            if ($('#document').val()) if (($("#document")[0].files[0].size / 1024)  > 2000) {
+                $('#document').addClass("alert-danger");alert("Dokument přesahuje 2MB");return false;}
             isOK=true;
         }
 
       if (isOK) 
-      $.post("include/ajax/setArticleOpponent.php",
-        {
-            articleID: $("#articleID").val(),
-            action: formStatus,
-            status: $("#articleAccept").val(),
-            data: DATA,
-            note: $("#editorNote").val()
-        },
-        function(data, status){
-            d=$.parseJSON(data);
-            if ((status="success")&&(d["status"]==1)) {
-                articlesLoad(1,"21"); // obnov seznam článků
-                articleClick($("#articleID").val(),d["param"]);
-                alert("Stav nastaven.");
-            } else {
-                alert("Status: " + status+"/"+d["status"] + "\n" + d["message"]);
+      var inField={
+            "": "",
+            "articleID" : "",
+            "action" : "",
+            "status" : "#articleAccept",
+            "data" : "#ratingOverall",
+            "document" : "#document-btn",
+            "note" : "#editorNote"
+        };
+        var formData = new FormData();
+        formData.append("articleID", $('#articleID').val());
+        formData.append("action", formStatus);
+        formData.append("status", $('#articleAccept').val());
+        Object.keys(DATA).forEach(key => {formData.append(`data[${key}]`, DATA[key]);});
+        formData.append("document", $('#document')[0].files[0]);
+        formData.append("note", $('#editorNote').val());
+        $.ajax({
+            url: 'include/ajax/setArticleOpponent.php',  // URL PHP backendového skriptu
+            type: 'POST',
+            data: formData,
+            contentType: false,  // Důležité pro FormData
+            processData: false,  // Důležité pro FormData
+            success: function(data) {
+                d=$.parseJSON(data);
+                if ((status="success")&&(d["status"]==1)) {
+                    articlesLoad(1,"21"); // obnov seznam článků
+                    articleClick($("#articleID").val(),d["param"]);
+                    messagesLoad(3,$("#articleID").val());
+                    alert(d["message"]);
+                } else {
+                    if ((d["param"]!="") && (inField[d["param"]]!="")) {
+                        $(inField[d["param"]]).addClass("alert-danger");}
+                    alert("Status: " + status+"/"+d["status"] + "\n" + d["message"]);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Nepodařilo se odeslat data na server: "+error);
             }
         }
       );

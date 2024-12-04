@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (password_verify($password, $result['Password'])) {
                 // Set session variables
                 $session_hash = bin2hex(random_bytes(12));
-
+/*
                 // if user's id was found in rsp_session table, update the session tag and TS
                 // query the rsp_session table for the user's
                 $sql = "SELECT * FROM RSP_SESSION WHERE Login = :login LIMIT 1";
@@ -51,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         header('Location: loginpage.php');
                         exit();
                     }
-                } else {
-                    // insert the session tag and TS
+                } else { 
+*/                    // insert the session tag and TS
                     $sql = "INSERT INTO RSP_SESSION (`Login`, `TS`, `SessionTag`) VALUES (:login, NOW(), :session_tag)";
 
                     try {
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         exit();
                     }
 
-                }
+//                }
 
                 $stmt = null;
                 $_SESSION['user'] = ['username' => $username, 'email' => $email, 'id' => $last_id, 'session_tag' => $session_hash];

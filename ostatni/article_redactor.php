@@ -16,7 +16,7 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 </div>
 
 <!-- List -->
-<div class="pt-3 overflow-hidden" id="list-out"><div style="width:800px; ">
+<div class="pt-3" id="list-out"><div style="width:800px; ">
                     <h5 class="mb-5">Redakce článků</h5>
                     <label for="articlesFilter">Vybrat články</label>
                     <select class="form-control" id="articlesFilter" onchange="articlesLoad(2,this.value);">
@@ -40,6 +40,7 @@ if ($myFunc>=20) {Header("location:index.php");die;}
 <script>
     $( document ).ready(function () {
     editionsLoad(0,0);
+    editionsLoad2(1,0);
     oppsLoad(3,0);
     articlesLoad(2,-2);
     messagesLoad(1,0);
@@ -71,6 +72,7 @@ function articleClick(index,version){
 function messageClick(index, article, eventtype) {
     console.log('Message:'+index+','+article+','+eventtype);
     if ([31,34,35].includes(eventtype)) opponentureLoad(index);
+    if ([18,19].includes(eventtype)) opponentListLoad(index);
 };
 </script>
 
