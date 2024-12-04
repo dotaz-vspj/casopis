@@ -7,7 +7,7 @@ ALTER TABLE `RSP_ARTICLE` CHANGE `Title` `Title` VARCHAR(128) CHARACTER SET utf8
 
 ALTER TABLE `RSP_EDITION` CHANGE  `Title` `Title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 INSERT INTO `RSP_USER` (`ID`, `FirstName`, `LastName`, `TitleF`, `TitleP`, `Func`, `Phone`, `Mail`, `Login`, `Password`, `Active`) VALUES
-(102, 'Hironori', 'Washizaki\r\n', NULL, NULL, 24, NULL, 'Hironori@autor.vspj.cz', NULL, NULL, 2),
+
 (103, 'Nobukazu', 'Yoshioka\r\n', NULL, NULL, 24, NULL, 'Nobukazu@autor.vspj.cz', NULL, NULL, 2),
 (104, 'Hiroshi', 'Tanaka\r\n', NULL, NULL, 24, NULL, 'Hiroshi@autor.vspj.cz', NULL, NULL, 2),
 (105, 'Masaru', 'Ide', NULL, NULL, 24, NULL, 'Masaru@autor.vspj.cz', NULL, NULL, 2),

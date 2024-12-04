@@ -1,6 +1,6 @@
 -- Active: 1729363936287@@127.0.0.1@3306@rsp
 DELIMITER $$
-CREATE DEFINER=`tis`@`%` FUNCTION `hasAccess`(`userNO` INT, `articleNO` INT) RETURNS tinyint(1)
+CREATE DEFINER=`root`@`localhost` FUNCTION `hasAccess`(`userNO` INT, `articleNO` INT) RETURNS tinyint(1)
     READS SQL DATA
 BEGIN
   IF userNO<>0 THEN
