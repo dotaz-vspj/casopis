@@ -70,8 +70,10 @@ while ($U && ($U->Func<=12)) { ?>
             <ol>
             <h4>Podmínky podání</h4>
                 <li>Podání článku musí být provedeno elektronicky prostřednictvím našeho webového formuláře.</li>
+                <li>Pokud nejste registrovaným autorem, je třeba o povolení první publikace požádat redakci.<br/>
+                (po registraci a přihlášení použijte tlačítko "Zpráva pro redakci", a formulujte svou žádost o publikaci tak, aby Vám ji redakce mohla povolit)</li>
                 <li>Článek musí být originální, dosud nepublikovaný.</li>
-                <li>Všechny podání budou posuzována recenzenty z oboru.</li>
+                <li>Všechna podání budou posuzována recenzenty z oboru.</li>
                 <li>Maximální délka článku je 5000 slov včetně příloh.</li>
             </ol>
         </div>

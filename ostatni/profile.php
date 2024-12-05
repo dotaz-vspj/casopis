@@ -3,7 +3,7 @@
 // maketa, funkční menu.
 include 'include/session_open.php'; ?>
 <?php $scriptName="Profile";
-if ($myFunc>23) {Header("location:index.php");die;}    
+if ($myFunc>24) {Header("location:index.php");die;}    
 ?>
 <?php include 'include/header.php'; ?>
 
@@ -56,13 +56,16 @@ if ($myFunc>23) {Header("location:index.php");die;}
     <p>Pokud chcete změnit své registrační údaje, můžete použít toto tlačítko:
      <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#updateUser">Změnit vlastní údaje</button>
     </p>
+    <p>Pro zaslání zprávy redakci použijte tlačítko:
+     <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#sendMsg">Zpráva pro redakci</button>
+    </p>
 <div class="modal fade" id="updateUser" tabindex="-1" aria-labelledby="newAuthorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="newAuthorModalLabel">Úprava vlastních údajů</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-            </div>
+           </div>
             <div class="modal-body">
 <?php include 'include/applet/a_user_admin.php'; ?>
                     <button type="button" class="btn btn-primary" onclick="updateME();">Upravit</button>
@@ -70,6 +73,22 @@ if ($myFunc>23) {Header("location:index.php");die;}
         </div>
     </div>
 </div>
+<div class="modal fade" id="sendMsg" tabindex="-1" aria-labelledby="newMsqModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newMsgModalLabel">Zpráva redaktorovi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+           </div>
+            <div class="modal-body">
+                    <textarea class="form-control" id="editorNote" rows="2" placeholder="Zadejte text zprávy..."></textarea>
+                    <button type="button" class="btn btn-primary" onclick="sendIt();">Poslat</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+ 
 <?php
 /*        var_dump($_SESSION);
 if (isset($_SESSION['user'])) {
@@ -94,12 +113,14 @@ if (isset($_SESSION['user'])) {
 
 </div></div>
 <script>
-    $( document ).ready(function () {
-    articlesLoad(3,"21,22,24");
-    messagesLoad(0,0);
+  $( document ).ready(function () {
+    if (<?php echo $myFunc; ?><20) articlesLoad(2,-2); 
+    else articlesLoad(3,"21,22,24");
+    messagesLoad(6,0);
     setLayout(3);
-    aUserLoad(<?php echo $myID; ?>)
-});
+    aUserLoad(<?php echo $myID; ?>);
+    });
+    
 function menuItemClick(index){
     console.log('Menu:'+index);
     if (index=="UsrAdm") {window.location.replace('user_admin.php');}
@@ -127,6 +148,23 @@ function onUserDone (it) {
         window.location.replace('profile.php');
     }
 };
+function sendIt () {
+      $.post("include/ajax/setMessage.php",
+        {
+            note: $("#editorNote").val()
+        },
+        function(d, status){
+            if ((status="success")&&(d["status"]==1)) {
+                articlesLoad(2,$("#articlesFilter").val()); // obnov seznam článků
+                articleClick($("#articleID").val(),d["param"]);
+                alert(d["message"]);
+        window.location.replace('profile.php');
+            } else {
+                alert("Status: " + status+"/"+d["status"] + "\n" + d["message"]);
+            }
+        }
+      );
+    }
 </script>
 
 <?php include 'include/footer.php'; ?>

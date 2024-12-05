@@ -1,20 +1,17 @@
 <?php include '../session_open.php'; ?>
+<?php include 'setDocument_php.php';
+// function checkDocument ($target_dir, $documentID, $empty, $maxSize, $types) {
+// function setDocument ($target_file,$documentID){
+?>
 <?php 
 // návratový objekt
-$response=array("status"=>0,"param"=>"","message"=>"Not set");
+$response=array("status"=>0,"param"=>"","message"=>"No action");
 //var_dump($_POST);
 //testy způsobilosti parametrů - upravit !!!
 if ($myID==0) {
     $response=array("status"=>2,"param"=>"","message"=>"Nepřihlášený uživatel - nelze vkládat");
     echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
-
-$target_dir = "../../".$doc_dir; //ověření adresáře pro upload
-if (!file_exists($target_dir)) {
-    if (!@mkdir($target_dir, 0777, true)) {
-        $response=array("status"=>5,"param"=>"","message"=>"File ERROR: ".error_get_last()['message']);
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    } }
 
 $articleID=filter_input(INPUT_POST, 'articleID', FILTER_VALIDATE_INT);
 if (($articleID===NULL)||($articleID===false)) {
@@ -52,41 +49,13 @@ if (($articleID==0)||($Status==20)) { // insert nebo plný update musí mít dat
         echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
 }   
-if (empty($_FILES["document"])) { // kontrola dokumentu
-    if ($articleID==0) { // při insertu musí být zadán 
-        $response=array("status"=>4,"param"=>"document","message"=>"Žádný soubor nebyl nahrán");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
-} else {
-    $docFileType = strtolower(pathinfo($_FILES["document"]["name"],PATHINFO_EXTENSION));
-    // Check file size
-    if ($_FILES["document"]["size"] > 6000000) {
-        $response=array("status"=>4,"param"=>"document","message"=>"Soubor je příliš velký - max 5MB");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
-    // Allow certain file formats, only pdf and docx
-    if($docFileType != "pdf" && $docFileType != "docx" && $docFileType != "doc") {
-        $response=array("status"=>4,"param"=>"document","message"=>"Povoleny jsou pouze soubory PDF a DOC/X");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-}   }
-
-if (empty($_FILES["image"])) { // kontrola obrázku
-    if ($articleID==0) { // při insertu musí být zadán
-        $response=array("status"=>4,"param"=>"image","message"=>"Žádný obrázek nebyl nahrán");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
-} else {
-    $imgFileType = strtolower(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION));
-    // Check file size
-    if ($_FILES["image"]["size"] > 1200000) {
-        $response=array("status"=>4,"param"=>"image","message"=>"Obrázek je příliš velký - max 1MB");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
-    // Allow certain file formats, only png
-    if($imgFileType != "png") {
-        $response=array("status"=>4,"param"=>"image","message"=>"Povoleny jsou pouze obrázky PNG");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
+$response=checkDocument ("../../".$doc_dir, "document", ($articleID==0), 6000000, ["pdf","docx","doc"]);
+if ($response["status"]!=1) {
+    echo json_encode($response, JSON_PRETTY_PRINT);die;
+}
+$response=checkDocument ("../../".$img_dir, "image", ($articleID==0), 1200000, ["jpg","gif","png"]);
+if ($response["status"]!=1) {
+    echo json_encode($response, JSON_PRETTY_PRINT);die;
 }
 
 if ($articleID==0) { //vložení článku
@@ -122,33 +91,16 @@ if ($articleID==0) { //vložení článku
     } catch(Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
         echo json_encode($response, JSON_PRETTY_PRINT);die;
     }
-
     // Upload doc file
-    $target_file = $target_dir . basename("document".$iv.'.'.$docFileType);
-    if (file_exists($target_file)) {
-        $response=array("status"=>4,"param"=>"document","message"=>"Soubor {$target_file} již existuje");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
-    if (move_uploaded_file($_FILES["document"]["tmp_name"], $target_file)) {
-        $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["document"]["name"])). " byl nahrán.";
-        chmod($target_file, 0755);
-    } else {
-        $response=array("status"=>4,"param"=>"document","message"=>"Soubor dokumentu se nepodařilo nahrát");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
+    $respf=setDocument ("../../" . $doc_dir . basename("document".$iv.'.'.strtolower(pathinfo($_FILES["document"]["name"],PATHINFO_EXTENSION))),"document",0);
+    if ($respf["status"]!=1) {
+        echo json_encode($respf, JSON_PRETTY_PRINT);die;
+    } else $response["message"].="<br/>\n".$respf["message"];
     // Upload img file
-    $target_file = "../../" . $img_dir . basename("picture".$in.'.'.$imgFileType);
-    if (file_exists($target_file)) {
-        $response=array("status"=>4,"param"=>"image","message"=>"Soubor {$target_file} již existuje");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["image"]["name"])). " byl nahrán.";
-        chmod($target_file, 0755);
-    } else {
-        $response=array("status"=>4,"param"=>"image","message"=>"Soubor obrazu se nepodařilo nahrát");
-        echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }
+    $respf=setDocument ("../../" . $img_dir . basename("picture".$in.'.'.strtolower(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION))),"image",0);
+    if ($respf["status"]!=1) {
+        echo json_encode($respf, JSON_PRETTY_PRINT);die;
+    } else $response["message"].="<br/>\n".$respf["message"];
 } else { //editace článku
     if ($Status==20) {
         try {
@@ -179,17 +131,11 @@ if ($articleID==0) { //vložení článku
         }
 
         if (!empty($_FILES["image"])) { // Upload img file
-            $target_file = "../../" . $img_dir . basename("picture".$articleID.'.'.$imgFileType);
-            if (file_exists($target_file)) {
-                unlink($target_file);
-            }
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["image"]["name"])). " byl nahrán.";
-                chmod($target_file, 0755);
-            } else {
-                $response=array("status"=>4,"param"=>"image","message"=>"Soubor obrazu se nepodařilo nahrát");
+            $respf=setDocument ("../../" . $img_dir . basename("picture".$articleID.'.'.strtolower(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION))),"image",1);
+            if ($respf["status"]!=1) {
                 echo json_encode($response, JSON_PRETTY_PRINT);die;
-    }   }   }
+            } else $respf["message"].="<br/>\n".$respf["message"];
+    }   }
           
     if (!empty($_FILES["document"])) { // Upload doc file
         $iv="";try {
@@ -201,26 +147,18 @@ if ($articleID==0) { //vložení článku
             $sql="UPDATE `RSP_ARTICLE` set ActiveVersion=".$iv." where ID=".$articleID;
             if ($Status==20) $result = $conn->query($sql);
 
-        } catch (Exception $ex) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
+        } catch (Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
         }
-        $target_file = $target_dir . basename("document".$iv.'.'.$docFileType);
-        if (file_exists($target_file)) {
-            $response=array("status"=>4,"param"=>"document","message"=>"Soubor {$target_file} již existuje");
-            echo json_encode($response, JSON_PRETTY_PRINT);die;
-        }
-        if (move_uploaded_file($_FILES["document"]["tmp_name"], $target_file)) {
-            $response["message"].="\nSoubor ". htmlspecialchars( basename( $_FILES["document"]["name"])). " byl nahrán.";
-            chmod($target_file, 0755);
-        } else {
-            $response=array("status"=>4,"param"=>"document","message"=>"Soubor dokumentu se nepodařilo nahrát");
-            echo json_encode($response, JSON_PRETTY_PRINT);die;
-        }
+        $respf=setDocument ("../../" . $doc_dir . basename("document".$iv.'.'.strtolower(pathinfo($_FILES["document"]["name"],PATHINFO_EXTENSION))),"document",0);
+        if ($respf["status"]!=1) {
+            echo json_encode($respf, JSON_PRETTY_PRINT);die;
+        } else $response["message"].="<br/>\n".$respf["message"];
     }
     try {
             $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
                     . "VALUES (now(), '".$myID."', NULL, ".$articleID.", 21, '".$_POST["note"]."', NULL, NULL)";
             $result = $conn->query($sql);
-    } catch (Exception $ex) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
+    } catch (Exception $e) {$response=array("status"=>5,"param"=>"","message"=>"Database ERROR: ".$e->getMessage());
     }
     $response=array("status"=>1,"param"=>$articleID,"message"=>"Článek byl upraven");
 }
