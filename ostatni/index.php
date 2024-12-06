@@ -7,6 +7,7 @@
 <?php include 'include/session_open.php'; ?>
 <?php
 $EditionID = isset($_GET['id']) ? htmlentities($_GET['id']) : "";
+$scriptName = "Index";
 
 $sql = "SELECT MAX(ID) from `RSP_EDITION` where Published<now()";
 $result = $conn->query($sql);
@@ -31,7 +32,6 @@ $result = $conn->query($sql);
 
 ?>
 <?php include 'include/header.php'; ?>
-<div class="disclaimer">Tato aplikace je výsledkem školního projektu v kurzu Řízení SW projektu na Vysoké škole polytechnické Jihlava. Nejedná se o stránky skutečného časopisu!</div>
 <main>
         <div class="container-fluid">
             <div class="row justify-content-center">

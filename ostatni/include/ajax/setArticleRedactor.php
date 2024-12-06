@@ -45,7 +45,7 @@ if ($_POST["action"]=="12") { //SetOpponents
         $oppSum=getOppSummary($conn,$_POST["articleID"]);
         if ($oppSum["sum"]>=2) {$value=30;
             if ($oppSum["acc"]==$oppSum["sum"]) $value=31;
-            if ($oppSum["done"]==$oppSum["sum"]) {$value=40;
+            if ($oppSum["agr"]==$oppSum["sum"]) {$value=40;
                 $sql="INSERT INTO `RSP_EVENT` (`Datum`, `Autor`, `Edition`, `Article`, `Type`, `Message`, `Data`, `Document`) " 
                 . "VALUES (now(), '".$myID."', NULL, ".$_POST["articleID"].", 14 , '".$_POST["note"]."', NULL, NULL)"; //předáno k publikaci
                 $result = $conn->query($sql);  //pošli message

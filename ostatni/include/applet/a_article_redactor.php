@@ -167,7 +167,7 @@ while ($st=$result->fetchObject()) {?>
             $("#editorNote").val("");
         });    
         $.getJSON( "include/ajax/getOppSummary.php?id="+index, function( data ) {
-            $("#oppHeader").html('Stav recenzí: Přiděleno: '+data["sum"]+', přijato: '+data["acc"]+', schváleno: '+data["done"]);
+            $("#oppHeader").html('Stav recenzí: Přiděleno: '+data["sum"]+', přijato: '+data["acc"]+', posouzeno: '+data["done"]+', schváleno: '+data["agr"]);
             
          });    
     }

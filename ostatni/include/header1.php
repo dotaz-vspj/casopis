@@ -15,8 +15,8 @@
     <title>D.O.T.A.Z - rozcestník</title>
 </head>
 <body onclick="document_onClick(this)">
-    <header class="fixed-top">
-        <nav class="navbar navbar-expand-lg bg-blue">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-blue fixed-top">
             <div id="menuMain" class="container-fluid">
                 <div class="col-sm-4 d-flex">
                     <a class="navbar-brand" href="index.php">
@@ -59,8 +59,5 @@
                 </div>
             </div>
         </nav>
-        <?php if ($scriptName=="Index") { ?>
-            <div class="disclaimer">Tato aplikace je výsledkem školního projektu v kurzu Řízení SW projektu na Vysoké škole polytechnické Jihlava. Nejedná se o stránky skutečného časopisu!</div>
-        <?php } ?>
     </header>
     

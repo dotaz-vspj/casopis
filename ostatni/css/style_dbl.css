@@ -1,3 +1,38 @@
+#messageList2Container .list-group-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* 100% na malých obrazovkách */
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+#messageList2Container .list-group-item:hover {
+    transform: scale(1.02);
+}
+
+#messageList2Container    .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #888;
+}
+
+#messageList2Container .message-details {
+    display: none;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+#messageList2Container .list-group-item.expanded .message-details {
+        display: block;
+    }
+
 #messageListContainer    .list-group-item {
         margin-bottom: 15px;
         padding: 10px;
@@ -36,6 +71,13 @@
         color: #666;
         font-style: italic;
     }
+
+
+/* Jana - odsazení headre a footer - nemazat */
+/*body{
+    padding:130px 0 100px 0;
+ 
+ }*/
 
 /* Placeholder pictures */
 .placeholder {
@@ -464,13 +506,4 @@ Vyhledávací pole a našeptávání - Ondra */
 
 #leftmenu-out {
     margin-right: 10px;
-}
-
-.disclaimer {
-    font-size: 0.8rem;
-    color: red;
-    width: 100%;
-    text-align: center;
-    background-color: #f2f9ff;
-    line-height: 2.4em;
 }

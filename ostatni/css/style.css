@@ -37,6 +37,7 @@
         font-style: italic;
     }
 
+
 /* Placeholder pictures */
 .placeholder {
     display: block;
@@ -282,7 +283,7 @@ form.editor textarea {
 }
 #leftmenu-out, #main-out {
     overflow-y: hidden; /* Žádný vnitřní scroll */
-    min-height: 750px; /* Určuje výšku pro celou stránku (aby určoval výšku) */
+    min-height: 700px;  /* Určuje výšku pro celou stránku (aby určoval výšku) */
     display: flex;
     flex-direction: column;
     
@@ -464,13 +465,4 @@ Vyhledávací pole a našeptávání - Ondra */
 
 #leftmenu-out {
     margin-right: 10px;
-}
-
-.disclaimer {
-    font-size: 0.8rem;
-    color: red;
-    width: 100%;
-    text-align: center;
-    background-color: #f2f9ff;
-    line-height: 2.4em;
 }
